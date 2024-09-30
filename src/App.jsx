@@ -1,5 +1,6 @@
 import React from 'react';
 import { ThemeProvider } from '@mui/material/styles';
+<<<<<<< HEAD
 import CssBaseline from '@mui/material/CssBaseline';
 import theme from './theme';
 import { createBrowserRouter } from 'react-router-dom';
@@ -17,6 +18,14 @@ const App = () => {
     <ThemeProvider theme={theme}>
       <RouterProvider router={routes}></RouterProvider>
       <CssBaseline />
+=======
+import CssBaseline from '@mui/material/CssBaseline'; 
+import theme from './theme'; 
+const App = () => {
+  return (
+    <ThemeProvider theme={theme}>
+      <CssBaseline /> 
+>>>>>>> 3ff153da38d7ca2593bd6e1e7c5aa2ddacb03ca6
     </ThemeProvider>
   );
 };
