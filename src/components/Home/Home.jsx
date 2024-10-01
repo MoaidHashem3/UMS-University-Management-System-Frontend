@@ -1,14 +1,12 @@
 import React from "react";
-
-import { Container, Typography, Button } from "@mui/material";
+import { Container, Typography, Button,Box } from "@mui/material";
 import theme from "../../theme";
 import bg from '../../assets/images/HomePage-BG.png'
 const text1style = {
     justifyContent: "center",
     textAlign: "center",
     color: "white",
-    fontWeight: theme.typography.h2.fontWeight,
-    fontFamily: theme.typography.h2.fontFamily
+   
 }
 const text2style = {
     justifyContent: "center",
@@ -30,47 +28,38 @@ const bgstyle = {
     height: "100vh",
     width: "100vw",
     zIndex: -1,
-    filter: `brightness(1.5)`
 }
-const btnstyle = {
-    justifyContent: "center",
+const boxstyle = {
+    justifyContent:"ceneter",
     textAlign: "center",
     alignItems: "center",
-    boxShadow: "none",
-    borderRadius: "20px",
-    fontFamily: 'Lato, sans-serif',
-    fontSize: '12px',
-    textTransform: 'none',
-    marginTop: "50px",
-    color:theme.palette.secondary.main
+  
 }
+const btnstyle={
+    borderRadius: 20,
+}
+
 
 export default function Home() {
     return <>
-        <Container sx={bgstyle}>
+    <Box sx={bgstyle}>
+        <Container >
             <div style={{ marginTop: "70px" }}>
                 <Typography sx={text1style} variant="h2">
                     Explore
                     <br />
                     <span>Courses</span>
                 </Typography>
-
                 <Typography sx={text2style} variant="h6">
                     Discover and Enroll in a wide range of courses offered by our university
                 </Typography>
 
             </div>
-            <div style={btnstyle}>
-                <Button variant="contained">Get Started</Button>
-            </div>
+            <Box sx ={boxstyle} >
+                <Button sx={btnstyle} variant="contained" >Get Started</Button>
+            </Box>
 
         </Container>
-
-
-
-
-
-
-
+        </Box>
     </>
 }

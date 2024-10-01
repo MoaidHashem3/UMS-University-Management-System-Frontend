@@ -1,8 +1,9 @@
 import React from 'react';
 import { ThemeProvider } from '@mui/material/styles';
-<<<<<<< HEAD
 import CssBaseline from '@mui/material/CssBaseline';
 import theme from './theme';
+import SignIn from './pages/SignIn';
+import SignUp from './pages/SignUp'
 import { createBrowserRouter } from 'react-router-dom';
 import Home from './components/Home/Home';
 import AppLayout from './AppLayout';
@@ -18,14 +19,7 @@ const App = () => {
     <ThemeProvider theme={theme}>
       <RouterProvider router={routes}></RouterProvider>
       <CssBaseline />
-=======
-import CssBaseline from '@mui/material/CssBaseline'; 
-import theme from './theme'; 
-const App = () => {
-  return (
-    <ThemeProvider theme={theme}>
-      <CssBaseline /> 
->>>>>>> 3ff153da38d7ca2593bd6e1e7c5aa2ddacb03ca6
+      {/* <SignUp/> */}
     </ThemeProvider>
   );
 };
