@@ -54,13 +54,32 @@ const theme = createTheme({
     styleOverrides: {
       root: {
         boxShadow: "none",
-        borderRadius: "10px",
+        borderRadius: "5px",
         fontFamily: 'Lato, sans-serif',
         fontSize: '16px', 
         textTransform: 'none',
       },
     },
-  },},
-});
+  },
+  MuiTextField: {
+    styleOverrides: {
+      root: {
+        '& .MuiInputLabel-root': { color: 'white' },
+              '& .MuiInputBase-input': { color: 'white' },
+              '& .MuiOutlinedInput-root': {
+                '& fieldset': {
+                  borderColor: 'white',
+                },
+                '&:hover fieldset': {
+                  borderColor: 'primary.main',
+                },
+                '&.Mui-focused fieldset': {
+                  borderColor: 'primary.main',
+},
+              },
+            },
+        },
+    },
+},});
 
 export default theme;
