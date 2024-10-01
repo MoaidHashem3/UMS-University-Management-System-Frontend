@@ -1,5 +1,4 @@
 import React from "react";
-
 import { Container, Typography, Button,Box } from "@mui/material";
 import theme from "../../theme";
 import bg from '../../assets/images/HomePage-BG.png'
@@ -7,8 +6,7 @@ const text1style = {
     justifyContent: "center",
     textAlign: "center",
     color: "white",
-    fontWeight: theme.typography.h2.fontWeight,
-    fontFamily: theme.typography.h2.fontFamily
+   
 }
 const text2style = {
     justifyContent: "center",
@@ -47,7 +45,6 @@ export default function Home() {
                     <br />
                     <span>Courses</span>
                 </Typography>
-
                 <Typography sx={text2style} variant="h6">
                     Discover and Enroll in a wide range of courses offered by our university
                 </Typography>
@@ -58,12 +55,5 @@ export default function Home() {
             </Box>
 
         </Container>
-
-
-
-
-
-
-
     </>
 }
