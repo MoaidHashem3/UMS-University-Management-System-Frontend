@@ -1,6 +1,6 @@
 import React from "react";
 
-import { Container, Typography, Button } from "@mui/material";
+import { Container, Typography, Button,Box } from "@mui/material";
 import theme from "../../theme";
 import bg from '../../assets/images/HomePage-BG.png'
 const text1style = {
@@ -30,19 +30,12 @@ const bgstyle = {
     height: "100vh",
     width: "100vw",
     zIndex: -1,
-    filter: `brightness(1.5)`
 }
 const btnstyle = {
-    justifyContent: "center",
+    justifyContent:"ceneter",
     textAlign: "center",
     alignItems: "center",
-    boxShadow: "none",
-    borderRadius: "20px",
-    fontFamily: 'Lato, sans-serif',
-    fontSize: '12px',
-    textTransform: 'none',
-    marginTop: "50px",
-    color:theme.palette.secondary.main
+  
 }
 
 export default function Home() {
@@ -60,9 +53,9 @@ export default function Home() {
                 </Typography>
 
             </div>
-            <div style={btnstyle}>
-                <Button variant="contained">Get Started</Button>
-            </div>
+            <Box sx ={btnstyle} >
+                <Button  variant="contained">Get Started</Button>
+            </Box>
 
         </Container>
 
