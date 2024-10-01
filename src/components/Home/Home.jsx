@@ -6,14 +6,15 @@ const text1style = {
     justifyContent: "center",
     textAlign: "center",
     color: "white",
-   
+    fontSize:"70px",
+    fontWeight: 800,
 }
 const text2style = {
     justifyContent: "center",
     textAlign: "center",
     color: "white",
     fontFamily: theme.typography.body1.fontFamily,
-    fontWeight: theme.typography.h6.fontWeight,
+    fontWeight: 500,
     marginTop: "30px",
     fontSize: "12px",
     wordSpacing:"3px"
