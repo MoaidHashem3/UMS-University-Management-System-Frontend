@@ -29,16 +29,21 @@ const bgstyle = {
     width: "100vw",
     zIndex: -1,
 }
-const btnstyle = {
+const boxstyle = {
     justifyContent:"ceneter",
     textAlign: "center",
     alignItems: "center",
   
 }
+const btnstyle={
+    borderRadius: 20,
+}
+
 
 export default function Home() {
     return <>
-        <Container sx={bgstyle}>
+    <Box sx={bgstyle}>
+        <Container >
             <div style={{ marginTop: "70px" }}>
                 <Typography sx={text1style} variant="h2">
                     Explore
@@ -50,10 +55,11 @@ export default function Home() {
                 </Typography>
 
             </div>
-            <Box sx ={btnstyle} >
-                <Button  variant="contained">Get Started</Button>
+            <Box sx ={boxstyle} >
+                <Button sx={btnstyle} variant="contained" >Get Started</Button>
             </Box>
 
         </Container>
+        </Box>
     </>
 }
