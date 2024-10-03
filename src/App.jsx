@@ -10,23 +10,30 @@ import { createBrowserRouter } from 'react-router-dom';
 import Home from './pages/Home/Home';
 import AppLayout from './AppLayout';
 import { RouterProvider } from 'react-router-dom';
-// import Courses from './pages/Courses/Courses';
+import Courses from './pages/Courses/Courses';
+
 
 const App = () => {
-  const routes = createBrowserRouter([{
-    path: "/", element: <AppLayout></AppLayout>, children: [
-      // { index: true, element: <Dashboard userRole={"Admin"} /> }
-    ]
-  }])
-  return (
-    <ThemeProvider theme={theme}>
-      <RouterProvider router={routes}></RouterProvider>
-      <CssBaseline />
-      {/* <Quiz quizName={quizName} duration={duration} questions={quizData} /> */}
-      {/* <Courses/> */}
-      <Home/>
-    </ThemeProvider>
-  );
+    const routes = createBrowserRouter([
+        {
+          path: "/", 
+          element: <AppLayout />, 
+          children: [
+            { index: true, element: <Home />  },
+            { path: 'signup', element: <SignUp /> },
+            { path: 'login', element: <SignIn /> },
+            { path: 'home', element: <Home /> },
+            { path: 'courses', element: <Courses /> },
+          ]
+        }
+      ]);
+    
+      return (
+        <ThemeProvider theme={theme}>
+          <CssBaseline />
+          <RouterProvider router={routes} />
+        </ThemeProvider>
+      );
 };
 
 export default App;
