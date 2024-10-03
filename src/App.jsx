@@ -13,6 +13,7 @@ const App = () => {
     path: "/", element: <AppLayout></AppLayout>, children: [
       { index: true, element: <Home /> }
     ]
+  
 
   }])
   return (
