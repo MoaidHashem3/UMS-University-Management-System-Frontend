@@ -2,6 +2,10 @@
   position: relative;
 }
 
+.courseImgContainer {
+  position: relative;
+}
+
 .courseImgContainer::before {
   background-color: #008a90;
   content: " ";
@@ -12,9 +16,11 @@
   margin: -11px -16px;
   z-index: 0;
 }
-img {
+
+.courseImgContainer img {
   z-index: 99;
 }
+
 .courseImgContainer::after {
   background-color: #393e46;
   content: " ";

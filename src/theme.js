@@ -1,6 +1,10 @@
 import { createTheme } from "@mui/material/styles";
 
 const theme = createTheme({
+  zIndex: {
+    appBar: 1251,
+    modal: 1250,
+  },
   palette: {
     primary: {
       main: "#008A90",
