@@ -11,7 +11,7 @@ const backgroundImageStyle = {
   backgroundSize: "cover",
   backgroundPosition: "center",
   backgroundRepeat: "no-repeat",
-  height: "100vh",
+  height: "150vh",
   width: "100vw",
   zIndex: -1,
 };

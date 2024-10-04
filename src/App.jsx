@@ -2,12 +2,12 @@ import React from 'react';
 import { ThemeProvider } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
 import theme from './theme';
-import SignIn from './pages/SignIn/SignIn'
-import SignUp from './pages/SignUp/SignUp'
+import SignIn from './pages/SignIn'
+import SignUp from './pages/SignUp'
 // import Dashboard from './pages/Dashboard/Dashboard'
 // import Quiz from './components/Quiz/QuizBox';
 import { createBrowserRouter } from 'react-router-dom';
-import Home from './pages/Home/Home';
+import Home from './components/Home/Home';
 import AppLayout from './AppLayout';
 import { RouterProvider } from 'react-router-dom';
 import Courses from './pages/Courses/Courses';
@@ -22,7 +22,6 @@ const App = () => {
             { index: true, element: <Home />  },
             { path: 'signup', element: <SignUp /> },
             { path: 'login', element: <SignIn /> },
-            { path: 'home', element: <Home /> },
             { path: 'courses', element: <Courses /> },
           ]
         }
