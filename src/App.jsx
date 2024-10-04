@@ -8,7 +8,7 @@ import SignIn from './pages/SignIn/SignIn';
 import SignUp from './pages/SignUp/SignUp';
 import Dashboard from './pages/Dashboard/Dashboard';
 import { createBrowserRouter } from 'react-router-dom';
-import Home from './pages/Home/Home';
+import Home from './components/Home/Home';
 import AppLayout from './AppLayout';
 import { RouterProvider } from 'react-router-dom';
 import Courses from './pages/Courses/Courses';
@@ -33,7 +33,7 @@ const App = () => {
     const dispatch = useDispatch();
     const user = useSelector((state) => state.auth.user);
     const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
-    const [loading, setLoading] = useState(true); // New loading state
+    const [loading, setLoading] = useState(true); 
 
     useEffect(() => {
         const tokenIsValid = validateToken();
@@ -49,7 +49,7 @@ const App = () => {
     }, [dispatch]);
 
     if (loading) {
-        return <div>Loading...</div>; // Render a loading indicator while checking
+        return <div>Loading...</div>;
     }
     const routes = createBrowserRouter([
         {
