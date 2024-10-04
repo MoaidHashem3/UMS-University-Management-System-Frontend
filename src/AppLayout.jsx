@@ -6,10 +6,10 @@ import { Box } from "@mui/material";
 
 export default function AppLayout() {
     return <>
-        {/* <p>Navbar</p> */}
-        <Navbar />
-        <Box sx={{ minHeight: '100vh', display: 'flex', flexDirection: 'column' }}><Outlet>
-        </Outlet></Box>
+        <Navbar></Navbar>
+        <Box sx={{ minHeight: '150vh', display: 'flex' ,flexDirection:"column",zIndex: 1,flexGrow:1,position:"relative"}}>
+            <Outlet ></Outlet>
+        </Box>
         <Footer></Footer>
     </>
 }

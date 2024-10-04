@@ -9,7 +9,7 @@ const backgroundImageStyle = {
     backgroundSize: 'cover', 
     backgroundPosition: 'center',
     backgroundRepeat: 'no-repeat', 
-    height: '100vh', 
+    height: '150vh', 
     width: '100vw',
     zIndex: -1, 
 
@@ -27,7 +27,7 @@ const SignIn = () => {
     <Container component="main" maxWidth="xs">
       <Box
         sx={{
-          marginTop: '10vh',
+          marginTop: '30vh',
           display: 'flex',
           flexDirection: 'column',
           alignItems: 'center',
