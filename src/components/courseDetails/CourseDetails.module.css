@@ -1,0 +1,33 @@
+.courseImg {
+  position: relative;
+}
+
+.courseImgContainer {
+  position: relative;
+}
+
+.courseImgContainer::before {
+  background-color: #008a90;
+  content: " ";
+  position: absolute;
+  width: 200px;
+  height: 200px;
+  border-radius: 50%;
+  margin: -11px -16px;
+  z-index: 0;
+}
+
+.courseImgContainer img {
+  z-index: 99;
+}
+
+.courseImgContainer::after {
+  background-color: #393e46;
+  content: " ";
+  position: absolute;
+  width: 200px;
+  height: 200px;
+  border-radius: 50%;
+  margin: 3px -188px;
+  z-index: 0;
+}
