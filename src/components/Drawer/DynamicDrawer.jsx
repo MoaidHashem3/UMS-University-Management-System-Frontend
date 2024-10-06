@@ -44,7 +44,7 @@ const Drawer = ({ activeTab, setActiveTab}) => {
       <List>
         {/* Global Profile Tab */}
         <ListItem button onClick={() => setActiveTab("profile")} sx={{ backgroundColor: activeTab === "profile" ? "secondary.main" : "inherit" }}>
-          <ListItemIcon>s
+          <ListItemIcon>
             <PersonIcon sx={{ color: "white" }} />
           </ListItemIcon>
           <ListItemText primary="Your Profile" />
