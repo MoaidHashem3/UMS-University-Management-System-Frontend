@@ -5,6 +5,9 @@ import DynamicDrawer from '../../components/Drawer/DynamicDrawer';
 import ProfileTab from '../../components/DrawerContent/ProfileTab';
 import SettingsTab from '../../components/DrawerContent/SettingsTab';
 import DashboardCustomizeIcon from '@mui/icons-material/DashboardCustomize';
+import AddNewUser from "../../components/DrawerContent/AddNewUser";
+import ViewAllUsers from "../../components/DrawerContent/Viewallusers";
+import AddNewCourse from "../../components/DrawerContent/Addnewcourse";
 
 const drawerWidth = 300;
 
@@ -21,12 +24,17 @@ const Dashboard = () => {
   const renderContent = () => {
     switch (activeTab) {
       case "profile":
-        return <ProfileTab />;
+        return <ProfileTab />;  
       case "settings":
         return <SettingsTab />;
-        
+      case "add new user":
+        return <AddNewUser/>
+      case "view all users":
+        return <ViewAllUsers/>    
+      case "add new course":
+        return <AddNewCourse/>  
       default:
-        return <ProfileTab />;
+        return<ProfileTab/>
     }
   };
 
@@ -63,7 +71,11 @@ const Dashboard = () => {
 
       <Box component="main" sx={{ flexGrow: 1, p: 3, pl: isMobile ? 2 : `${ 16}px`, marginTop: isMobile ? '56px' : '0px' }}>
         <Typography variant="h4" gutterBottom>
-          {activeTab === "profile" ? "Your Profile" : "Settings"}
+          {activeTab === "profile" ? "Your Profile" : ""}
+          {activeTab === "add new user" ? "Add New User" : ""}
+          {activeTab === "view all users" ? "View All Users" : ""}
+          {activeTab === "add new course" ? "Add New Course" : ""}
+
         </Typography>
         {renderContent()}
       </Box>
