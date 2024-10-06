@@ -44,7 +44,7 @@ const Drawer = ({ activeTab, setActiveTab}) => {
       <List>
         {/* Global Profile Tab */}
         <ListItem button onClick={() => setActiveTab("profile")} sx={{ backgroundColor: activeTab === "profile" ? "secondary.main" : "inherit" }}>
-          <ListItemIcon>s
+          <ListItemIcon>
             <PersonIcon sx={{ color: "white" }} />
           </ListItemIcon>
           <ListItemText primary="Your Profile" />
@@ -62,11 +62,27 @@ const Drawer = ({ activeTab, setActiveTab}) => {
 
         {/* Additional Admin-only Tab Example */}
         {userRole === "admin" && (
-          <ListItem button onClick={() => setActiveTab("adminOnly")} sx={{ backgroundColor: activeTab === "adminOnly" ? "secondary.main" : "inherit" }}>
+          <ListItem button onClick={() => setActiveTab("add new user")} sx={{ backgroundColor: activeTab === "add new user" ? "secondary.main" : "inherit" }}>
             <ListItemIcon>
               <PersonIcon sx={{ color: "white" }} />
             </ListItemIcon>
-            <ListItemText primary="Admin Dashboard" />
+            <ListItemText primary="Add new user" />
+          </ListItem>
+        )}
+        {userRole === "admin" && (
+          <ListItem button onClick={() => setActiveTab("view all users")} sx={{ backgroundColor: activeTab === "view all users" ? "secondary.main" : "inherit" }}>
+            <ListItemIcon>
+              <PersonIcon sx={{ color: "white" }} />
+            </ListItemIcon>
+            <ListItemText primary="View all users" />
+          </ListItem>
+        )}
+        {userRole === "admin" && (
+          <ListItem button onClick={() => setActiveTab("add new course")} sx={{ backgroundColor: activeTab === "add new course" ? "secondary.main" : "inherit" }}>
+            <ListItemIcon>
+              <PersonIcon sx={{ color: "white" }} />
+            </ListItemIcon>
+            <ListItemText primary="Add new course" />
           </ListItem>
         )}
       </List>
