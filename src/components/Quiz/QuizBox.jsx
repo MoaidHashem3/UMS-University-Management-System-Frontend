@@ -162,7 +162,7 @@ const Quiz = ({ quizName, duration, questions, postScoreUrl }) => {
                                 },
                             }}
                         >
-                            Forward
+                            Next
                         </Button>
                         {currentQuestionIndex === questions.length - 1 && (
                             <Button 

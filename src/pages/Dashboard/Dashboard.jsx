@@ -23,8 +23,8 @@ const Dashboard = () => {
       case "profile":
         return <ProfileTab />;
       case "settings":
-    
         return <SettingsTab />;
+        
       default:
         return <ProfileTab />;
     }
