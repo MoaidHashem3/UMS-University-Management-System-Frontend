@@ -29,6 +29,7 @@ const SignIn = () => {
       setLoginError('');
       const response = await handleLogin(data);
       const { token, user } = response;
+      console.log(user.quizzes)
       dispatch(login({ token, user }));
 
      navigate('/dashboard');

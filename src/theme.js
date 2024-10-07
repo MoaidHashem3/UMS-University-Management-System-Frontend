@@ -45,7 +45,6 @@ const theme = createTheme({
       fontFamily: "Playfair Display, sans-serif",
       fontWeight: 700,
     },
-
     body1: {
       fontFamily: "Lato, sans-serif",
     },
@@ -54,36 +53,65 @@ const theme = createTheme({
     },
   },
   components: {
-  MuiButton: {
-    styleOverrides: {
-      root: {
-        boxShadow: "none",
-        borderRadius: "5px",
-        fontFamily: 'Lato, sans-serif',
-        fontSize: '16px', 
-        textTransform: 'none',
+    MuiButton: {
+      styleOverrides: {
+        root: {
+          boxShadow: "none",
+          borderRadius: "5px",
+          fontFamily: 'Lato, sans-serif',
+          fontSize: '16px', 
+          textTransform: 'none',
+        },
+      },
+    },
+    MuiTextField: {
+      styleOverrides: {
+        root: {
+          '& .MuiInputLabel-root': { color: 'white' },
+          '& .MuiInputBase-input': { color: 'white' },
+          '& .MuiOutlinedInput-root': {
+            '& fieldset': {
+              borderColor: 'white',
+            },
+            '&:hover fieldset': {
+              borderColor: 'primary.main',
+            },
+            '&.Mui-focused fieldset': {
+              borderColor: 'primary.main',
+            },
+          },
+        },
+      },
+    },
+    MuiSelect: {
+      styleOverrides: {
+        root: {
+          '& .MuiInputLabel-root': { color: 'white' },
+          '& .MuiInputBase-input': { color: 'white' },
+         '& .MuiOutlinedInput-notchedOutline': {
+            borderColor: 'white', // Set the border color to white
+            color: 'white'
+          },
+          '&:hover .MuiOutlinedInput-notchedOutline': {
+            borderColor: 'primary.main', // Keep border white on hover
+          },
+          '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
+            borderColor: 'primary.main',
+          },
+        },
+      },
+    },
+    MuiInputLabel: {
+      styleOverrides: {
+        root: {
+          color: 'white', // Set the label color to white
+          '&.Mui-focused': {
+            color: 'white', // Keep label white when focused
+          },
+        },
       },
     },
   },
-  MuiTextField: {
-    styleOverrides: {
-      root: {
-        '& .MuiInputLabel-root': { color: 'white' },
-              '& .MuiInputBase-input': { color: 'white' },
-              '& .MuiOutlinedInput-root': {
-                '& fieldset': {
-                  borderColor: 'white',
-                },
-                '&:hover fieldset': {
-                  borderColor: 'primary.main',
-                },
-                '&.Mui-focused fieldset': {
-                  borderColor: 'primary.main',
-},
-              },
-            },
-        },
-    },
-},});
+});
 
 export default theme;

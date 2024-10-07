@@ -1,24 +1,49 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Box, Button, Typography, LinearProgress, Container } from '@mui/material';
 import AccessTimeIcon from '@mui/icons-material/AccessTime';
-import axios from 'axios'; // Assuming you're using axios to post data to the backend
+import axios from 'axios'; 
+import { useSelector } from 'react-redux'; 
 
-const Quiz = ({ quizName, duration, questions, postScoreUrl }) => {
+const Quiz = ({ quizId }) => {
+    const [quizData, setQuizData] = useState(null); 
     const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
     const [score, setScore] = useState(0);
-    const [timeLeft, setTimeLeft] = useState(duration * 60); // Convert minutes to seconds
-    const [quizFinished, setQuizFinished] = useState(false); // Track if the quiz is finished
-    const [selectedAnswers, setSelectedAnswers] = useState(Array(questions.length).fill(null)); // Track selected answers
-
+    const [timeLeft, setTimeLeft] = useState(0); 
+    const [quizFinished, setQuizFinished] = useState(false);
+    const [selectedAnswers, setSelectedAnswers] = useState([]);
+    const [attemptMessage, setAttemptMessage] = useState(''); 
+    
+    const user = useSelector(state => state.auth.user); 
     const timerRef = useRef(null);
 
     useEffect(() => {
-        if (!quizFinished) {
+        const fetchQuizData = async () => {
+            try {
+                const quizRes = await axios.get(`http://localhost:3000/quiz/${quizId}`); 
+                const userRes = (user.quizzes)? user.quizzes: []; 
+                const hasTakenQuiz = userRes.some(q => q.quizId === quizId);
+                if (hasTakenQuiz) {
+                    setAttemptMessage("You have already attempted this quiz."); 
+                    setQuizFinished(true); 
+                    setQuizData(quizRes.data.data); 
+                    setTimeLeft(quizRes.data.data.timeLimit * 60);
+                    setSelectedAnswers(Array(quizRes.data.data.questions.length).fill(null)); 
+                }
+            } catch (error) {
+                console.error("Error fetching quiz or user data:", error);
+            }
+        };
+
+        fetchQuizData();
+    }, [quizId, user.quizzes]);
+
+    useEffect(() => {
+        if (!quizFinished && quizData) {
             timerRef.current = setInterval(() => {
                 setTimeLeft((prev) => {
                     if (prev <= 0) {
                         clearInterval(timerRef.current);
-                        finishQuiz(); // Calculate score and stop timer when time is up
+                        finishQuiz(); 
                         return 0;
                     }
                     return prev - 1;
@@ -26,13 +51,10 @@ const Quiz = ({ quizName, duration, questions, postScoreUrl }) => {
             }, 1000);
         }
 
-        // Cleanup the timer on component unmount or when the quiz finishes
         return () => {
-            if (timerRef.current) {
-                clearInterval(timerRef.current);
-            }
+            clearInterval(timerRef.current);
         };
-    }, [quizFinished]);
+    }, [quizFinished, quizData]);
 
     const finishQuiz = async () => {
         if (!quizFinished) {
@@ -40,13 +62,13 @@ const Quiz = ({ quizName, duration, questions, postScoreUrl }) => {
             setQuizFinished(true);
             await postScoreToBackend();
         }
-        clearInterval(timerRef.current); // Clear timer after any call to finishQuiz
+        clearInterval(timerRef.current);
     };
-    
+
     const calculateScore = () => {
         const finalScore = selectedAnswers.reduce((acc, answer, index) => {
-            if (answer !== null && answer === questions[index].correctAnswer) {
-                return acc + 1; // Increment score for each correct answer
+            if (answer !== null && answer === quizData.questions[index].correctAnswer) {
+                return acc + 1;
             }
             return acc;
         }, 0);
@@ -55,9 +77,9 @@ const Quiz = ({ quizName, duration, questions, postScoreUrl }) => {
 
     const postScoreToBackend = async () => {
         try {
-            const payload = { quizName, score, selectedAnswers };
-            await axios.post(postScoreUrl, payload); // Post the score to the backend
-            console.log("Score successfully posted:", payload);
+            const payload = { answers: selectedAnswers }; 
+            await axios.post(`http://localhost:3000/quiz/submitQuiz/${user.id}/${quizId}`, payload);
+            console.log(user)
         } catch (error) {
             console.error("Error posting score:", error);
         }
@@ -66,36 +88,48 @@ const Quiz = ({ quizName, duration, questions, postScoreUrl }) => {
     const handleAnswerClick = (index) => {
         if (!quizFinished) {
             const newSelectedAnswers = [...selectedAnswers];
-            newSelectedAnswers[currentQuestionIndex] = index; // Save selected answer
-            setSelectedAnswers(newSelectedAnswers); // Update selected answers
+            newSelectedAnswers[currentQuestionIndex] = index;
+            setSelectedAnswers(newSelectedAnswers);
         }
     };
 
-    const handleGoBack = () => {
+    const handleNextQuestion = () => {
+        if (currentQuestionIndex < quizData.questions.length - 1) {
+            setCurrentQuestionIndex(currentQuestionIndex + 1);
+        } else {
+            finishQuiz(); 
+        }
+    };
+
+    const handlePreviousQuestion = () => {
         if (currentQuestionIndex > 0) {
             setCurrentQuestionIndex(currentQuestionIndex - 1);
         }
     };
 
-    const handleGoForward = () => {
-        if (currentQuestionIndex < questions.length - 1) {
-            setCurrentQuestionIndex(currentQuestionIndex + 1);
-        }
-    };
+    if (!quizData && !attemptMessage) {
+        return <Typography>Loading...</Typography>;
+    }
 
-    const handleSubmit = () => {
-        finishQuiz(); // Trigger quiz finish on submission
-    };
+    if (attemptMessage) {
+        return (
+            <Container maxWidth="sm" sx={{ mt: 4, p: 3, bgcolor: '#2C3E50', borderRadius: 2 }}>
+                <Typography variant="h5" color="#ECF0F1">
+                    {attemptMessage}
+                </Typography>
+            </Container>
+        );
+    }
 
-    const currentQuestion = questions[currentQuestionIndex];
-    const progress = ((currentQuestionIndex + 1) / questions.length) * 100;
+    const currentQuestion = quizData.questions[currentQuestionIndex];
+    const progress = ((currentQuestionIndex + 1) / quizData.questions.length) * 100;
 
     return (
         <Container maxWidth="sm" sx={{ mt: 4, p: 3, bgcolor: '#2C3E50', borderRadius: 2 }}>
             {!quizFinished ? (
                 <>
                     <Typography variant="h4" color="#ECF0F1" gutterBottom>
-                        {quizName} #{currentQuestionIndex + 1}
+                        {quizData.title} #{currentQuestionIndex + 1}
                     </Typography>
                     <LinearProgress variant="determinate" value={progress} sx={{ mb: 2 }} />
                     <Box display="flex" alignItems="center" justifyContent="space-between">
@@ -105,13 +139,13 @@ const Quiz = ({ quizName, duration, questions, postScoreUrl }) => {
                         <AccessTimeIcon style={{ color: '#ECF0F1' }} />
                     </Box>
                     <Typography variant="h6" color="#ECF0F1" gutterBottom>
-                        Question {currentQuestionIndex + 1} of {questions.length}
+                        Question {currentQuestionIndex + 1} of {quizData.questions.length}
                     </Typography>
                     <Typography variant="body1" color="#ECF0F1" gutterBottom>
-                        {currentQuestion.question}
+                        {currentQuestion.questionText}
                     </Typography>
                     <Box display="flex" flexWrap="wrap" justifyContent="space-between">
-                        {currentQuestion.answers.map((answer, index) => (
+                        {currentQuestion.options.map((answer, index) => (
                             <Box key={index} width="48%" mb={1}>
                                 <Button
                                     variant="contained"
@@ -124,61 +158,28 @@ const Quiz = ({ quizName, duration, questions, postScoreUrl }) => {
                                             backgroundColor: selectedAnswers[currentQuestionIndex] === index ? '#C0392B' : '#16A085',
                                         },
                                     }}
-                                    disabled={quizFinished} // Disable buttons after time runs out or on quiz finish
+                                    disabled={quizFinished} 
                                 >
                                     {answer}
                                 </Button>
                             </Box>
                         ))}
                     </Box>
-
-                    {/* Navigation Buttons */}
-                    <Box mt={2} display="flex" justifyContent="space-between">
+                    <Box display="flex" justifyContent="space-between" mt={3}>
                         <Button 
                             variant="outlined" 
-                            onClick={handleGoBack} 
-                            disabled={currentQuestionIndex === 0}
-                            sx={{
-                                borderColor: '#1ABC9C',
-                                color: '#1ABC9C',
-                                '&:hover': {
-                                    backgroundColor: '#1ABC9C',
-                                    color: '#fff',
-                                },
-                            }}
+                            onClick={handlePreviousQuestion} 
+                            disabled={currentQuestionIndex === 0 || quizFinished}
                         >
-                            Go Back
+                            Back
                         </Button>
                         <Button 
-                            variant="outlined" 
-                            onClick={handleGoForward} 
-                            disabled={currentQuestionIndex === questions.length - 1}
-                            sx={{
-                                borderColor: '#1ABC9C',
-                                color: '#1ABC9C',
-                                '&:hover': {
-                                    backgroundColor: '#1ABC9C',
-                                    color: '#fff',
-                                },
-                            }}
+                            variant="contained" 
+                            onClick={handleNextQuestion} 
+                            disabled={quizFinished}
                         >
-                            Forward
+                            {currentQuestionIndex === quizData.questions.length - 1 ? 'Finish' : 'Next'}
                         </Button>
-                        {currentQuestionIndex === questions.length - 1 && (
-                            <Button 
-                                variant="contained" 
-                                onClick={handleSubmit}
-                                sx={{
-                                    backgroundColor: '#1ABC9C',
-                                    color: '#fff',
-                                    '&:hover': {
-                                        backgroundColor: '#16A085',
-                                    },
-                                }}
-                            >
-                                Submit
-                            </Button>
-                        )}
                     </Box>
                 </>
             ) : (
@@ -187,7 +188,7 @@ const Quiz = ({ quizName, duration, questions, postScoreUrl }) => {
                         Your Final Score
                     </Typography>
                     <Typography variant="h4" color="#ECF0F1">
-                        {score} / {questions.length}
+                        {score} / {quizData.questions.length}
                     </Typography>
                 </Box>
             )}

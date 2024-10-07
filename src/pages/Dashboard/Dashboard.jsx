@@ -9,6 +9,7 @@ import DashboardCustomizeIcon from '@mui/icons-material/DashboardCustomize';
 import AddNewUser from "../../components/DrawerContent/AddNewUser";
 import ViewAllUsers from "../../components/DrawerContent/Viewallusers";
 import AddNewCourse from "../../components/DrawerContent/Addnewcourse";
+import AddQuiz from "../../components/DrawerContent/AddQuiz";
 import EditUser from "../../components/DrawerContent/EditUser";
 
 const drawerWidth = 300;
@@ -34,16 +35,19 @@ const Dashboard = () => {
       case "view all users":
         return <ViewAllUsers />
       case "add new course":
-        return <AddNewCourse />
+        return <AddNewCourse/>  
+      case "add new quiz":
+        return <AddQuiz/>
       case "edit user":
         return <EditUser />
+
       default:
         return <ProfileTab />
     }
   };
 
   return (
-    <Box sx={{ display: "flex", height: "100vh", backgroundColor: "secondary.main", color: "white" }}>
+    <Box sx={{ display: "flex", height: "150vh", backgroundColor: "secondary.main", color: "white"}}>
       {isMobile && (
         <Toolbar>
           <DashboardCustomizeIcon color="inherit" edge="start" onClick={handleDrawerToggle}>
@@ -65,8 +69,9 @@ const Dashboard = () => {
             color: "white",
             boxShadow: "none",
             border: "none",
-            height: "100vh",
-            position: "static"
+            height:"150vh",
+            position:"static"
+
           }
         }}
       >
