@@ -51,7 +51,7 @@ const Drawer = ({ activeTab, setActiveTab}) => {
         </ListItem>
 
         {/* Admin and Professor Settings Tab */}
-        {(userRole === "admin" || userRole === "professor") && (
+        {(userRole === "student" || userRole === "professor") && (
           <ListItem button onClick={() => setActiveTab("settings")} sx={{ backgroundColor: activeTab === "settings" ? "secondary.main" : "inherit" }}>
             <ListItemIcon>
               <PersonIcon sx={{ color: "white" }} />
@@ -83,6 +83,14 @@ const Drawer = ({ activeTab, setActiveTab}) => {
               <PersonIcon sx={{ color: "white" }} />
             </ListItemIcon>
             <ListItemText primary="Add new course" />
+          </ListItem>
+        )}
+        {(userRole === "admin" || userRole === "professor") && (
+          <ListItem button onClick={() => setActiveTab("add new quiz")} sx={{ backgroundColor: activeTab === "add new quiz" ? "secondary.main" : "inherit" }}>
+            <ListItemIcon>
+              <PersonIcon sx={{ color: "white" }} />
+            </ListItemIcon>
+            <ListItemText primary="Add new Quiz" />
           </ListItem>
         )}
       </List>

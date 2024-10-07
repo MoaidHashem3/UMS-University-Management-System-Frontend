@@ -18,7 +18,7 @@ import { useDispatch } from 'react-redux';
 import { login, logout } from './redux/authSlice';
 import { validateToken } from './utils/auth';
 import { jwtDecode } from "jwt-decode";
-
+import Quiz from './components/Quiz/QuizBox';
 const App = () => {
     const courseData = {
         image: courseImg,
@@ -51,12 +51,13 @@ const App = () => {
     if (loading) {
         return <div>Loading...</div>;
     }
+
     const routes = createBrowserRouter([
         {
             path: "/",
             element: <AppLayout />,
             children: [
-                { index: true, element: <CourseDetails course={courseData} /> },
+                { index: true, element: <Home /> },
                 { path: "signup", element: <SignUp /> },
                 { path: "login", element: <SignIn /> },
                 { path: "home", element: <Home /> },
@@ -86,3 +87,4 @@ const App = () => {
 };
 
 export default App;
+{/* <Quiz quizId="670427d07fcda231463086a3" /> */}

@@ -1,7 +1,7 @@
 import { jwtDecode } from "jwt-decode";
 import axios from 'axios';
 
-const API_URL = 'http://localhost:3000/users'; // Replace with your actual API URL
+const API_URL = 'http://localhost:3000/users';
 
 export const handleLogin = async (credentials) => {
     try {
