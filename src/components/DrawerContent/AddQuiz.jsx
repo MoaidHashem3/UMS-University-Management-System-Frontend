@@ -10,13 +10,13 @@ import {
   FormControl,
   Alert,
 } from "@mui/material";
+import { useSelector } from "react-redux";
 import axios from "axios";
-import { useSelector } from "react-redux"; // Import useSelector
 
 const AddQuiz = () => {
   const [quizDetails, setQuizDetails] = useState({
     course: "",
-    title: "",
+    title: "", 
     description: "",
     timeLimit: "",
     questions: [],
@@ -24,13 +24,13 @@ const AddQuiz = () => {
   const [currentQuestion, setCurrentQuestion] = useState({
     questionText: "",
     options: ["", "", "", ""],
-    correctAnswer: "",
+    correctAnswer: "", 
   });
-  const [error, setError] = useState({});
+  const [error, setError] = useState({}); 
   const [successMessage, setSuccessMessage] = useState("");
-
+  
   const courses = useSelector((state) => state.auth.user.createdCourses);
-  console.log(courses)
+
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setQuizDetails({ ...quizDetails, [name]: value });
@@ -61,8 +61,13 @@ const AddQuiz = () => {
       currentQuestion.options.some((option) => option.trim() === "")
     ) {
       setError({
-        questionText: !currentQuestion.questionText ? "Question is required." : undefined,
-        correctAnswer: currentQuestion.correctAnswer === "" ? "Correct answer is required." : undefined,
+        questionText: !currentQuestion.questionText
+          ? "Question is required."
+          : undefined,
+        correctAnswer:
+          currentQuestion.correctAnswer === ""
+            ? "Correct answer is required."
+            : undefined,
         options: currentQuestion.options.map((option, index) =>
           option.trim() === "" ? `Option ${index + 1} is required.` : undefined
         ),
@@ -90,10 +95,14 @@ const AddQuiz = () => {
       quizDetails.questions.length === 0
     ) {
       setError({
-        title: !quizDetails.title ? "Quiz title is required." : undefined,
-        description: !quizDetails.description ? "Description is required." : undefined,
+        title: !quizDetails.title ? "Quiz title is required." : undefined, 
+        description: !quizDetails.description
+          ? "Description is required."
+          : undefined,
         course: !quizDetails.course ? "Course is required." : undefined,
-        timeLimit: !quizDetails.timeLimit ? "Time limit is required." : undefined,
+        timeLimit: !quizDetails.timeLimit
+          ? "Time limit is required."
+          : undefined,
       });
       return;
     }
@@ -104,10 +113,10 @@ const AddQuiz = () => {
         quizDetails
       );
       console.log("Quiz submitted successfully:", response.data);
-      setSuccessMessage("Quiz submitted successfully!");
+      setSuccessMessage("Quiz submitted successfully!"); 
       setQuizDetails({
         course: "",
-        title: "",
+        title: "", 
         description: "",
         timeLimit: "",
         questions: [],
@@ -149,11 +158,12 @@ const AddQuiz = () => {
               <MenuItem value="">
                 <em>Select Course</em>
               </MenuItem>
-              {courses.map((course) => (
-                <MenuItem key={course._id} value={course._id}>
-                  {course.name}
-                </MenuItem>
-              ))}
+              {courses &&
+                courses.map((course) => (
+                  <MenuItem key={course._id} value={course._id}>
+                    {course.name}
+                  </MenuItem>
+                ))}
             </Select>
             {error.course && (
               <Typography variant="caption" color="error">
@@ -165,7 +175,7 @@ const AddQuiz = () => {
 
         <Box width="50%" pr={1}>
           <TextField
-            name="title"
+            name="title" 
             label="Quiz Title"
             value={quizDetails.title}
             onChange={handleInputChange}
@@ -260,7 +270,9 @@ const AddQuiz = () => {
               <em>Select Correct Answer</em>
             </MenuItem>
             {currentQuestion.options.map((option, index) => (
-              <MenuItem key={index} value={index}>{`Option ${index + 1}`}</MenuItem>
+              <MenuItem key={index} value={index}>{`Option ${
+                index + 1
+              }`}</MenuItem> 
             ))}
           </Select>
           {error.correctAnswer && (
@@ -284,8 +296,37 @@ const AddQuiz = () => {
         onClick={submitQuiz}
         sx={{ backgroundColor: "success.main" }}
       >
-        Submit Quiz
+        Submit
       </Button>
+
+      <Box mt={3}>
+        {quizDetails.questions.length > 0 && (
+          <Box mb={2}>
+            <Typography variant="h6" color="#fff">{`Last Added Question: ${
+              quizDetails.questions[quizDetails.questions.length - 1]
+                .questionText
+            }`}</Typography>
+            {quizDetails.questions[
+              quizDetails.questions.length - 1
+            ].options.map((opt, i) => (
+              <Typography
+                key={i}
+                variant="body2"
+                color="#fff"
+              >{`Option ${i + 1}: ${opt}`}</Typography>
+            ))}
+            <Typography
+              variant="body2"
+              color="success.main"
+            >{`Correct Answer: Option ${
+              parseInt(
+                quizDetails.questions[quizDetails.questions.length - 1]
+                  .correctAnswer
+              ) + 1
+            }`}</Typography>
+          </Box>
+        )}
+      </Box>
     </Box>
   );
 };

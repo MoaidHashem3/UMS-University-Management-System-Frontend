@@ -47,7 +47,7 @@ const Dashboard = () => {
   };
 
   return (
-    <Box sx={{ display: "flex", height: "150vh", backgroundColor: "secondary.main", color: "white"}}>
+    <Box sx={{ display: "flex", height: "140vh", backgroundColor: "secondary.main", color: "white"}}>
       {isMobile && (
         <Toolbar>
           <DashboardCustomizeIcon color="inherit" edge="start" onClick={handleDrawerToggle}>
@@ -69,7 +69,7 @@ const Dashboard = () => {
             color: "white",
             boxShadow: "none",
             border: "none",
-            height:"150vh",
+            height:"140vh",
             position:"static"
 
           }
