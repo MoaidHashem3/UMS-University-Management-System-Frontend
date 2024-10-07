@@ -5,6 +5,7 @@ import SchoolIcon from '@mui/icons-material/School'; //Icon for courses
 import AddRoundedIcon from '@mui/icons-material/AddRounded';  //Icon for Add
 import DeleteForeverRoundedIcon from '@mui/icons-material/DeleteForeverRounded'; //Icon for Delete
 import EditRoundedIcon from '@mui/icons-material/EditRounded'; //Icon for edit
+import TuneSharpIcon from '@mui/icons-material/TuneSharp';
 import {useSelector } from 'react-redux';
 
 import { useTheme } from "@mui/material/styles";
@@ -54,7 +55,7 @@ const Drawer = ({ activeTab, setActiveTab}) => {
         {(userRole === "admin" || userRole === "professor") && (
           <ListItem button onClick={() => setActiveTab("settings")} sx={{ backgroundColor: activeTab === "settings" ? "secondary.main" : "inherit" }}>
             <ListItemIcon>
-              <PersonIcon sx={{ color: "white" }} />
+              <TuneSharpIcon sx={{ color: "white" }} />
             </ListItemIcon>
             <ListItemText primary="Settings" />
           </ListItem>
@@ -64,7 +65,7 @@ const Drawer = ({ activeTab, setActiveTab}) => {
         {userRole === "admin" && (
           <ListItem button onClick={() => setActiveTab("add new user")} sx={{ backgroundColor: activeTab === "add new user" ? "secondary.main" : "inherit" }}>
             <ListItemIcon>
-              <PersonIcon sx={{ color: "white" }} />
+              <AddRoundedIcon sx={{ color: "white" }} />
             </ListItemIcon>
             <ListItemText primary="Add new user" />
           </ListItem>
@@ -80,7 +81,7 @@ const Drawer = ({ activeTab, setActiveTab}) => {
         {userRole === "admin" && (
           <ListItem button onClick={() => setActiveTab("add new course")} sx={{ backgroundColor: activeTab === "add new course" ? "secondary.main" : "inherit" }}>
             <ListItemIcon>
-              <PersonIcon sx={{ color: "white" }} />
+              <SchoolIcon sx={{ color: "white" }} />
             </ListItemIcon>
             <ListItemText primary="Add new course" />
           </ListItem>
@@ -91,3 +92,4 @@ const Drawer = ({ activeTab, setActiveTab}) => {
 };
 
 export default Drawer;
+
