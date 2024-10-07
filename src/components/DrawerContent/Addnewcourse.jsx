@@ -90,7 +90,7 @@ const AddNewCourse = () => {
                 helperText={errors.professor ? errors.professor.message : ""} />
             <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mt: 2 }}>
                 <Typography variant="body1" color="white">
-                    Profile Picture
+                    Course Image
                 </Typography>
                 <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start' }}>
                     <Button

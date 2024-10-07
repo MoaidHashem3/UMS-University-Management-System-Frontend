@@ -18,6 +18,7 @@ import { useDispatch } from 'react-redux';
 import { login, logout } from './redux/authSlice';
 import { validateToken } from './utils/auth';
 import { jwtDecode } from "jwt-decode";
+import EditUser from './components/DrawerContent/EditUser';
 
 const App = () => {
     const courseData = {
@@ -61,6 +62,7 @@ const App = () => {
                 { path: "login", element: <SignIn /> },
                 { path: "home", element: <Home /> },
                 { path: "courses", element: <Courses /> },
+                
                 {
                     path: "dashboard",
                     element: (
@@ -69,6 +71,7 @@ const App = () => {
                         />
                     </ProtectedRoute>
                     ),
+                    
                 },
             ],
         },,
