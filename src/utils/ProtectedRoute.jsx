@@ -5,10 +5,10 @@ import { useSelector } from 'react-redux';
 const ProtectedRoute = ({ children }) => {
     const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
 
-    console.log('ProtectedRoute isLoggedIn:', isLoggedIn); // Log the login state
+    console.log('ProtectedRoute isLoggedIn:', isLoggedIn); 
 
     if (isLoggedIn === null) {
-        return null; // Optionally show a loading spinner if fetching auth state
+        return null; 
     }
 
     return isLoggedIn ? children : <Navigate to="/login" />;
