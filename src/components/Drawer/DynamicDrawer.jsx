@@ -1,23 +1,24 @@
 import React from "react";
-import { Box, List, ListItem, ListItemIcon, ListItemText, Typography, Toolbar} from "@mui/material";
+import { Box, List, ListItem, ListItemIcon, ListItemText, Typography, Toolbar } from "@mui/material";
 import PersonIcon from '@mui/icons-material/Person';
 import SchoolIcon from '@mui/icons-material/School'; //Icon for courses
 import AddRoundedIcon from '@mui/icons-material/AddRounded';  //Icon for Add
 import DeleteForeverRoundedIcon from '@mui/icons-material/DeleteForeverRounded'; //Icon for Delete
 import EditRoundedIcon from '@mui/icons-material/EditRounded'; //Icon for edit
 import TuneSharpIcon from '@mui/icons-material/TuneSharp';
-import {useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 
 import { useTheme } from "@mui/material/styles";
+import { ViewTimeline } from "@mui/icons-material";
 
-const Drawer = ({ activeTab, setActiveTab}) => {
+const Drawer = ({ activeTab, setActiveTab }) => {
   const user = useSelector((state) => state.auth.user);
   let userRole;
   let userName;
   if (user) {
     userRole = user.role;
     userName = user.name;
-    console.log(user,userRole, userName)
+    console.log(user, userRole, userName)
   } else {
     userRole = "";
     userName = "";
@@ -29,7 +30,7 @@ const Drawer = ({ activeTab, setActiveTab}) => {
   };
   return (
     <>
-      <Toolbar/>
+      <Toolbar />
       <Box sx={{ padding: "0", textAlign: "center" }}>
         <img src="https://via.placeholder.com/140" alt="Profile" style={{
           borderRadius: "50%",
@@ -92,6 +93,30 @@ const Drawer = ({ activeTab, setActiveTab}) => {
               <PersonIcon sx={{ color: "white" }} />
             </ListItemIcon>
             <ListItemText primary="Add new Quiz" />
+          </ListItem>
+        )}
+        {( userRole === "professor") && (
+          <ListItem button onClick={() => setActiveTab("add new Content")} sx={{ backgroundColor: activeTab === "add new Content" ? "secondary.main" : "inherit" }}>
+            <ListItemIcon>
+              <SchoolIcon sx={{ color: "white" }} />
+            </ListItemIcon>
+            <ListItemText primary="Add New Content" />
+          </ListItem>
+        )}
+        {( userRole === "professor") && (
+          <ListItem button onClick={() => setActiveTab("view all Courses")} sx={{ backgroundColor: activeTab === "view all Courses" ? "secondary.main" : "inherit" }}>
+            <ListItemIcon>
+              <ViewTimeline sx={{ color: "white" }} />
+            </ListItemIcon>
+            <ListItemText primary="View All Courses" />
+          </ListItem>
+        )}
+        {( userRole === "professor") && (
+          <ListItem button onClick={() => setActiveTab("view students")} sx={{ backgroundColor: activeTab === "view students" ? "secondary.main" : "inherit" }}>
+            <ListItemIcon>
+              <ViewTimeline sx={{ color: "white" }} />
+            </ListItemIcon>
+            <ListItemText primary="View Students" />
           </ListItem>
         )}
       </List>

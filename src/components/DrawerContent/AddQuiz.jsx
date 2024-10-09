@@ -30,6 +30,8 @@ const AddQuiz = () => {
   const [successMessage, setSuccessMessage] = useState("");
   
   const courses = useSelector((state) => state.auth.user.createdCourses);
+  console.log(courses);
+  
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;

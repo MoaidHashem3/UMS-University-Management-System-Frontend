@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Box, TextField, Typography,Button, Alert } from "@mui/material";
+import { Box, TextField, Typography, Button, Alert } from "@mui/material";
 import { useForm } from 'react-hook-form';
 import { styled } from "@mui/material/styles";
 import CloudUploadIcon from "@mui/icons-material/CloudUpload";
@@ -31,19 +31,19 @@ const AddNewCourse = () => {
     const Register = async (data) => {
         try {
             const formData = new FormData();
-            formData.append('title', data.title); 
+            formData.append('title', data.title);
             formData.append('major', data.major);
             formData.append('description', data.description);
             formData.append('duration', data.duration);
             formData.append('professor', data.professor);
             if (data.image[0]) {
-              formData.append('image', data.image[0]); 
+                formData.append('image', data.image[0]);
             }
-            const res = await axios.post("http://localhost:3000/courses", formData,{
+            const res = await axios.post("http://localhost:3000/courses", formData, {
                 headers: {
-                  'Content-Type': 'multipart/form-data', 
+                    'Content-Type': 'multipart/form-data',
                 },
-              })
+            })
             console.log(res.data)
             setmessage("Added Successfully")
         } catch (err) {
