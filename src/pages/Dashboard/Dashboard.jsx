@@ -11,6 +11,10 @@ import ViewAllUsers from "../../components/DrawerContent/Viewallusers";
 import AddNewCourse from "../../components/DrawerContent/Addnewcourse";
 import AddQuiz from "../../components/DrawerContent/AddQuiz";
 import EditUser from "../../components/DrawerContent/EditUser";
+import AddCourseContent from "../../components/DrawerContent/AddNewContent";
+import ViewAllCourses from "../../components/DrawerContent/ViewYourCourses";
+import ViewStudents from "../../components/DrawerContent/ViewStudent";
+
 
 const drawerWidth = 300;
 
@@ -35,11 +39,18 @@ const Dashboard = () => {
       case "view all users":
         return <ViewAllUsers />
       case "add new course":
-        return <AddNewCourse/>  
+        return <AddNewCourse />
       case "add new quiz":
-        return <AddQuiz/>
+        return <AddQuiz />
       case "edit user":
         return <EditUser />
+      case "add new Content":
+        return <AddCourseContent />
+      case "view all Courses":
+        return <ViewAllCourses />
+      case "view students":
+        return <ViewStudents/>
+
 
       default:
         return <ProfileTab />
@@ -47,7 +58,7 @@ const Dashboard = () => {
   };
 
   return (
-    <Box sx={{ display: "flex", height: "140vh", backgroundColor: "secondary.main", color: "white"}}>
+    <Box sx={{ display: "flex", height: "140vh", backgroundColor: "secondary.main", color: "white" }}>
       {isMobile && (
         <Toolbar>
           <DashboardCustomizeIcon color="inherit" edge="start" onClick={handleDrawerToggle}>
@@ -69,8 +80,8 @@ const Dashboard = () => {
             color: "white",
             boxShadow: "none",
             border: "none",
-            height:"140vh",
-            position:"static"
+            height: "140vh",
+            position: "static"
 
           }
         }}
