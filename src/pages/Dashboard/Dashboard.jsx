@@ -14,6 +14,9 @@ import EditUser from "../../components/DrawerContent/EditUser";
 import AddCourseContent from "../../components/DrawerContent/AddNewContent";
 import ViewAllCourses from "../../components/DrawerContent/ViewYourCourses";
 import ViewStudents from "../../components/DrawerContent/ViewStudent";
+import ViewAllCoursesInAdmin from "../../components/DrawerContent/ViewAllCourses";
+import ViewYourCoursesInStudent from "../../components/DrawerContent/ViewYourCoursesInStudent";
+import ViewYourGrades from "../../components/DrawerContent/ViewYourGrades";
 
 
 const drawerWidth = 300;
@@ -51,6 +54,12 @@ const Dashboard = () => {
       case "view students":
         return <ViewStudents/>
 
+      case "View All Courses In Admin":
+        return <ViewAllCoursesInAdmin/>
+      case "View your Courses In Student":
+        return <ViewYourCoursesInStudent/>
+      case "View your Grades":
+        return <ViewYourGrades/>
 
       default:
         return <ProfileTab />
