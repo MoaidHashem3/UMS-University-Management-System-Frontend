@@ -119,6 +119,31 @@ const Drawer = ({ activeTab, setActiveTab }) => {
             <ListItemText primary="View Students" />
           </ListItem>
         )}
+
+        {( userRole === "admin") && (
+          <ListItem button onClick={() => setActiveTab("View All Courses In Admin")} sx={{ backgroundColor: activeTab === "View All Courses" ? "secondary.main" : "inherit" }}>
+            <ListItemIcon>
+              <ViewTimeline sx={{ color: "white" }} />
+            </ListItemIcon>
+            <ListItemText primary="View All Courses" />
+          </ListItem>
+        )}
+        {( userRole === "student") && (
+          <ListItem button onClick={() => setActiveTab("View your Courses In Student")} sx={{ backgroundColor: activeTab === "View your Courses In Student" ? "secondary.main" : "inherit" }}>
+            <ListItemIcon>
+              <ViewTimeline sx={{ color: "white" }} />
+            </ListItemIcon>
+            <ListItemText primary="View your courses" />
+          </ListItem>
+        )}
+        {( userRole === "student") && (
+          <ListItem button onClick={() => setActiveTab("View your Grades")} sx={{ backgroundColor: activeTab === "View your Grades" ? "secondary.main" : "inherit" }}>
+            <ListItemIcon>
+              <PersonIcon sx={{ color: "white" }} />
+            </ListItemIcon>
+            <ListItemText primary=" Your Grades" />
+          </ListItem>
+        )}
       </List>
     </>
   );
