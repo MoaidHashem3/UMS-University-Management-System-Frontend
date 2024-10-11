@@ -17,12 +17,12 @@ import axios from "axios";
 import { useSelector } from "react-redux";
 
 const ViewStudent = () => {
-    const [selectedCourse, setSelectedCourse] = useState("");  // State to store the selected course
-    const [students, setStudents] = useState([]);  // State to store the student details
+    const [selectedCourse, setSelectedCourse] = useState(""); // State to store the selected course
+    const [students, setStudents] = useState([]); // State to store the student details
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState("");
     const [message, setMessage] = useState("");
-    const [courseDetails, setCourseDetails] = useState([]);  // State to store the course details
+    const [courseDetails, setCourseDetails] = useState([]); // State to store the course details
 
     const token = localStorage.getItem("authToken");
     const courses = useSelector((state) => state.auth.user.createdCourses); // Fetch courses from Redux
@@ -32,12 +32,14 @@ const ViewStudent = () => {
         const fetchCourseDetails = async () => {
             try {
                 if (courses.length > 0) {
-                    const courseDetailsPromises = courses.map((id) =>
-                        axios.get(`http://localhost:3000/courses/${id}`)
+                    const courseDetailsPromises = courses.map((course) =>
+                        axios.get(`http://localhost:3000/courses/${course._id}`, {
+                            headers: { Authorization: token },
+                        })
                     );
                     const responses = await Promise.all(courseDetailsPromises);
                     const fetchedCourses = responses.map((res) => res.data);
-                    setCourseDetails(fetchedCourses);  // Save the fetched course details
+                    setCourseDetails(fetchedCourses); // Save the fetched course details
                 }
             } catch (err) {
                 setError("Failed to fetch course details.");
@@ -45,24 +47,35 @@ const ViewStudent = () => {
         };
 
         fetchCourseDetails();
-    }, [courses]);
+    }, [courses, token]);
 
-    // Handle course selection and set students based on the selected course
-    const handleCourseChange = (event) => {
+    // Handle course selection and fetch student data from API
+    const handleCourseChange = async (event) => {
         const courseId = event.target.value;
         setSelectedCourse(courseId);
         setLoading(true);
         setError("");
         setMessage("");
 
-        // Find the selected course details from the courseDetails array
-        const selectedCourseDetails = courseDetails.find(course => course._id === courseId);
-        if (selectedCourseDetails) {
-            setStudents(selectedCourseDetails.students);  // Assuming students are part of the course details
-        } else {
-            setError("No students found for this course.");
+        try {
+            // Fetch student details from the API using the course ID
+            const response = await axios.get(`http://localhost:3000/courses/${courseId}/students`, {
+                headers: { Authorization: token },
+            });
+
+            const { data } = response;
+            if (data && data.data) {
+                setStudents(data.data); // Assuming response includes the students' data
+                setMessage("Students data retrieved successfully");
+            } else {
+                setStudents([]);
+                setMessage("No students enrolled in this course.");
+            }
+        } catch (error) {
+            setError("Failed to fetch student details. Please try again.");
+        } finally {
+            setLoading(false);
         }
-        setLoading(false);
     };
 
     return (
@@ -79,10 +92,10 @@ const ViewStudent = () => {
                 value={selectedCourse}
                 onChange={handleCourseChange}
             >
-                {courseDetails.length > 0 ? (
-                    courseDetails.map((course) => (
+                {courses.length > 0 ? (
+                    courses.map((course) => (
                         <MenuItem key={course._id} value={course._id}>
-                            {course.title}  {/* Display the course title */}
+                            {course.title}
                         </MenuItem>
                     ))
                 ) : (
@@ -94,19 +107,21 @@ const ViewStudent = () => {
             {loading ? (
                 <CircularProgress />
             ) : students.length > 0 ? (
-                <TableContainer component={Paper} sx={{ marginTop: "20px" }}>
+                <TableContainer component={Paper} sx={{ marginTop: "20px", backgroundColor: "secondary.light"}}>
                     <Table>
-                        <TableHead>
+                        <TableHead sx={{backgroundColor: "primary.main"}}>
                             <TableRow>
-                                <TableCell sx={{ fontWeight: "bold" }}>Student Name</TableCell>
-                                <TableCell sx={{ fontWeight: "bold" }}>Email</TableCell>
+                                <TableCell sx={{ fontWeight: "bold", color:"white" }}>Student Name</TableCell>
+                                <TableCell sx={{ fontWeight: "bold",color:"white" }}>Email</TableCell>
+                                <TableCell sx={{ fontWeight: "bold", color:"white" }}>Total Quizzes Score</TableCell> {/* New column for total score */}
                             </TableRow>
                         </TableHead>
                         <TableBody>
                             {students.map((student) => (
-                                <TableRow key={student._id}>
-                                    <TableCell>{student.name}</TableCell>
-                                    <TableCell>{student.email}</TableCell>
+                                <TableRow key={student.email}>
+                                    <TableCell sx={{ color:"white" }}>{student.name}</TableCell>
+                                    <TableCell sx={{ color:"white" }}>{student.email}</TableCell>
+                                    <TableCell sx={{ color:"white" }}>{student.totalScore}</TableCell> {/* Display total quiz score */}
                                 </TableRow>
                             ))}
                         </TableBody>

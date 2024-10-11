@@ -112,7 +112,6 @@ console.log(courses);
         "http://localhost:3000/quiz/",
         quizDetails
       );
-      console.log(quizDetails.course)
       console.log("Quiz submitted successfully:", response.data);
       await axios.put(`http://localhost:3000/courses/${quizDetails.course}`, {
         quizId: response.data.quiz._id

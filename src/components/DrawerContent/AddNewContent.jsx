@@ -10,30 +10,9 @@ const AddCourseContent = () => {
     const [message, setMessage] = useState("");
     const [error, setError] = useState("");
     const [selectedFile, setSelectedFile] = useState(null);
-    const [courseDetails, setCourseDetails] = useState([]);  // State to store the course details
 
     // Fetch the courses created by the logged-in professor from the Redux store
     const courses = useSelector((state) => state.auth.user.createdCourses);
-
-    useEffect(() => {
-        // Fetch course details based on the course IDs
-        const fetchCourseDetails = async () => {
-            try {
-                if (courses.length > 0) {
-                    const courseDetailsPromises = courses.map((id) =>
-                        axios.get(`http://localhost:3000/courses/${id}`)
-                    );
-                    const responses = await Promise.all(courseDetailsPromises);
-                    const fetchedCourses = responses.map((res) => res.data);
-                    setCourseDetails(fetchedCourses);  // Save the fetched course details
-                }
-            } catch (err) {
-                setError("Failed to fetch course details.");
-            }
-        };
-
-        fetchCourseDetails();
-    }, [courses]);
 
     const handleFileChange = (event) => {
         setSelectedFile(event.target.files[0]);
@@ -52,15 +31,11 @@ const AddCourseContent = () => {
             formData.append('title', data.name);
             formData.append('pdfFile', selectedFile);
             console.log(formData);
-
-
-
             const res = await axios.post(`http://localhost:3000/courses/uploadCourseContent/${data.course}`, formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data',
                 },
             });
-
             setMessage("Content added successfully");
             setError("");
             reset();  // Reset the form fields
@@ -87,8 +62,8 @@ const AddCourseContent = () => {
                 error={!!errors.course}
                 helperText={errors.course ? errors.course.message : ''}
             >
-                {courseDetails && courseDetails.length > 0 ? (
-                    courseDetails.map((course) => (
+                {courses? (
+                    courses.map((course) => (
                         <MenuItem key={course._id} value={course._id}>
                             {course.title}
                         </MenuItem>
