@@ -47,7 +47,7 @@ const App = () => {
             path: "/",
             element: <AppLayout />,
             children: [
-                { index: true, element: <CourseContent courseId= "670816e714de25ebacf0afbb" /> },
+                { index: true, element: <CourseContent courseId= "6708b5c7b4cd2b6602e59104" /> },
                 { path: "signup", element: <SignUp /> },
                 { path: "login", element: <SignIn /> },
                 { path: "home", element: <Home /> },

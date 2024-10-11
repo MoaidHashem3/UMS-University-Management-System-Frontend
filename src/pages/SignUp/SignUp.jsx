@@ -167,7 +167,7 @@ const SignUp = () => {
                                     <VisuallyHiddenInput
                                         type="file"
                                         accept="image/*"
-                                        {...register("image", { required: "Image is required" })}
+                                        {...register("image")}
                                         onChange={handleFileChange}
                                     />
                                 </Button>

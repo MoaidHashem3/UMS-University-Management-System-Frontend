@@ -9,26 +9,27 @@ import {
   Button,
   Collapse,
   Alert,
+  MenuItem,
 } from "@mui/material";
 
 const EditCourse = ({ course, onUpdate, open, setOpen }) => {
   const [title, setTitle] = useState("");
   const [major, setMajor] = useState("");
-  const [professor, setProfessor] = useState("");
+  const [professor, setProfessor] = useState(""); // Store selected professor ID
   const [duration, setDuration] = useState("");
   const [message, setMessage] = useState("");
+  const [professors, setProfessors] = useState([]); // State to hold list of professors
 
   const handleClose = () => {
     setOpen(false);
   };
-
   const handleSubmit = (event) => {
     event.preventDefault();
     axios
-      .put(`http://localhost:3000/courses/${course._id}`, {
+      .patch(`http://localhost:3000/courses/${course._id}`, {
         title,
         major,
-        professor,
+        professor, 
         duration,
       })
       .then(() => {
@@ -42,10 +43,23 @@ const EditCourse = ({ course, onUpdate, open, setOpen }) => {
   };
 
   useEffect(() => {
+    const fetchProfessors = async () => {
+      try {
+        const response = await axios.get("http://localhost:3000/users/professor");
+        setProfessors(response.data.data); 
+      } catch (error) {
+        console.error("Error fetching professors:", error);
+      }
+    };
+
+    fetchProfessors();
+  }, []);
+
+  useEffect(() => {
     if (course) {
       setTitle(course.title);
       setMajor(course.major);
-      setProfessor(course.professor.name);
+      setProfessor(course.professor?._id || ""); // Set professor ID instead of name
       setDuration(course.duration);
     }
   }, [course]);
@@ -74,11 +88,11 @@ const EditCourse = ({ course, onUpdate, open, setOpen }) => {
       <Dialog
         sx={{
           "& .MuiDialog-container": {
-            backdropFilter: "blur(1px)", 
+            backdropFilter: "blur(1px)",
           },
           "& .MuiDialog-paper": {
-            backgroundColor: "#424242", 
-            color: "#fff", 
+            backgroundColor: "#424242",
+            color: "#fff",
           },
         }}
         open={open}
@@ -111,16 +125,23 @@ const EditCourse = ({ course, onUpdate, open, setOpen }) => {
             onChange={(e) => setMajor(e.target.value)}
             fullWidth
           />
+          {/* Dropdown for selecting professors */}
           <TextField
+            select
             margin="dense"
             id="professor"
             name="professor"
             label="Professor"
-            type="text"
-            value={professor}
+            value={professor} // Use professor ID as value
             onChange={(e) => setProfessor(e.target.value)}
             fullWidth
-          />
+          >
+            {professors.map((prof) => (
+              <MenuItem key={prof._id} value={prof._id}>
+                {prof.name} {/* Display professor name */}
+              </MenuItem>
+            ))}
+          </TextField>
           <TextField
             margin="dense"
             id="duration"

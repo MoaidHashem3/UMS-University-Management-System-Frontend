@@ -11,6 +11,7 @@ import {
   TableHead,
   TableRow,
   Paper,
+  TablePagination,
 } from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
@@ -24,6 +25,8 @@ const ViewAllCoursesInAdmin = () => {
   const [loading, setLoading] = useState(true);
   const [message, setMessage] = useState("");
   const [err, setErr] = useState("");
+  const [page, setPage] = useState(0);
+  const [rowsPerPage, setRowsPerPage] = useState(5);
   const token = localStorage.getItem("authToken");
 
   const handleEdit = (course) => {
@@ -85,6 +88,15 @@ const ViewAllCoursesInAdmin = () => {
     }
   }, [message]);
 
+  const handleChangePage = (event, newPage) => {
+    setPage(newPage);
+  };
+
+  const handleChangeRowsPerPage = (event) => {
+    setRowsPerPage(parseInt(event.target.value, 10));
+    setPage(0); // Reset the page whenever rows per page changes
+  };
+
   return (
     <>
       <Collapse in={!!message}>
@@ -104,67 +116,63 @@ const ViewAllCoursesInAdmin = () => {
         </Alert>
       </Collapse>
       <Box sx={{ marginTop: "40px" }}>
-        <Typography variant="h4" color="#fff" mb={2}>
-          All Courses
-        </Typography>
-
         {courses.length > 0 ? (
-          <TableContainer component={Paper}>
+          <TableContainer component={Paper} sx={{backgroundColor: "secondary.light"}}>
             <Table>
               <TableHead>
                 <TableRow sx={{ backgroundColor: "primary.main" }}>
-                  <TableCell sx={{ color: "black", fontWeight: "bold" }}>
+                  <TableCell sx={{ color: "white", fontWeight: "bold" }}>
                     Course Name
                   </TableCell>
-                  <TableCell sx={{ color: "black", fontWeight: "bold" }}>
+                  <TableCell sx={{ color: "white", fontWeight: "bold" }}>
                     Major
                   </TableCell>
-                  <TableCell sx={{ color: "black", fontWeight: "bold" }}>
+                  <TableCell sx={{ color: "white", fontWeight: "bold" }}>
                     Professor
                   </TableCell>
-                  <TableCell sx={{ color: "black", fontWeight: "bold" }}>
+                  <TableCell sx={{ color: "white", fontWeight: "bold" }}>
                     Duration
                   </TableCell>
-                  <TableCell sx={{ color: "black", fontWeight: "bold" }}>
+                  <TableCell sx={{ color: "white", fontWeight: "bold" }}>
                     Number of Students
                   </TableCell>
-                  <TableCell sx={{ color: "black", fontWeight: "bold" }}>
+                  <TableCell sx={{ color: "white", fontWeight: "bold" }}>
                     Edit
                   </TableCell>
-                  <TableCell sx={{ color: "black", fontWeight: "bold" }}>
+                  <TableCell sx={{ color: "white", fontWeight: "bold" }}>
                     Delete
                   </TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
-                {courses.map((course) => (
+                {courses.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((course) => (
                   <TableRow key={course._id}>
-                    <TableCell sx={{ fontWeight: "bold" }}>
+                    <TableCell sx={{ color: "white" }}>
                       {course.title}
                     </TableCell>
-                    <TableCell sx={{ fontWeight: "bold" }}>
+                    <TableCell sx={{ color: "white" }}>
                       {course.major}
                     </TableCell>
-                    <TableCell sx={{ fontWeight: "bold" }}>
-                      {course.professor.name}
+                    <TableCell sx={{ color: "white" }}>
+                      {course.professor.name?course.professor.name:""} 
                     </TableCell>
-                    <TableCell sx={{ fontWeight: "bold", textAlign: "center" }}>
+                    <TableCell sx={{ color: "white"}}>
                       {course.duration}h
                     </TableCell>
-                    <TableCell sx={{ fontWeight: "bold", paddingLeft:"70px" }}>
+                    <TableCell sx={{ color: "white", paddingLeft:"70px" }}>
                       {course.students.length}{" "}
                     </TableCell>
 
-                    <TableCell sx={{ fontWeight: "bold" }}>
-                      <IconButton
+                    <TableCell >
+                      <IconButton sx={{  color:"success.main"}}
                         aria-label="edit"
                         onClick={() => handleEdit(course)} 
                       >
                         <EditIcon />
                       </IconButton>
                     </TableCell>
-                    <TableCell sx={{ fontWeight: "bold" }}>
-                      <IconButton
+                    <TableCell >
+                      <IconButton sx={{  color:"warning.main"}}
                         aria-label="delete"
                         onClick={() => handleDelete(course._id)}
                       >
@@ -175,6 +183,16 @@ const ViewAllCoursesInAdmin = () => {
                 ))}
               </TableBody>
             </Table>
+            <TablePagination
+             sx={{ fontWeight: "bold" , color: 'white'}}
+              rowsPerPageOptions={[5, 10, 25]}
+              component="div"
+              count={courses.length}
+              rowsPerPage={rowsPerPage}
+              page={page}
+              onPageChange={handleChangePage}
+              onRowsPerPageChange={handleChangeRowsPerPage}
+            />
           </TableContainer>
         ) : (
           <Alert severity="info">No courses available</Alert>

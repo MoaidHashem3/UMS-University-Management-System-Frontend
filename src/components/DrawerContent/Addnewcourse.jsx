@@ -30,7 +30,6 @@ const AddNewCourse = () => {
         const fetchProfessors = async () => {
             try {
                 const res = await axios.get("http://localhost:3000/users/professor"); 
-                console.log(res.data.data)
                 setProfessors(res.data.data); 
             } catch (error) {
                 console.error("Error fetching professors", error);

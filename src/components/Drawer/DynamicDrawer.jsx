@@ -3,11 +3,12 @@ import { Box, List, ListItem, ListItemIcon, ListItemText, Typography, Toolbar } 
 import PersonIcon from '@mui/icons-material/Person';
 import SchoolIcon from '@mui/icons-material/School'; //Icon for courses
 import AddRoundedIcon from '@mui/icons-material/AddRounded';  //Icon for Add
-import DeleteForeverRoundedIcon from '@mui/icons-material/DeleteForeverRounded'; //Icon for Delete
-import EditRoundedIcon from '@mui/icons-material/EditRounded'; //Icon for edit
-import TuneSharpIcon from '@mui/icons-material/TuneSharp';
 import { useSelector } from 'react-redux';
-
+import GradeIcon from '@mui/icons-material/Grade';
+import PersonAddAltRoundedIcon from '@mui/icons-material/PersonAddAltRounded';
+import PeopleOutlineRoundedIcon from '@mui/icons-material/PeopleOutlineRounded';
+import QuizRoundedIcon from '@mui/icons-material/QuizRounded';
+import LibraryBooksRoundedIcon from '@mui/icons-material/LibraryBooksRounded';
 import { useTheme } from "@mui/material/styles";
 import { ViewTimeline } from "@mui/icons-material";
 import defultImage from '/images/defult_user.jpg'
@@ -18,20 +19,19 @@ const Drawer = ({ activeTab, setActiveTab }) => {
   if (user) {
     userRole = user.role;
     userName = user.name;
-    console.log(user, userRole, userName)
+    
   } else {
     userRole = "";
     userName = "";
 
   }
   const theme = useTheme();
-  console.log(user.image)
+  
   const capitalizeFirstLetter = (string) => {
     return string.charAt(0).toUpperCase() + string.slice(1).toLowerCase();
   };
   return (
     <>
-      <Toolbar />
       <Box sx={{ padding: "0", textAlign: "center" }}>
         <img src={user.image && !user.image.includes('undefined') ? user.image : defultImage} alt="Profile" style={{
           borderRadius: "50%",
@@ -53,53 +53,43 @@ const Drawer = ({ activeTab, setActiveTab }) => {
           <ListItemText primary="Your Profile" />
         </ListItem>
 
-        {/* Admin and Professor Settings Tab */}
-        {(userRole === "student" || userRole === "professor") && (
-          <ListItem button onClick={() => setActiveTab("settings")} sx={{ backgroundColor: activeTab === "settings" ? "secondary.main" : "inherit" }}>
-            <ListItemIcon>
-              <TuneSharpIcon sx={{ color: "white" }} />
-            </ListItemIcon>
-            <ListItemText primary="Settings" />
-          </ListItem>
-        )}
-
         {/* Additional Admin-only Tab Example */}
         {userRole === "admin" && (
           <ListItem button onClick={() => setActiveTab("add new user")} sx={{ backgroundColor: activeTab === "add new user" ? "secondary.main" : "inherit" }}>
             <ListItemIcon>
-              <AddRoundedIcon sx={{ color: "white" }} />
+              <PersonAddAltRoundedIcon sx={{ color: "white" }} />
             </ListItemIcon>
-            <ListItemText primary="Add new user" />
+            <ListItemText primary="Add New User" />
           </ListItem>
         )}
         {userRole === "admin" && (
           <ListItem button onClick={() => setActiveTab("view all users")} sx={{ backgroundColor: activeTab === "view all users" ? "secondary.main" : "inherit" }}>
             <ListItemIcon>
-              <PersonIcon sx={{ color: "white" }} />
+              <PeopleOutlineRoundedIcon sx={{ color: "white" }} />
             </ListItemIcon>
-            <ListItemText primary="View all users" />
+            <ListItemText primary="View All Users" />
           </ListItem>
         )}
         {userRole === "admin" && (
           <ListItem button onClick={() => setActiveTab("add new course")} sx={{ backgroundColor: activeTab === "add new course" ? "secondary.main" : "inherit" }}>
             <ListItemIcon>
-              <SchoolIcon sx={{ color: "white" }} />
-            </ListItemIcon>
-            <ListItemText primary="Add new course" />
-          </ListItem>
-        )}
-        {(userRole === "admin" || userRole === "professor") && (
-          <ListItem button onClick={() => setActiveTab("add new quiz")} sx={{ backgroundColor: activeTab === "add new quiz" ? "secondary.main" : "inherit" }}>
-            <ListItemIcon>
               <AddRoundedIcon sx={{ color: "white" }} />
             </ListItemIcon>
-            <ListItemText primary="Add new Quiz" />
+            <ListItemText primary="Add New Course" />
+          </ListItem>
+        )}
+        {(userRole === "professor") && (
+          <ListItem button onClick={() => setActiveTab("add new quiz")} sx={{ backgroundColor: activeTab === "add new quiz" ? "secondary.main" : "inherit" }}>
+            <ListItemIcon>
+              <QuizRoundedIcon sx={{ color: "white" }} />
+            </ListItemIcon>
+            <ListItemText primary="Add New Quiz" />
           </ListItem>
         )}
         {( userRole === "professor") && (
           <ListItem button onClick={() => setActiveTab("add new Content")} sx={{ backgroundColor: activeTab === "add new Content" ? "secondary.main" : "inherit" }}>
             <ListItemIcon>
-              <SchoolIcon sx={{ color: "white" }} />
+              <LibraryBooksRoundedIcon sx={{ color: "white" }} />
             </ListItemIcon>
             <ListItemText primary="Add New Content" />
           </ListItem>
@@ -115,14 +105,14 @@ const Drawer = ({ activeTab, setActiveTab }) => {
         {( userRole === "professor") && (
           <ListItem button onClick={() => setActiveTab("view students")} sx={{ backgroundColor: activeTab === "view students" ? "secondary.main" : "inherit" }}>
             <ListItemIcon>
-              <ViewTimeline sx={{ color: "white" }} />
+              <SchoolIcon sx={{ color: "white" }} />
             </ListItemIcon>
             <ListItemText primary="View Students" />
           </ListItem>
         )}
 
         {( userRole === "admin") && (
-          <ListItem button onClick={() => setActiveTab("View All Courses In Admin")} sx={{ backgroundColor: activeTab === "View All Courses" ? "secondary.main" : "inherit" }}>
+          <ListItem button onClick={() => setActiveTab("View All Courses In Admin")} sx={{ backgroundColor: activeTab === "View All Courses In Admin" ? "secondary.main" : "inherit" }}>
             <ListItemIcon>
               <ViewTimeline sx={{ color: "white" }} />
             </ListItemIcon>
@@ -140,7 +130,7 @@ const Drawer = ({ activeTab, setActiveTab }) => {
         {( userRole === "student") && (
           <ListItem button onClick={() => setActiveTab("View your Grades")} sx={{ backgroundColor: activeTab === "View your Grades" ? "secondary.main" : "inherit" }}>
             <ListItemIcon>
-              <PersonIcon sx={{ color: "white" }} />
+              <GradeIcon sx={{ color: "white" }} />
             </ListItemIcon>
             <ListItemText primary=" Your Grades" />
           </ListItem>

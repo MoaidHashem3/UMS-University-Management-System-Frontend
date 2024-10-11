@@ -63,9 +63,7 @@ const ViewYourCoursesInStudent = () => {
           alignItems: "center",
           padding: "20px", 
         }}>
-        <Typography variant="h4" color="#fff" mb={2}>
-          Your Courses
-        </Typography>
+     
         {message && (
           <Alert severity="info" sx={{ width: "100%", mt: 2 }}>
             {message}
@@ -78,14 +76,14 @@ const ViewYourCoursesInStudent = () => {
         )}
 
         {courses.length > 0 ? (
-          <TableContainer component={Paper} sx={{  width: { xs: "100%", sm: "fit-content", md:"900px" }, marginTop: "20px" }}>
+          <TableContainer component={Paper} sx={{  width: { xs: "100%", sm: "fit-content", md:"900px" }, marginTop: "20px", backgroundColor: "secondary.light" }}>
             <Table>
               <TableHead>
                 <TableRow sx={{ backgroundColor: "primary.main" }}>
-                  <TableCell sx={{ color: "black", fontWeight: "bold" }}>
+                  <TableCell sx={{ color: "white", fontWeight: "bold" }}>
                     Course Name
                   </TableCell>
-                  <TableCell sx={{ color: "black", fontWeight: "bold" }}>
+                  <TableCell sx={{ color: "white", fontWeight: "bold" }}>
                   Show Course
                   </TableCell>
                 </TableRow>
@@ -93,14 +91,14 @@ const ViewYourCoursesInStudent = () => {
               <TableBody>
                 {courses.map((course) => (
                   <TableRow key={course._id}>
-                    <TableCell sx={{ fontWeight: "bold" }}>
+                    <TableCell sx={{  color:"white" }}>
                       {course.title}
                     </TableCell>
                     <TableCell>
                       <Button
                         variant="contained"
                         color="primary"
-                        onClick={() => navigate(`/course-details/${course._id}`)}
+                        onClick={() => navigate(`/courses`)}
                       >
                         Show Course
                       </Button>
