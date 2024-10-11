@@ -7,9 +7,8 @@ import DeleteForeverRoundedIcon from '@mui/icons-material/DeleteForeverRounded';
 import EditRoundedIcon from '@mui/icons-material/EditRounded'; //Icon for edit
 import TuneSharpIcon from '@mui/icons-material/TuneSharp';
 import {useSelector } from 'react-redux';
-
 import { useTheme } from "@mui/material/styles";
-
+import defultImage from '/images/defult_user.jpg'
 const Drawer = ({ activeTab, setActiveTab}) => {
   const user = useSelector((state) => state.auth.user);
   let userRole;
@@ -17,13 +16,13 @@ const Drawer = ({ activeTab, setActiveTab}) => {
   if (user) {
     userRole = user.role;
     userName = user.name;
-    console.log(user,userRole, userName)
   } else {
     userRole = "";
     userName = "";
 
   }
   const theme = useTheme();
+  console.log(user.image)
   const capitalizeFirstLetter = (string) => {
     return string.charAt(0).toUpperCase() + string.slice(1).toLowerCase();
   };
@@ -31,7 +30,7 @@ const Drawer = ({ activeTab, setActiveTab}) => {
     <>
       <Toolbar/>
       <Box sx={{ padding: "0", textAlign: "center" }}>
-        <img src="https://via.placeholder.com/140" alt="Profile" style={{
+        <img src={user.image && !user.image.includes('undefined') ? user.image : defultImage} alt="Profile" style={{
           borderRadius: "50%",
           width: "300px",
           height: "300px",
@@ -89,7 +88,7 @@ const Drawer = ({ activeTab, setActiveTab}) => {
         {(userRole === "admin" || userRole === "professor") && (
           <ListItem button onClick={() => setActiveTab("add new quiz")} sx={{ backgroundColor: activeTab === "add new quiz" ? "secondary.main" : "inherit" }}>
             <ListItemIcon>
-              <PersonIcon sx={{ color: "white" }} />
+              <AddRoundedIcon sx={{ color: "white" }} />
             </ListItemIcon>
             <ListItemText primary="Add new Quiz" />
           </ListItem>

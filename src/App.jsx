@@ -13,25 +13,13 @@ import AppLayout from './AppLayout';
 import { RouterProvider } from 'react-router-dom';
 import Courses from './pages/Courses/Courses';
 import CourseDetails from './components/courseDetails/CourseDetails';
-import courseImg from "./assets/images/courseimg.jpeg";
 import { useDispatch } from 'react-redux';
 import { login, logout } from './redux/authSlice';
 import { validateToken } from './utils/auth';
 import { jwtDecode } from "jwt-decode";
-import Quiz from './components/Quiz/QuizBox';
-import EditUser from './components/DrawerContent/EditUser';
-
+import CourseContent from './components/CourseContent/CourseContent';
+import NotFound from './pages/NotFound/NotFound';
 const App = () => {
-    const courseData = {
-        image: courseImg,
-        title: "Introduction to Machine Learning",
-        description: "Learn the basics of machine learning and its applications.",
-        professor: "Dr. John Doe",
-        students: [1, 2, 3, 4],
-        duration: "10 weeks",
-        major: "Computer Science",
-    };
-
     const dispatch = useDispatch();
     const user = useSelector((state) => state.auth.user);
     const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
@@ -59,22 +47,23 @@ const App = () => {
             path: "/",
             element: <AppLayout />,
             children: [
-                { index: true, element: <Home /> },
+                { index: true, element: <CourseContent courseId= "670816e714de25ebacf0afbb" /> },
                 { path: "signup", element: <SignUp /> },
                 { path: "login", element: <SignIn /> },
                 { path: "home", element: <Home /> },
                 { path: "courses", element: <Courses /> },
-                
                 {
                     path: "dashboard",
                     element: (
                         <ProtectedRoute>
                         <Dashboard
                         />
-                    </ProtectedRoute>
+                       </ProtectedRoute>
                     ),
                     
                 },
+                { path: "*", element: <NotFound /> },
+
             ],
         },,
     ]);
@@ -91,4 +80,4 @@ const App = () => {
 };
 
 export default App;
-{/* <Quiz quizId="670427d07fcda231463086a3" /> */}
+{/*  */}
