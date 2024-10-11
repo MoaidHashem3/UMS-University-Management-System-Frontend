@@ -1,12 +1,51 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Box, Typography, Button, Icon, Stack } from "@mui/material";
 import SchoolIcon from "@mui/icons-material/School";
 import PeopleIcon from "@mui/icons-material/People";
 import AccessTimeIcon from "@mui/icons-material/AccessTime";
 import ScienceIcon from "@mui/icons-material/Science";
 import style from "./CourseDetails.module.css"; // Import your CSS module
+import { useSelector, useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom"; // Import useNavigate for redirection
+import { enrollCourse } from "../../redux/authSlice";
+import axios from "axios"; // Import axios
 
 const CourseDetails = ({ course }) => {
+  const user = useSelector((state) => state.auth.user);
+  const dispatch = useDispatch(); // Used to update Redux state
+  const navigate = useNavigate(); // Initialize useNavigate for redirection
+  const normalizedImgPath = course.selectedCourse.image.replace(/\\/g, '/');
+  const [enrollmentStatus, setEnrollmentStatus] = useState(false); // Track enrollment state
+  const [errorMessage, setErrorMessage] = useState(''); // Track error messages
+
+  const handleEnrollClick = async () => {
+    if (!user) {
+      // If the user is not logged in, redirect to the login page
+      navigate("/login");
+      return;
+    }
+
+    if (user.role !== "student") {
+      // If the user is not a student, set an error message and return
+      setErrorMessage("Only students can enroll in courses. Professors and admins cannot enroll.");
+      return;
+    }
+
+    try {
+      // API call to enroll user in the course
+      const response = await axios.post(`http://localhost:3000/courses/enroll/${course.selectedCourse._id}/${user.id}`);
+
+      if (response.status === 200) {
+        // Successfully enrolled, update Redux state
+        dispatch(enrollCourse(course.selectedCourse._id));
+        setEnrollmentStatus(true); // Update the status to show enrollment success
+      }
+    } catch (error) {
+      console.error("Error enrolling in the course:", error);
+      setErrorMessage("Failed to enroll in the course. Please try again later.");
+    }
+  };
+
   return (
     <Box
       sx={{
@@ -14,10 +53,10 @@ const CourseDetails = ({ course }) => {
         flexDirection: { xs: "column", md: "row" },
         color: "#fff",
         padding: 0,
-        margin: 0,
-        height: "100vh", // Ensure full page height
-        width: "100vw", // Ensure full page width
-        overflow: "hidden", // Hide any overflow
+        marginTop: 0,
+        height: "100vh", 
+        width: "100%", 
+        overflow: "hidden", 
       }}
     >
       {/* Left Section */}
@@ -37,8 +76,8 @@ const CourseDetails = ({ course }) => {
         <div className={style.courseImgContainer}>
           <img
             className={style.courseImg}
-            src={course.image}
-            alt={course.title}
+            src={`http://localhost:3000/${normalizedImgPath}`} // Ensure image URL is correctly passed
+            alt={course.selectedCourse.title}
             style={{
               borderRadius: "50%",
               width: "200px",
@@ -47,12 +86,12 @@ const CourseDetails = ({ course }) => {
             }}
           />
         </div>
-        
+
         <Typography variant="h4" sx={{ mt: 2, textAlign: "center" }}>
-          {course.title}
+          {course.selectedCourse.title}
         </Typography>
         <Typography variant="body1" sx={{ mt: 2, textAlign: "center" }}>
-          {course.description}
+          {course.selectedCourse.description}
         </Typography>
       </Box>
 
@@ -64,63 +103,86 @@ const CourseDetails = ({ course }) => {
           flexDirection: "column",
           justifyContent: "center",
           padding: 2,
-          backgroundColor: "#393e46",
+          backgroundColor: "secondary.light",
         }}
       >
         {/* Stacking Icons with Two per Row */}
-        <Stack spacing={3}>
-          {/* First Row */}
-          <Stack direction="row" justifyContent="space-around">
-            <Stack direction="row" spacing={2} alignItems="center">
-              <Icon component={SchoolIcon} sx={{ fontSize: 50 }} />
-              <Box>
-                <Typography variant="body1">Taught by:</Typography>
-                <Typography variant="h6">{course.professor}</Typography>
-              </Box>
-            </Stack>
+        <Stack spacing={4}>
+  {/* First Row */}
+  <Stack direction="row" justifyContent="space-between" alignItems="center">
+    <Stack direction="row" spacing={2} alignItems="center" sx={{ width: "48%" }}>
+      <Icon component={SchoolIcon} sx={{ fontSize: 50 }} />
+      <Box>
+        <Typography variant="body1">Taught by:</Typography>
+        <Typography variant="h6">
+          {course.selectedCourse.professor.name || "Unknown"}
+        </Typography>
+      </Box>
+    </Stack>
 
-            <Stack direction="row" spacing={2} alignItems="center">
-              <Icon component={PeopleIcon} sx={{ fontSize: 50 }} />
-              <Box>
-                <Typography variant="body1">Number of students</Typography>
-                <Typography variant="h6">{course.students?.length || 0}</Typography>
-              </Box>
-            </Stack>
-          </Stack>
+    <Stack direction="row" spacing={2} alignItems="center" sx={{ width: "48%" }}>
+      <Icon component={PeopleIcon} sx={{ fontSize: 50 }} />
+      <Box>
+        <Typography variant="body1">Number of students</Typography>
+        <Typography variant="h6">
+          {course.selectedCourse.students?.length || 0}
+        </Typography>
+      </Box>
+    </Stack>
+  </Stack>
 
-          {/* Second Row */}
-          <Stack direction="row" justifyContent="space-around">
-            <Stack direction="row" spacing={2} alignItems="center">
-              <Icon component={AccessTimeIcon} sx={{ fontSize: 50 }} />
-              <Box>
-                <Typography variant="body1">Duration</Typography>
-                <Typography variant="h6">{course.duration}</Typography>
-              </Box>
-            </Stack>
+  {/* Second Row */}
+  <Stack direction="row" justifyContent="space-between" alignItems="center">
+    <Stack direction="row" spacing={2} alignItems="center" sx={{ width: "48%" }}>
+      <Icon component={AccessTimeIcon} sx={{ fontSize: 50 }} />
+      <Box>
+        <Typography variant="body1">Duration</Typography>
+        <Typography variant="h6">
+          {`${course.selectedCourse.duration} months` || "Not specified"}
+        </Typography>
+      </Box>
+    </Stack>
 
-            <Stack direction="row" spacing={2} alignItems="center">
-              <Icon component={ScienceIcon} sx={{ fontSize: 50 }} />
-              <Box>
-                <Typography variant="body1">Major</Typography>
-                <Typography variant="h6">{course.major}</Typography>
-              </Box>
-            </Stack>
-          </Stack>
-        </Stack>
+    <Stack direction="row" spacing={2} alignItems="center" sx={{ width: "48%" }}>
+      <Icon component={ScienceIcon} sx={{ fontSize: 50 }} />
+      <Box>
+        <Typography variant="body1">Major</Typography>
+        <Typography variant="h6">
+          {course.selectedCourse.major || "General"}
+        </Typography>
+      </Box>
+    </Stack>
+  </Stack>
+</Stack>
 
-        <Button
-          variant="contained"
-          color="primary"
-          sx={{
-            marginTop: 4,
-            padding: 2,
-            fontSize: "1rem",
-            width: { xs: "100%", sm: "50%", md: "30%" },
-            alignSelf: "center",
-          }}
-        >
-          Enroll Now!
-        </Button>
+
+        {enrollmentStatus ? (
+          <Typography sx={{ mt: 4, textAlign: "center", color: "green" }}>
+            You have successfully enrolled in this course!
+          </Typography>
+        ) : (
+          <>
+            {errorMessage && (
+              <Typography sx={{ mt: 4, textAlign: "center", color: "red" }}>
+                {errorMessage}
+              </Typography>
+            )}
+            <Button
+              variant="contained"
+              color="primary"
+              sx={{
+                marginTop: 4,
+                padding: 2,
+                fontSize: "1rem",
+                width: { xs: "100%", sm: "50%", md: "30%" },
+                alignSelf: "center",
+              }}
+              onClick={handleEnrollClick} // Attach the handler
+            >
+              Enroll Now!
+            </Button>
+          </>
+        )}
       </Box>
     </Box>
   );

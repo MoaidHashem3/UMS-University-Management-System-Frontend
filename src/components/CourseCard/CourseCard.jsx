@@ -19,13 +19,14 @@ export default function CourseCard({
           },
         }}
       >
-        <Box sx={{ overflow: "hidden" }}>
+        <Box sx={{ overflow: "hidden", height: "250px", width: "100%" }}>
           <img
             src={courseImg}
             alt=""
             style={{
               width: "100%",
               height: "100%",
+              objectFit: "cover", // Ensures the image fills the box while maintaining aspect ratio
               transition: "transform 0.3s ease",
             }}
           />

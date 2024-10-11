@@ -12,7 +12,7 @@ const backgroundImageStyle = {
     backgroundSize: "cover",
     backgroundPosition: "center",
     backgroundRepeat: "no-repeat",
-    height: "100vh",
+    height: "110vh",
     width: "100%",
     zIndex: -1,
 };
@@ -32,6 +32,8 @@ const VisuallyHiddenInput = styled("input")({
 const SignUp = () => {
     const { register, handleSubmit, formState: { errors }, clearErrors } = useForm();
     const [fileName, setFileName] = useState(null);
+    const [message, setMessage] = useState("");  
+    const [messageType, setMessageType] = useState(""); 
 
     const handleFileChange = (event) => {
         const file = event.target.files[0];
@@ -42,26 +44,36 @@ const SignUp = () => {
     };
 
     const onSubmit = async (data) => {
-      try {
-       
-        const formData = new FormData();
-        formData.append('name', data.name); 
-        formData.append('email', data.email);
-        formData.append('password', data.password);
-        if (data.image[0]) {
-          formData.append('image', data.image[0]); 
+        try {
+            const formData = new FormData();
+            formData.append('name', data.name); 
+            formData.append('email', data.email);
+            formData.append('password', data.password);
+            if (data.image[0]) {
+                formData.append('image', data.image[0]); 
+            }
+
+            const response = await axios.post('http://localhost:3000/users/register', formData, {
+                headers: {
+                    'Content-Type': 'multipart/form-data', 
+                },
+            });
+
+            // Set success message
+            setMessage("Registration successful!");
+            setMessageType("success");
+            console.log("Response:", response.data); 
+        } catch (error) {
+            console.error("Error submitting the form:", error.response ? error.response.data : error.message);
+            
+            if (error.response && error.response.status === 409) {
+                setMessage("Email is already taken.");
+                setMessageType("error");
+            } else {
+                setMessage("An error occurred. Please try again.");
+                setMessageType("error");
+            }
         }
-  
-        const response = await axios.post('http://localhost:3000/users/register', formData, {
-          headers: {
-            'Content-Type': 'multipart/form-data', 
-          },
-        });
-    
-        console.log("Response:", response.data); 
-      } catch (error) {
-        console.error("Error submitting the form:", error.response ? error.response.data : error.message);
-      }
     };
 
     return (
@@ -155,7 +167,7 @@ const SignUp = () => {
                                     <VisuallyHiddenInput
                                         type="file"
                                         accept="image/*"
-                                        {...register("image", { required: "Image is required" })}
+                                        {...register("image")}
                                         onChange={handleFileChange}
                                     />
                                 </Button>
@@ -191,6 +203,12 @@ const SignUp = () => {
                         >
                             Create a new account
                         </Button>
+
+                        {message && (
+                            <Typography variant="body2" color={messageType === "success" ? "success.main" : "error.main"} sx={{ mt: 2 }}>
+                                {message}
+                            </Typography>
+                        )}
                     </Box>
                 </Box>
             </Container>

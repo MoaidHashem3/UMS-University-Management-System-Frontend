@@ -105,6 +105,10 @@ const Dashboard = () => {
           {activeTab === "view all users" ? "View All Users" : ""}
           {activeTab === "add new course" ? "Add New Course" : ""}
           {activeTab === "edit user" ? "Edit User" : ""}
+          {activeTab ==="View your Courses In Student"? "Your Courses":""}
+          {activeTab ==="View your Grades"? "Your Grades":""}
+          {activeTab ==="view students"?"Your Students":""}
+          {activeTab==="View All Courses In Admin"?"All Courses":""}
         </Typography>
         {renderContent()}
       </Box>

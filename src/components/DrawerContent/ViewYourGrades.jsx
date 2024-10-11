@@ -35,7 +35,6 @@ const ViewYourGrades = () => {
 
           const responses = await Promise.all(quizRequests);
           const quizzesData = responses.map((res) => res.data.data); 
-
           const detailedQuizzes = await Promise.all(
             quizzesData.map(async (quiz) => {
               const userQuiz = userQuizzes.find((q) => q.quizId === quiz._id);
@@ -75,9 +74,6 @@ const ViewYourGrades = () => {
 
   return (
     <Box sx={{ padding: "20px" }}>
-      <Typography variant="h4" color="#fff" mb={2}>
-        Your Grades
-      </Typography>
       {message && (
         <Alert severity="info" sx={{ width: "100%", mt: 2 }}>
           {message}
@@ -96,16 +92,16 @@ const ViewYourGrades = () => {
             marginTop: "20px",
           }}
         >
-          <Table>
+          <Table sx={{ backgroundColor: "secondary.light" }}>
             <TableHead>
               <TableRow sx={{ backgroundColor: "primary.main" }}>
-                <TableCell sx={{ color: "black", fontWeight: "bold" }}>
+                <TableCell sx={{ color: "white", fontWeight: "bold" }}>
                   Quiz Name
                 </TableCell>
-                <TableCell sx={{ color: "black", fontWeight: "bold" }}>
+                <TableCell sx={{ color: "white", fontWeight: "bold" }}>
                   Course
                 </TableCell>
-                <TableCell sx={{ color: "black", fontWeight: "bold" }}>
+                <TableCell sx={{ color: "white", fontWeight: "bold" }}>
                   Grade
                 </TableCell>
               </TableRow>
@@ -113,13 +109,13 @@ const ViewYourGrades = () => {
             <TableBody>
               {quizDetails.map((quiz, index) => (
                 <TableRow key={index}>
-                  <TableCell sx={{ fontWeight: "bold" }}>
+                  <TableCell sx={{ color:"white" }}>
                     {quiz.quizTitle}
                   </TableCell>
-                  <TableCell sx={{ fontWeight: "bold" }}>
+                  <TableCell sx={{ color:"white"  }}>
                     {quiz.courseTitle}
                   </TableCell>
-                  <TableCell sx={{ fontWeight: "bold" }}>
+                  <TableCell sx={{ color:"white"  }}>
                     {quiz.totalScore}
                   </TableCell>
                 </TableRow>
