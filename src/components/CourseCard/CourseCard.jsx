@@ -26,7 +26,7 @@ export default function CourseCard({
             style={{
               width: "100%",
               height: "100%",
-              objectFit: "cover", // Ensures the image fills the box while maintaining aspect ratio
+              objectFit: "cover",
               transition: "transform 0.3s ease",
             }}
           />
@@ -38,7 +38,16 @@ export default function CourseCard({
           </Typography>
           <Typography
             component={"p"}
-            sx={{ mt: 1, color: "#ffffffa3" }}
+            sx={{
+              mt: 1,
+              color: "#ffffffa3",
+              maxHeight: "50px", // Set a max height for the description
+              overflow: "hidden", // Hide overflow text
+              textOverflow: "ellipsis", // Show ellipsis for overflowed text
+              display: "-webkit-box",
+              WebkitLineClamp: 2, // Limit to 2 lines
+              WebkitBoxOrient: "vertical",
+            }}
             variant="body2"
           >
             {courseDescription}
