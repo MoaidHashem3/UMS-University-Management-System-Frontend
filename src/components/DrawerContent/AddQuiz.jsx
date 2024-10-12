@@ -30,7 +30,7 @@ const AddQuiz = () => {
   const [successMessage, setSuccessMessage] = useState("");
   
   const courses = useSelector((state) => state.auth.user.createdCourses);
-
+console.log(courses);
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setQuizDetails({ ...quizDetails, [name]: value });
@@ -113,6 +113,9 @@ const AddQuiz = () => {
         quizDetails
       );
       console.log("Quiz submitted successfully:", response.data);
+      await axios.patch(`http://localhost:3000/courses/${quizDetails.course}`, {
+        quizId: response.data.quiz._id
+      });
       setSuccessMessage("Quiz submitted successfully!"); 
       setQuizDetails({
         course: "",
@@ -161,7 +164,7 @@ const AddQuiz = () => {
               {courses &&
                 courses.map((course) => (
                   <MenuItem key={course._id} value={course._id}>
-                    {course.name}
+                    {course.title}
                   </MenuItem>
                 ))}
             </Select>

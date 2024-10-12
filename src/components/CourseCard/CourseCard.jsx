@@ -19,13 +19,14 @@ export default function CourseCard({
           },
         }}
       >
-        <Box sx={{ overflow: "hidden" }}>
+        <Box sx={{ overflow: "hidden", height: "250px", width: "100%" }}>
           <img
             src={courseImg}
             alt=""
             style={{
               width: "100%",
               height: "100%",
+              objectFit: "cover",
               transition: "transform 0.3s ease",
             }}
           />
@@ -37,7 +38,16 @@ export default function CourseCard({
           </Typography>
           <Typography
             component={"p"}
-            sx={{ mt: 1, color: "#ffffffa3" }}
+            sx={{
+              mt: 1,
+              color: "#ffffffa3",
+              maxHeight: "50px", // Set a max height for the description
+              overflow: "hidden", // Hide overflow text
+              textOverflow: "ellipsis", // Show ellipsis for overflowed text
+              display: "-webkit-box",
+              WebkitLineClamp: 2, // Limit to 2 lines
+              WebkitBoxOrient: "vertical",
+            }}
             variant="body2"
           >
             {courseDescription}

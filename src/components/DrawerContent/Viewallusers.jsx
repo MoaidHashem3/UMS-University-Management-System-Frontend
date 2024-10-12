@@ -106,36 +106,35 @@ const ViewAllUsers = () => {
     return <>
         {message && <Alert severity="success" sx={{ width: '100%', mt: 2,marginBottom:"10px" }}>{message}</Alert>}
         {err && <Alert severity="error" sx={{ width: '100%', mt: 2,marginBottom:"10px" }}>{err}</Alert>}
-        <ThemeProvider theme={darkTheme}>
-            <TableContainer sx={{marginTop:"40px"}} component={Paper}>
+            <TableContainer sx={{marginTop:"40px", backgroundColor:"secondary.light"}} component={Paper}>
                 <Table>
                     <TableHead>
                         <TableRow sx={{ backgroundColor: 'primary.main' }}>
-                            <TableCell sx={{ color: 'black', fontWeight: 'bold' }}>Index</TableCell>
-                            <TableCell sx={{ color: 'black', fontWeight: 'bold' }}>Name</TableCell>
-                            <TableCell sx={{ color: 'black', fontWeight: 'bold' }}>Email</TableCell>
-                            <TableCell sx={{ color: 'black', fontWeight: 'bold' }}>Role</TableCell>
-                            <TableCell sx={{ color: 'black', fontWeight: 'bold' }}>Edit</TableCell>
-                            <TableCell sx={{ color: 'black', fontWeight: 'bold' }}>Delete</TableCell>
+                            <TableCell sx={{ color: 'white', fontWeight: 'bold' }}>Index</TableCell>
+                            <TableCell sx={{ color: 'white', fontWeight: 'bold' }}>Name</TableCell>
+                            <TableCell sx={{ color: 'white', fontWeight: 'bold' }}>Email</TableCell>
+                            <TableCell sx={{ color: 'white', fontWeight: 'bold' }}>Role</TableCell>
+                            <TableCell sx={{ color: 'white', fontWeight: 'bold' }}>Edit</TableCell>
+                            <TableCell sx={{ color: 'white', fontWeight: 'bold' }}>Delete</TableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody>
                         {Array.isArray(paginatedUsers) && paginatedUsers.map((user, index) => (
                             <TableRow key={user._id}>
-                                <TableCell>{page * rowsPerPage + index + 1}</TableCell>
-                                <TableCell sx={{ fontWeight: "bold" }}>{user.name}</TableCell>
-                                <TableCell sx={{ fontWeight: "bold" }}>{user.email}</TableCell>
-                                <TableCell sx={{ fontWeight: "bold" }}>{user.role}</TableCell>
-                                <TableCell sx={{ fontWeight: "bold" }}><IconButton
+                                <TableCell sx={{ fontWeight: "bold", color: 'white' }}>{page * rowsPerPage + index + 1}</TableCell>
+                                <TableCell sx={{ fontWeight: "bold", color: 'white' }}>{user.name}</TableCell>
+                                <TableCell sx={{ fontWeight: "bold", color: 'white' }}>{user.email}</TableCell>
+                                <TableCell sx={{ fontWeight: "bold" , color: 'white'}}>{user.role}</TableCell>
+                                <TableCell sx={{ fontWeight: "bold" , color: 'white'}}><IconButton
                                     aria-label="edit"
-                                    style={{ color: green[500] }}
+                                    sx={{ color: "success.main" }}
                                     onClick={() => handleEdit(user)}
                                 >
                                     <EditIcon />
                                 </IconButton></TableCell>
                                 <TableCell sx={{ fontWeight: "bold" }}><IconButton
                                     aria-label="delete"
-                                    style={{ color: red[500] }}
+                                    sx={{ color: "warning.main" }}
                                     onClick={() => handleDelete(user._id)}
                                 >
                                     <DeleteIcon />
@@ -145,16 +144,16 @@ const ViewAllUsers = () => {
                     </TableBody>
                 </Table>
                 <TablePagination
+                sx={{ fontWeight: "bold" , color: 'white'}}
                     component="div"
-                    count={users.length}  // Total number of users
+                    count={users.length}  
                     page={page}
                     onPageChange={handleChangePage}
                     rowsPerPage={rowsPerPage}
                     onRowsPerPageChange={handleChangeRowsPerPage}
-                    rowsPerPageOptions={[5, 10, 25]} // Rows per page options
+                    rowsPerPageOptions={[5, 10, 25]} 
                 />
             </TableContainer>
-        </ThemeProvider>
         {selectedUser && (
                 <EditUser
                     open={dialogOpen}
