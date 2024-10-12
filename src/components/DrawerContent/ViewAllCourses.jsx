@@ -154,7 +154,7 @@ const ViewAllCoursesInAdmin = () => {
                       {course.major}
                     </TableCell>
                     <TableCell sx={{ color: "white" }}>
-                      {course.professor.name?course.professor.name:""} 
+                      {(course.professor?.name)? course.professor.name : ""} 
                     </TableCell>
                     <TableCell sx={{ color: "white"}}>
                       {course.duration}h

@@ -34,6 +34,7 @@ const AddNewUser = () => {
         const formData = new FormData();
         formData.append('name', data.name);
         formData.append('role', data.role);
+    
         formData.append('email', data.email);
         formData.append('password', data.password);
         if (data.image[0]) {
@@ -41,6 +42,7 @@ const AddNewUser = () => {
         }
 
         try {
+            console.log(data)
             const res = await axios.post("http://localhost:3000/users/register", formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data',
