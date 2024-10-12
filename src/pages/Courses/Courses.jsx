@@ -4,8 +4,8 @@ import CourseCard from "../../components/CourseCard/CourseCard";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { useSelector } from "react-redux";
-import CourseContent from '../../components/CourseContent/CourseContent'; // Import CourseContent
-import CourseDetails from "../../components/courseDetails/CourseDetails"; // Import CourseDetails
+import CourseContent from '../../components/CourseContent/CourseContent'; 
+import CourseDetails from "../../components/courseDetails/CourseDetails"; 
 
 const containerStyle = {
   backgroundColor: "secondary.main",
@@ -22,8 +22,7 @@ export default function Courses() {
   const [selectedCourseId, setSelectedCourseId] = useState(null); // State for selected course
 
   const user = useSelector((state) => state.auth.user);
-  const enrolledCourses = user?.enrolledCourses || []; // Initialize enrolledCourses as an empty array if user is not logged in
-
+  const enrolledCourses = user?.enrolledCourses || []; 
   useEffect(() => {
     const fetchCourses = async () => {
       try {
@@ -49,7 +48,7 @@ export default function Courses() {
   };
 
   const handleBackClick = () => {
-    setSelectedCourseId(null); // Reset selected course to show the list again
+    setSelectedCourseId(null); 
   };
 
   if (loading) return (
@@ -59,7 +58,6 @@ export default function Courses() {
   );
   if (error) return <Typography>Error: {error.message}</Typography>;
 
-  // Check if a course is selected
   const selectedCourse = courses.find(course => course._id === selectedCourseId);
 
   return (
@@ -107,8 +105,9 @@ export default function Courses() {
               }}
             >
               {courses.slice(0, displayedCourses).map((course) => {
-                const normalizedImgPath = course.image.replace(/\\/g, '/');
-
+                const normalizedImgPath = course.image
+                  ? course.image.replace(/\\/g,'/')
+                  : 'default/path/to/image.jpg';
                 return (
                   <Box 
                     key={course._id} 
