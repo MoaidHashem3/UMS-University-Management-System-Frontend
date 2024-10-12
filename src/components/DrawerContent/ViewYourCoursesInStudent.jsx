@@ -98,7 +98,7 @@ const ViewYourCoursesInStudent = () => {
                       <Button
                         variant="contained"
                         color="primary"
-                        onClick={() => navigate(`/courses`)}
+                        onClick={() => navigate(`/courses/${course._id}/content`) }
                       >
                         Show Course
                       </Button>

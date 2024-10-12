@@ -1,10 +1,15 @@
 import React, { useState, useEffect } from 'react';
+import { useParams } from 'react-router-dom';
+
 import { Box, Typography, Button } from '@mui/material';
 import axios from 'axios';
 import PdfViewer from '../Content/PdfViewer';
 import Quiz from '../Quiz/QuizBox';
 
-const CourseContent = ({ courseId }) => {
+const CourseContent = ({ courseId: propCourseId }) => {
+  const { courseId: paramCourseId } = useParams(); 
+  const courseId = propCourseId || paramCourseId; 
+
   const [course, setCourse] = useState(null);
   const [loading, setLoading] = useState(true);
   const [showContent, setShowContent] = useState(false);
