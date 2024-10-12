@@ -107,8 +107,9 @@ export default function Courses() {
               }}
             >
               {courses.slice(0, displayedCourses).map((course) => {
-                const normalizedImgPath = course.image.replace(/\\/g, '/');
-
+                const normalizedImgPath = course.image
+                  ? course.image.replace(/\\/g,'/')
+                  : 'default/path/to/image.jpg';
                 return (
                   <Box 
                     key={course._id} 
