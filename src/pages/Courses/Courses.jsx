@@ -10,7 +10,7 @@ import CourseDetails from "../../components/courseDetails/CourseDetails";
 const containerStyle = {
   backgroundColor: "secondary.main",
   color: "white",
-  height: "100%",
+  height: "100vh",
   width: "100%",
 };
 
