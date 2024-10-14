@@ -19,6 +19,8 @@ import { validateToken } from './utils/auth';
 import { jwtDecode } from "jwt-decode";
 import CourseContent from './components/CourseContent/CourseContent';
 import NotFound from './pages/NotFound/NotFound';
+import ForgotPassword from './pages/ForgetPassword/ForgetPassword';
+import ResetPassword from './pages/RestPassword/RestPassword';
 const App = () => {
     const dispatch = useDispatch();
     const user = useSelector((state) => state.auth.user);
@@ -53,6 +55,8 @@ const App = () => {
                 { path: "home", element: <Home /> },
                 { path: "courses", element: <Courses /> },
                 {path: "courses/:courseId/content", element:<CourseContent  />},
+                {path:"/forgot-password",element:<ForgotPassword/>},
+                {path: "/reset-password/:token", element:<ResetPassword />},
                 {
                     path: "dashboard",
                     element: (
