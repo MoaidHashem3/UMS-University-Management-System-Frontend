@@ -1,24 +1,26 @@
 import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { updateUser } from '../../redux/authSlice';
-import { Box, TextField, Button, Typography } from "@mui/material"; 
+import { Box, TextField, Button, Typography } from "@mui/material";
 import { useForm } from "react-hook-form";
 import axios from "axios";
 
 const ProfileTab = () => {
   const user = useSelector((state) => state.auth.user);
   const dispatch = useDispatch();
-  
+
   const { register, handleSubmit, formState: { errors }, setValue } = useForm({
     defaultValues: {
       name: user?.name || "",
       email: user?.email || "",
-      password: "",
+      oldPassword: "",
+      newPassword: "",
     }
   });
 
   const [selectedImage, setSelectedImage] = useState(null); // Track the selected image
   const [updateSuccess, setUpdateSuccess] = useState(false); // State to manage success message
+  const [passwordError, setPasswordError] = useState("");
 
   // Handle image change
   const handleImageChange = (e) => {
@@ -34,12 +36,24 @@ const ProfileTab = () => {
     const formDataToSend = new FormData();
     formDataToSend.append("name", data.name);
     formDataToSend.append("email", data.email);
-    
-    // Only append password if it's updated
-    if (data.password) {
-      formDataToSend.append("password", data.password);
+
+    try {
+      const response = await axios.post(`http://localhost:3000/users/verify/${user.id}`, {
+        password: data.oldPassword
+      });
+      // Only append password if it's updated
+      if (response.data) {
+        formDataToSend.append("newPassword", data.newPassword);
+      } else {
+        setPasswordError("Incorrect password. Please try again.");
+        return;
+      }
+    } catch (error) {
+      console.error("Error verifying password:", error);
+      setPasswordError("Incorrect password. Please try again.");
+      return;
     }
-    
+
     // Only append image if a new one is selected
     if (selectedImage) {
       formDataToSend.append("image", selectedImage);
@@ -50,16 +64,14 @@ const ProfileTab = () => {
         headers: { "Content-Type": "multipart/form-data" }
       });
 
-      console.log("Profile updated:", response.data);
-
-      const imagePath = response.data.data.image || user.image; 
-      const fullImageUrl = imagePath.startsWith('/') 
-        ? `http://localhost:3000${imagePath}` 
+      const imagePath = response.data.data.image || user.image;
+      const fullImageUrl = imagePath.startsWith('/')
+        ? `http://localhost:3000${imagePath}`
         : `http://localhost:3000/${imagePath}`;
-      
+
       // Update Redux store with new user data
       dispatch(updateUser({ ...response.data.data, image: fullImageUrl }));
-      
+
       // Reset selectedImage state after a successful upload
       setSelectedImage(null);
       setUpdateSuccess(true); // Set success state to true
@@ -109,15 +121,27 @@ const ProfileTab = () => {
           error={!!errors.email}
           helperText={errors.email?.message}
         />
-
-        {/* Password field */}
+        {/* old Password field */}
         <TextField
-          label="Password"
+          label="old Password"
           type="password"
           variant="outlined"
           fullWidth
           margin="normal"
-          {...register("password", {
+          {...register("oldPassword", {
+            minLength: { value: 6, message: "Password must be at least 6 characters" }
+          })}
+          error={!!errors.password}
+          helperText={errors.password?.message}
+        />
+        {/* Password field */}
+        <TextField
+          label="new Password"
+          type="password"
+          variant="outlined"
+          fullWidth
+          margin="normal"
+          {...register("newPassword", {
             minLength: { value: 6, message: "Password must be at least 6 characters" }
           })}
           error={!!errors.password}
@@ -147,6 +171,7 @@ const ProfileTab = () => {
       )}
     </Box>
   );
-};
+}
+  ;
 
 export default ProfileTab;
