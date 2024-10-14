@@ -80,7 +80,7 @@ const Quiz = ({ quizId }) => {
             }
             return acc;
         }, 0);
-        if (score === null) { // Only set the score the first time
+        if (score === null) {
             setScore(finalScore);
         }
         return finalScore;

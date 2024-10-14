@@ -14,6 +14,15 @@ export const handleLogin = async (credentials) => {
     }
 };
 
+export const handleForgotPassword = async (email) => {
+    try {
+        const response = await axios.post(`${API_URL}/forgot-password`, { email });
+        return response.data; 
+    } catch (error) {
+        throw error; 
+    }
+};
+
 export const validateToken = () => {
     const token = localStorage.getItem('authToken');
 
