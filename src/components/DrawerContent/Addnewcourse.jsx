@@ -87,13 +87,19 @@ const AddNewCourse = () => {
                     helperText={errors.major ? errors.major.message : ''} />
                 <TextField name="description" label=" Description" variant="outlined" fullWidth margin="normal"
                     {...register('description', {
-                        required: "description is required",
+                        required: "description is required",minLength: {
+                            value: 20,
+                            message: 'description must be at least 20 characters',
+                        }
                     })}
                     error={!!errors.description}
                     helperText={errors.description ? errors.description.message : ''} />
                 <TextField type="number" name="duration" label="Duration" variant="outlined" fullWidth margin="normal"
                     {...register('duration', {
-                        required: "duration is required",
+                        required: "duration is required",max:{
+                            value:30,
+                            message:"maximum duration is 30 hours for each course"
+                        }
                     })} error={!!errors.duration}
                     helperText={errors.duration ? errors.duration.message : ''} />
 
