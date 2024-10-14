@@ -5,6 +5,7 @@ import { TextField, Button, Box, Typography, Container } from "@mui/material";
 import bg from "../../assets/images/SignUp-BG.png";
 import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 import axios from 'axios'; 
+import { inputStyles as acinput } from "../../theme";
 
 const backgroundImageStyle = {
     position: "absolute",
@@ -77,6 +78,8 @@ const SignUp = () => {
     };
 
     return (
+        <>
+        {acinput}
         <Box sx={backgroundImageStyle}>
             <Container component="main" maxWidth="xs">
                 <Box
@@ -213,6 +216,7 @@ const SignUp = () => {
                 </Box>
             </Container>
         </Box>
+        </>
     );
 };
 

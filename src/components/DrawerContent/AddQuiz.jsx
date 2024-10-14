@@ -1,4 +1,6 @@
 import React, { useState } from "react";
+import { inputStyles as acinput } from "../../theme";
+
 import {
   Box,
   Typography,
@@ -135,6 +137,8 @@ console.log(courses);
   };
 
   return (
+    <>
+    {acinput}
     <Box sx={{ padding: "16px", borderRadius: "8px" }}>
       <Typography variant="h4" color="#fff" mb={2}>
         New Quiz
@@ -331,6 +335,7 @@ console.log(courses);
         )}
       </Box>
     </Box>
+    </>
   );
 };
 

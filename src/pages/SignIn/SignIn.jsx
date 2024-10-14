@@ -2,10 +2,11 @@ import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { TextField, Button, Box, Typography, Container, Alert } from '@mui/material';
 import bg from '../../assets/images/SignIn-BG.png';
-import { handleLogin } from '../../utils/auth'; 
-import { useNavigate } from 'react-router-dom'; 
+import { handleLogin } from '../../utils/auth';
+import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { login } from '../../redux/authSlice'
+import { inputStyles as acinput } from '../../theme';
 
 const backgroundImageStyle = {
   position: 'absolute',
@@ -14,15 +15,17 @@ const backgroundImageStyle = {
   backgroundPosition: 'center',
   backgroundRepeat: 'no-repeat',
   height: '100vh',
- width: "100%",
+  width: "100%",
   zIndex: -1,
 };
 
+
 const SignIn = () => {
   const { register, handleSubmit, formState: { errors } } = useForm();
-  const [loginError, setLoginError] = useState('');  
+  const [loginError, setLoginError] = useState('');
   const dispatch = useDispatch();
-  const navigate = useNavigate(); 
+  const navigate = useNavigate();
+  // const classes = useStyles();
 
   const onSubmit = async (data) => {
     try {
@@ -32,8 +35,8 @@ const SignIn = () => {
       console.log(user.quizzes)
       dispatch(login({ token, user }));
 
-     navigate('/dashboard');
-     // localStorage.setItem('userData', JSON.stringify(response.data.user));
+      navigate('/dashboard');
+      // localStorage.setItem('userData', JSON.stringify(response.data.user));
       //console.log('Login successful, token saved:', token);
     } catch (error) {
       if (error.response && error.response.status === 401) {
@@ -46,6 +49,8 @@ const SignIn = () => {
   };
 
   return (
+    <>
+    {acinput}
     <Box sx={backgroundImageStyle}>
       <Container component="main" maxWidth="xs">
         <Box
@@ -95,6 +100,7 @@ const SignIn = () => {
               label="Password"
               type="password"
               id="password"
+              // className={classes.input}
               autoComplete="current-password"
               {...register('password', {
                 required: 'Password is required',
@@ -118,7 +124,9 @@ const SignIn = () => {
         </Box>
       </Container>
     </Box>
+    </>
   );
+
 };
 
 export default SignIn;
