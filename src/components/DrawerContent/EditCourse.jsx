@@ -29,9 +29,16 @@ const EditCourse = ({ course, onUpdate, open, setOpen }) => {
       .patch(`http://localhost:3000/courses/${course._id}`, {
         title,
         major,
-        professor, 
+        professor,
         duration,
       })
+    const id = course._id
+    // let res = axios.get(`http://localhost:3000/users/${course.professor._id}`)
+    // let createdCourses = res.data.createdCourses||[]
+    // createdCourses.push(id)
+    axios.patch(`http://localhost:3000/users/${course.professor._id}`, {
+      createdCourses:id
+    })
       .then(() => {
         onUpdate({ ...course, title, major, professor, duration });
         setMessage("Course updated successfully");
@@ -46,7 +53,7 @@ const EditCourse = ({ course, onUpdate, open, setOpen }) => {
     const fetchProfessors = async () => {
       try {
         const response = await axios.get("http://localhost:3000/users/professor");
-        setProfessors(response.data.data); 
+        setProfessors(response.data.data);
       } catch (error) {
         console.error("Error fetching professors:", error);
       }

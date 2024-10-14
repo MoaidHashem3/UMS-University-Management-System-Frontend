@@ -1,5 +1,29 @@
 import { createTheme } from "@mui/material/styles";
-
+import { GlobalStyles } from '@mui/material';
+export const inputStyles = (
+  <GlobalStyles
+    styles={{
+      'input:-webkit-autofill': {
+        boxShadow: '0 0 0 1000px #222831 inset !important',  // background to match your theme color
+        '-webkit-box-shadow': '0 0 0 1000px #222831 inset !important',
+        '-webkit-text-fill-color': '#fff !important', // change to your desired text color
+        transition: 'background-color 5000s ease-in-out 0s',
+      },
+      'input:-webkit-autofill:focus': {
+        boxShadow: '0 0 0 1000px #222831 inset !important',
+        '-webkit-box-shadow': '0 0 0 1000px #222831 inset !important',
+        '-webkit-text-fill-color': '#fff !important',
+        transition: 'background-color 5000s ease-in-out 0s',
+      },
+      'input:-webkit-autofill:hover': {
+        boxShadow: '0 0 0 1000px #222831 inset !important',
+        '-webkit-box-shadow': '0 0 0 1000px #222831 inset !important',
+        '-webkit-text-fill-color': '#fff !important',
+        transition: 'background-color 5000s ease-in-out 0s',
+      },
+    }}
+  ></GlobalStyles>
+);
 const theme = createTheme({
   zIndex: {
     appBar: 1251,
@@ -59,7 +83,7 @@ const theme = createTheme({
           boxShadow: "none",
           borderRadius: "5px",
           fontFamily: 'Lato, sans-serif',
-          fontSize: '16px', 
+          fontSize: '16px',
           textTransform: 'none',
         },
       },
@@ -88,7 +112,7 @@ const theme = createTheme({
         root: {
           '& .MuiInputLabel-root': { color: 'white' },
           '& .MuiInputBase-input': { color: 'white' },
-         '& .MuiOutlinedInput-notchedOutline': {
+          '& .MuiOutlinedInput-notchedOutline': {
             borderColor: 'white', // Set the border color to white
             color: 'white'
           },

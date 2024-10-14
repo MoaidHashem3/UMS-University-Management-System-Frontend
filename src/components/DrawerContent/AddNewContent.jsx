@@ -4,6 +4,8 @@ import { useForm } from 'react-hook-form';
 import axios from "axios";
 import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 import { useSelector } from "react-redux";
+import { inputStyles as acinput } from "../../theme";
+
 
 const AddCourseContent = () => {
     const { register, handleSubmit, formState: { errors }, reset } = useForm();
@@ -45,6 +47,8 @@ const AddCourseContent = () => {
     };
 
     return (
+        <>
+        {acinput}
         <Box component="form" onSubmit={handleSubmit(onSubmit)} sx={{ padding: "16px", margin: "30px" }}>
             <Typography variant="h4" color="#fff" mb={2}>
                 New Content
@@ -112,6 +116,7 @@ const AddCourseContent = () => {
                 Add Content
             </Button>
         </Box>
+        </>
     );
 };
 

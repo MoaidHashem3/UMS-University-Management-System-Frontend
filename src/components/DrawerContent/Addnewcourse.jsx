@@ -4,6 +4,7 @@ import { useForm } from 'react-hook-form';
 import { styled } from "@mui/material/styles";
 import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 import axios from "axios";
+import { inputStyles as acinput } from "../../theme";
 
 const VisuallyHiddenInput = styled("input")({
     clip: "rect(0 0 0 0)",
@@ -22,15 +23,15 @@ const AddNewCourse = () => {
     const [message, setMessage] = useState("");
     const [err, setErr] = useState("");
     const [filename, setFilename] = useState(null);
-    const [professors, setProfessors] = useState([]); 
-    const [selectedProfessor, setSelectedProfessor] = useState(""); 
+    const [professors, setProfessors] = useState([]);
+    const [selectedProfessor, setSelectedProfessor] = useState("");
 
     // Fetch professors from backend
     useEffect(() => {
         const fetchProfessors = async () => {
             try {
-                const res = await axios.get("http://localhost:3000/users/professor"); 
-                setProfessors(res.data.data); 
+                const res = await axios.get("http://localhost:3000/users/professor");
+                setProfessors(res.data.data);
             } catch (error) {
                 console.error("Error fetching professors", error);
             }
@@ -53,7 +54,7 @@ const AddNewCourse = () => {
             formData.append('major', data.major);
             formData.append('description', data.description);
             formData.append('duration', data.duration);
-            formData.append('professor', selectedProfessor); 
+            formData.append('professor', selectedProfessor);
             if (data.image[0]) {
                 formData.append('image', data.image[0]);
             }
@@ -61,7 +62,7 @@ const AddNewCourse = () => {
                 headers: {
                     'Content-Type': 'multipart/form-data',
                 },
-              });
+            });
             console.log(res.data);
             setMessage("Added Successfully");
         } catch (err) {
@@ -71,6 +72,7 @@ const AddNewCourse = () => {
 
     return (
         <>
+            {acinput}
             {message && <Alert severity="success" sx={{ width: '100%', mt: 2 }}>{message}</Alert>}
             {err && <Alert severity="error" sx={{ width: '100%', mt: 2 }}>{err}</Alert>}
             <Box component="form" onSubmit={handleSubmit(Register)} sx={{ padding: "16px", margin: "30px" }}>
@@ -81,12 +83,13 @@ const AddNewCourse = () => {
                 />
                 <TextField name="major" label=" Major" variant="outlined" fullWidth margin="normal"
                     {...register('major', {
-                        required: "major is required",
+                        required: "major is required"
                     })}
                     error={!!errors.major}
                     helperText={errors.major ? errors.major.message : ''} />
                 <TextField name="description" label=" Description" variant="outlined" fullWidth margin="normal"
                     {...register('description', {
+
                         required: "description is required",minLength: {
                             value: 20,
                             message: 'description must be at least 20 characters',
@@ -107,8 +110,8 @@ const AddNewCourse = () => {
                 <FormControl fullWidth margin="normal">
                     <InputLabel>Professor</InputLabel>
                     <Select
-                        value={selectedProfessor}
-                        onChange={(e) => setSelectedProfessor(e.target.value)} 
+                        value={selectedProfessor}//get the professors from database
+                        onChange={(e) => setSelectedProfessor(e.target.value)}
                         error={!!errors.professor}
                     >
                         {professors.map((prof) => (
