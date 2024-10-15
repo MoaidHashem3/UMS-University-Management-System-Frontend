@@ -53,7 +53,6 @@ const Drawer = ({ activeTab, setActiveTab }) => {
           <ListItemText primary="Your Profile" />
         </ListItem>
 
-        {/* Additional Admin-only Tab Example */}
         {userRole === "admin" && (
           <ListItem button onClick={() => setActiveTab("add new user")} sx={{ backgroundColor: activeTab === "add new user" ? "secondary.main" : "inherit" }}>
             <ListItemIcon>

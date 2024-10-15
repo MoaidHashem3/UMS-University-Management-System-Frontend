@@ -2,12 +2,9 @@ import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { TextField, Button, Box, Typography, Container, Alert } from '@mui/material';
 import bg from '../../assets/images/SignIn-BG.png';
-import { handleLogin } from '../../utils/auth';
+import { handleForgotPassword } from '../../utils/auth'; 
 import { useNavigate } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
-import { login } from '../../redux/authSlice'
 import { inputStyles as acinput } from '../../theme';
-
 
 const backgroundImageStyle = {
   position: 'absolute',
@@ -20,29 +17,21 @@ const backgroundImageStyle = {
   zIndex: -1,
 };
 
-
-const SignIn = () => {
+const ForgotPassword = () => {
   const { register, handleSubmit, formState: { errors } } = useForm();
-  const [loginError, setLoginError] = useState('');
-  const dispatch = useDispatch();
+  const [message, setMessage] = useState('');
+  const [error, setError] = useState('');
   const navigate = useNavigate();
-  // const classes = useStyles();
 
   const onSubmit = async (data) => {
     try {
-      setLoginError('');
-      const response = await handleLogin(data);
-      const { token, user } = response; // Assuming your handleLogin returns this structure
-      dispatch(login({ token, user }));
-      navigate('/dashboard');
-
+      setMessage('');
+      setError('');
+      await handleForgotPassword(data.email); 
+      setMessage('Password reset email sent! Check your inbox.');
     } catch (error) {
-      if (error.response && error.response.status === 401) {
-        setLoginError('Wrong credentials. Please try again.');
-      } else {
-        setLoginError('An error occurred. Please try again later.');
-      }
-      console.error('Login failed:', error.response ? error.response.data : error.message);
+      setError('An error occurred. Please try again later.');
+      console.error('Error sending reset email:', error);
     }
   };
 
@@ -67,10 +56,11 @@ const SignIn = () => {
           }}
         >
           <Typography component="h1" variant="h5">
-            Sign In
+            Forgot Password
           </Typography>
 
-          {loginError && <Alert severity="error" sx={{ width: '100%', mt: 2 }}>{loginError}</Alert>}
+          {message && <Alert severity="success" sx={{ width: '100%', mt: 2 }}>{message}</Alert>}
+          {error && <Alert severity="error" sx={{ width: '100%', mt: 2 }}>{error}</Alert>}
 
           <Box component="form" onSubmit={handleSubmit(onSubmit)} sx={{ mt: 1 }}>
             <TextField
@@ -91,40 +81,21 @@ const SignIn = () => {
               error={!!errors.email}
               helperText={errors.email ? errors.email.message : ''}
             />
-            <TextField
-              margin="normal"
-              fullWidth
-              name="password"
-              label="Password"
-              type="password"
-              id="password"
-              // className={classes.input}
-              autoComplete="current-password"
-              {...register('password', {
-                required: 'Password is required',
-                minLength: {
-                  value: 6,
-                  message: 'Password must be at least 6 characters',
-                },
-              })}
-              error={!!errors.password}
-              helperText={errors.password ? errors.password.message : ''}
-            />
             <Button
               type="submit"
               fullWidth
               variant="contained"
               sx={{ mt: 3, mb: 2, backgroundColor: 'primary' }}
             >
-              Login
+              Send Reset Link
             </Button>
             <Button
               fullWidth
               variant="outlined"
-              onClick={() => navigate('/forgot-password')}
+              onClick={() => navigate('/login')}
               sx={{ mb: 2 }}
             >
-              Forgot Password?
+              Back to Sign In
             </Button>
           </Box>
         </Box>
@@ -132,7 +103,6 @@ const SignIn = () => {
     </Box>
     </>
   );
-
 };
 
-export default SignIn;
+export default ForgotPassword;

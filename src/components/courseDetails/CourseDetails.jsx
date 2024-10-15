@@ -12,8 +12,8 @@ import axios from "axios"; // Import axios
 
 const CourseDetails = ({ course }) => {
   const user = useSelector((state) => state.auth.user);
-  const dispatch = useDispatch(); // Used to update Redux state
-  const navigate = useNavigate(); // Initialize useNavigate for redirection
+  const dispatch = useDispatch();
+  const navigate = useNavigate(); 
   const normalizedImgPath = course.selectedCourse.image.replace(/\\/g, '/');
   const [enrollmentStatus, setEnrollmentStatus] = useState(false); // Track enrollment state
   const [errorMessage, setErrorMessage] = useState(''); // Track error messages
@@ -115,7 +115,7 @@ const CourseDetails = ({ course }) => {
       <Box>
         <Typography variant="body1">Taught by:</Typography>
         <Typography variant="h6">
-          {course.selectedCourse.professor.name || "Unknown"}
+          {course.selectedCourse.professor|| "Unknown"}
         </Typography>
       </Box>
     </Stack>

@@ -4,6 +4,7 @@ import { updateUser } from '../../redux/authSlice';
 import { Box, TextField, Button, Typography } from "@mui/material";
 import { useForm } from "react-hook-form";
 import axios from "axios";
+import { inputStyles as acinput } from "../../theme";
 
 const ProfileTab = () => {
   const user = useSelector((state) => state.auth.user);
@@ -36,7 +37,6 @@ const ProfileTab = () => {
     const formDataToSend = new FormData();
     formDataToSend.append("name", data.name);
     formDataToSend.append("email", data.email);
-
     try {
       const response = await axios.post(`http://localhost:3000/users/verify/${user.id}`, {
         password: data.oldPassword
@@ -52,7 +52,6 @@ const ProfileTab = () => {
       console.error("Error verifying password:", error);
       setPasswordError("Incorrect password. Please try again.");
       return;
-    }
 
     // Only append image if a new one is selected
     if (selectedImage) {
@@ -64,6 +63,9 @@ const ProfileTab = () => {
         headers: { "Content-Type": "multipart/form-data" }
       });
 
+
+      console.log("Profile updated:", response.data);
+      
       const imagePath = response.data.data.image || user.image;
       const fullImageUrl = imagePath.startsWith('/')
         ? `http://localhost:3000${imagePath}`
@@ -90,6 +92,8 @@ const ProfileTab = () => {
   }, [user, setValue]);
 
   return (
+   <>
+      {acinput}
     <Box sx={{ padding: "16px" }}>
       <Typography variant="h4">Edit Profile</Typography>
 
@@ -154,22 +158,23 @@ const ProfileTab = () => {
           <Button variant="contained" component="label">
             Upload Image
             <input type="file" hidden {...register("image")} onChange={handleImageChange} />
+            </Button>
+          </Box>
+
+          {/* Submit button */}
+          <Button type="submit" variant="contained" color="primary" fullWidth>
+            Save Changes
           </Button>
-        </Box>
+        </form>
 
-        {/* Submit button */}
-        <Button type="submit" variant="contained" color="primary" fullWidth>
-          Save Changes
-        </Button>
-      </form>
-
-      {/* Success message */}
-      {updateSuccess && (
-        <Typography variant="body1" color="success.main" sx={{ marginTop: 2 }}>
-          Profile updated successfully!
-        </Typography>
-      )}
-    </Box>
+        {/* Success message */}
+        {updateSuccess && (
+          <Typography variant="body1" color="success.main" sx={{ marginTop: 2 }}>
+            Profile updated successfully!
+          </Typography>
+        )}
+      </Box>
+    </>
   );
 }
   ;

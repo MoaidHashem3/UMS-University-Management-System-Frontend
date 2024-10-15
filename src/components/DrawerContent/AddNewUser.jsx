@@ -4,6 +4,8 @@ import { useForm } from 'react-hook-form';
 import axios from "axios";
 import { styled } from "@mui/material/styles";
 import CloudUploadIcon from "@mui/icons-material/CloudUpload";
+import { inputStyles as acinput } from "../../theme";
+
 const VisuallyHiddenInput = styled("input")({
     clip: "rect(0 0 0 0)",
     clipPath: "inset(50%)",
@@ -34,7 +36,7 @@ const AddNewUser = () => {
         const formData = new FormData();
         formData.append('name', data.name);
         formData.append('role', data.role);
-    
+
         formData.append('email', data.email);
         formData.append('password', data.password);
         if (data.image[0]) {
@@ -56,6 +58,7 @@ const AddNewUser = () => {
     }
 
     return <>
+        {acinput}
         {message && <Alert severity="success" sx={{ width: '100%', mt: 2 }}>{message}</Alert>}
         {err && <Alert severity="error" sx={{ width: '100%', mt: 2 }}>{err}</Alert>}
         <Box component="form" onSubmit={handleSubmit(Register)} sx={{ padding: "16px", margin: "30px" }}>
