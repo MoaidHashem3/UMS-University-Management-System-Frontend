@@ -3,13 +3,14 @@ import axios from 'axios';
 import { useParams } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { TextField, Button, Box, Typography, Alert, Container, InputAdornment, IconButton } from '@mui/material';
-import { Visibility, VisibilityOff } from '@mui/icons-material'; // Import Material-UI icons
-import bg from '../../assets/images/SignIn-BG.png'; // Import your background image
+import { Visibility, VisibilityOff } from '@mui/icons-material'; 
+import bg from '../../assets/images/SignIn-BG.png'; 
+import { inputStyles as acinput } from '../../theme';
 
 const ResetPassword = () => {
     const { token } = useParams();
-    const [showPassword, setShowPassword] = React.useState(false); // State for password visibility
-    const [showConfirmPassword, setShowConfirmPassword] = React.useState(false); // State for confirm password visibility
+    const [showPassword, setShowPassword] = React.useState(false); 
+    const [showConfirmPassword, setShowConfirmPassword] = React.useState(false); 
     const [success, setSuccess] = React.useState('');
     const [error, setError] = React.useState('');
 
@@ -24,10 +25,10 @@ const ResetPassword = () => {
     const onSubmit = async (data) => {
         try {
             const response = await axios.post(`http://localhost:3000/users/reset-password/${token}`, {
-                password: data.newPassword, // Ensure the password is sent correctly
+                password: data.newPassword, 
             });
             setSuccess(response.data.message);
-            setError(''); // Clear any previous error messages
+            setError(''); 
         } catch (err) {
             setError('Failed to reset password. Please try again.');
             console.error(err);
@@ -35,6 +36,8 @@ const ResetPassword = () => {
     };
 
     return (
+        <>
+    {acinput}
         <Box
             sx={{
                 backgroundImage: `url(${bg})`,
@@ -64,21 +67,21 @@ const ResetPassword = () => {
                     <form onSubmit={handleSubmit(onSubmit)}>
                         <TextField
                             label="New Password"
-                            type={showPassword ? 'text' : 'password'} // Toggle password visibility
+                            type={showPassword ? 'text' : 'password'}
                             {...register('newPassword', { 
                                 required: 'Please enter a password.' 
-                            })} // Register input with validation
+                            })} 
                             fullWidth
                             sx={{ mb: 2 }}
-                            error={!!errors.newPassword} // Show error state
-                            helperText={errors.newPassword?.message} // Show error message
+                            error={!!errors.newPassword} 
+                            helperText={errors.newPassword?.message} 
                             InputProps={{
                                 endAdornment: (
                                     <InputAdornment position="end">
                                         <IconButton
-                                            onClick={() => setShowPassword(!showPassword)} // Toggle showPassword state
+                                            onClick={() => setShowPassword(!showPassword)} 
                                             edge="end"
-                                            sx={{ color: 'white' }} // Change icon color to white
+                                            sx={{ color: 'white' }} 
                                         >
                                             {showPassword ? <VisibilityOff sx={{ color: 'white' }} /> : <Visibility sx={{ color: 'white' }} />} {/* Show/hide icon */}
                                         </IconButton>
@@ -88,24 +91,24 @@ const ResetPassword = () => {
                         />
                         <TextField
                             label="Confirm Password"
-                            type={showConfirmPassword ? 'text' : 'password'} // Toggle confirm password visibility
+                            type={showConfirmPassword ? 'text' : 'password'}
                             {...register('confirmPassword', { 
                                 required: 'Please confirm your password.',
-                                validate: (value) => value === watch('newPassword') || 'Passwords do not match.' // Validate against newPassword
-                            })} // Register confirm password input with validation
+                                validate: (value) => value === watch('newPassword') || 'Passwords do not match.'
+                            })} 
                             fullWidth
                             sx={{ mb: 2 }}
-                            error={!!errors.confirmPassword} // Show error state
-                            helperText={errors.confirmPassword?.message} // Show error message
+                            error={!!errors.confirmPassword} 
+                            helperText={errors.confirmPassword?.message} 
                             InputProps={{
                                 endAdornment: (
                                     <InputAdornment position="end">
                                         <IconButton
-                                            onClick={() => setShowConfirmPassword(!showConfirmPassword)} // Toggle showConfirmPassword state
+                                            onClick={() => setShowConfirmPassword(!showConfirmPassword)} 
                                             edge="end"
-                                            sx={{ color: 'white' }} // Change icon color to white
+                                            sx={{ color: 'white' }} 
                                         >
-                                            {showConfirmPassword ? <VisibilityOff sx={{ color: 'white' }} /> : <Visibility sx={{ color: 'white' }} />} {/* Show/hide icon */}
+                                            {showConfirmPassword ? <VisibilityOff sx={{ color: 'white' }} /> : <Visibility sx={{ color: 'white' }} />}
                                         </IconButton>
                                     </InputAdornment>
                                 ),
@@ -123,6 +126,7 @@ const ResetPassword = () => {
                 </Box>
             </Container>
         </Box>
+        </>
     );
 };
 

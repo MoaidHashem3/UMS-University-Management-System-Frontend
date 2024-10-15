@@ -28,7 +28,7 @@ const EditUser = ({ open, onClose, user, onUpdate }) => {
 
     const handleSubmit = async () => {
         try {
-            await axios.patch(`http://localhost:3000/users/${user._id}`, { name,role,email,password:newPassword });
+            await axios.patch(`http://localhost:3000/users/${user._id}`, { name,role,email,newPassword:newPassword });
             onUpdate({ ...user, name,role,email});
             setSnackbarMessage("Updated successfully!");
             setSnackbarOpen(true); // Open Snackbar

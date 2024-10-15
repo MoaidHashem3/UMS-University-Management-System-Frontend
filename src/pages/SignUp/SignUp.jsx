@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { styled } from "@mui/material/styles";
-import { TextField, Button, Box, Typography, Container } from "@mui/material";
+import { TextField, Button, Box, Typography, Container, IconButton, InputAdornment } from "@mui/material";
+import { Visibility, VisibilityOff } from "@mui/icons-material";
 import bg from "../../assets/images/SignUp-BG.png";
 import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 import axios from 'axios'; 
@@ -35,6 +36,7 @@ const SignUp = () => {
     const [fileName, setFileName] = useState(null);
     const [message, setMessage] = useState("");  
     const [messageType, setMessageType] = useState(""); 
+    const [showPassword, setShowPassword] = useState(false); 
 
     const handleFileChange = (event) => {
         const file = event.target.files[0];
@@ -42,6 +44,10 @@ const SignUp = () => {
             setFileName(file.name);
             clearErrors("image");
         }
+    };
+
+    const handleClickShowPassword = () => {
+        setShowPassword(!showPassword);
     };
 
     const onSubmit = async (data) => {
@@ -60,7 +66,6 @@ const SignUp = () => {
                 },
             });
 
-            // Set success message
             setMessage("Registration successful!");
             setMessageType("success");
             console.log("Response:", response.data); 
@@ -141,8 +146,7 @@ const SignUp = () => {
                             fullWidth
                             name="password"
                             label="Password"
-                            type="password"
-                            id="password"
+                            type={showPassword ? "text" : "password"} 
                             autoComplete="current-password"
                             {...register("password", {
                                 required: "Password is required",
@@ -153,6 +157,19 @@ const SignUp = () => {
                             })}
                             error={!!errors.password}
                             helperText={errors.password ? errors.password.message : ""}
+                            InputProps={{
+                                endAdornment: (
+                                    <InputAdornment position="end">
+                                        <IconButton
+                                            onClick={handleClickShowPassword}
+                                            edge="end"
+                                            sx={{ color: 'white' }} 
+                                        >
+                                            {showPassword ? <VisibilityOff /> : <Visibility />}
+                                        </IconButton>
+                                    </InputAdornment>
+                                ),
+                            }}
                         />
                         <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mt: 2 }}>
                             <Typography variant="body1" color="white">

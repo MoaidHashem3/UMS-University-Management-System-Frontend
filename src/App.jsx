@@ -1,4 +1,4 @@
-import { React, useEffect,useState } from 'react';
+import { React, useEffect, useState } from 'react';
 import { ThemeProvider } from '@mui/material/styles';
 import { Provider, useSelector } from 'react-redux';
 import ProtectedRoute from './utils/ProtectedRoute';
@@ -21,11 +21,12 @@ import CourseContent from './components/CourseContent/CourseContent';
 import NotFound from './pages/NotFound/NotFound';
 import ForgotPassword from './pages/ForgetPassword/ForgetPassword';
 import ResetPassword from './pages/RestPassword/RestPassword';
+import AboutUs from './pages/AboutUs/AboutUs';
 const App = () => {
     const dispatch = useDispatch();
     const user = useSelector((state) => state.auth.user);
     const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
-    const [loading, setLoading] = useState(true); 
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         const tokenIsValid = validateToken();
@@ -37,7 +38,7 @@ const App = () => {
             dispatch(logout());
             localStorage.removeItem('authToken');
         }
-        setLoading(false); 
+        setLoading(false);
     }, [dispatch]);
 
     if (loading) {
@@ -54,27 +55,28 @@ const App = () => {
                 { path: "login", element: <SignIn /> },
                 { path: "home", element: <Home /> },
                 { path: "courses", element: <Courses /> },
-                {path: "courses/:courseId/content", element:<CourseContent  />},
-                {path:"/forgot-password",element:<ForgotPassword/>},
-                {path: "/reset-password/:token", element:<ResetPassword />},
+                { path: "aboutUs", element: <AboutUs /> },
+                { path: "courses/:courseId/content", element: <CourseContent /> },
+                { path: "/forgot-password", element: <ForgotPassword /> },
+                { path: "/reset-password/:token", element: <ResetPassword /> },
                 {
                     path: "dashboard",
                     element: (
                         <ProtectedRoute>
-                        <Dashboard
-                        />
-                       </ProtectedRoute>
+                            <Dashboard
+                            />
+                        </ProtectedRoute>
                     ),
-                    
+
                 },
                 { path: "*", element: <NotFound /> },
 
             ],
-        },,
+        }, ,
     ]);
 
-    if(isLoggedIn)
-        console.log('User Data:', user.role );
+    if (isLoggedIn)
+        console.log('User Data:', user.role);
 
     return (
         <ThemeProvider theme={theme}>
@@ -85,4 +87,4 @@ const App = () => {
 };
 
 export default App;
-{/*  */}
+{/*  */ }

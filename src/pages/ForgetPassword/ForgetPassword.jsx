@@ -2,8 +2,9 @@ import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { TextField, Button, Box, Typography, Container, Alert } from '@mui/material';
 import bg from '../../assets/images/SignIn-BG.png';
-import { handleForgotPassword } from '../../utils/auth'; // Assume this method is implemented
+import { handleForgotPassword } from '../../utils/auth'; 
 import { useNavigate } from 'react-router-dom';
+import { inputStyles as acinput } from '../../theme';
 
 const backgroundImageStyle = {
   position: 'absolute',
@@ -26,7 +27,7 @@ const ForgotPassword = () => {
     try {
       setMessage('');
       setError('');
-      await handleForgotPassword(data.email); // Your API call to send the reset email
+      await handleForgotPassword(data.email); 
       setMessage('Password reset email sent! Check your inbox.');
     } catch (error) {
       setError('An error occurred. Please try again later.');
@@ -35,6 +36,8 @@ const ForgotPassword = () => {
   };
 
   return (
+    <>
+    {acinput}
     <Box sx={backgroundImageStyle}>
       <Container component="main" maxWidth="xs">
         <Box
@@ -98,6 +101,7 @@ const ForgotPassword = () => {
         </Box>
       </Container>
     </Box>
+    </>
   );
 };
 
