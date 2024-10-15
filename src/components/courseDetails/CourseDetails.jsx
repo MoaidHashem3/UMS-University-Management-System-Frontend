@@ -115,7 +115,7 @@ const CourseDetails = ({ course }) => {
       <Box>
         <Typography variant="body1">Taught by:</Typography>
         <Typography variant="h6">
-          {course.selectedCourse.professor.name || "Unknown"}
+          {course.selectedCourse.professor|| "Unknown"}
         </Typography>
       </Box>
     </Stack>

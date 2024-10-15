@@ -115,6 +115,14 @@ export default function ButtonAppBar() {
           </IconButton>
 
           <Box sx={{ display: { xs: "none", md: "flex" }, gap: 0 }}>
+          <Button
+              component={Link}
+              to="/aboutUs"
+              color="secondary.main"
+              sx={btnStyles}
+            >
+              About Us
+            </Button>
             <Button
               component={Link}
               to="/courses"
