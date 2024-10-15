@@ -14,12 +14,14 @@ const ProfileTab = () => {
     defaultValues: {
       name: user?.name || "",
       email: user?.email || "",
-      password: "",
+      oldPassword: "",
+      newPassword: "",
     }
   });
 
   const [selectedImage, setSelectedImage] = useState(null); // Track the selected image
   const [updateSuccess, setUpdateSuccess] = useState(false); // State to manage success message
+  const [passwordError, setPasswordError] = useState("");
 
   // Handle image change
   const handleImageChange = (e) => {
@@ -35,11 +37,21 @@ const ProfileTab = () => {
     const formDataToSend = new FormData();
     formDataToSend.append("name", data.name);
     formDataToSend.append("email", data.email);
-
-    // Only append password if it's updated
-    if (data.password) {
-      formDataToSend.append("password", data.password);
-    }
+    try {
+      const response = await axios.post(`http://localhost:3000/users/verify/${user.id}`, {
+        password: data.oldPassword
+      });
+      // Only append password if it's updated
+      if (response.data) {
+        formDataToSend.append("newPassword", data.newPassword);
+      } else {
+        setPasswordError("Incorrect password. Please try again.");
+        return;
+      }
+    } catch (error) {
+      console.error("Error verifying password:", error);
+      setPasswordError("Incorrect password. Please try again.");
+      return;
 
     // Only append image if a new one is selected
     if (selectedImage) {
@@ -51,8 +63,9 @@ const ProfileTab = () => {
         headers: { "Content-Type": "multipart/form-data" }
       });
 
-      console.log("Profile updated:", response.data);
 
+      console.log("Profile updated:", response.data);
+      
       const imagePath = response.data.data.image || user.image;
       const fullImageUrl = imagePath.startsWith('/')
         ? `http://localhost:3000${imagePath}`
@@ -79,60 +92,72 @@ const ProfileTab = () => {
   }, [user, setValue]);
 
   return (
-    <>
+   <>
       {acinput}
-      <Box sx={{ padding: "16px" }}>
-        <Typography variant="h4">Edit Profile</Typography>
+    <Box sx={{ padding: "16px" }}>
+      <Typography variant="h4">Edit Profile</Typography>
 
-        <form onSubmit={handleSubmit(onSubmit)}>
-          {/* Name field */}
-          <TextField
-            label="Name"
-            variant="outlined"
-            fullWidth
-            margin="normal"
-            {...register("name", { required: "Name is required" })}
-            error={!!errors.name}
-            helperText={errors.name?.message}
-          />
+      <form onSubmit={handleSubmit(onSubmit)}>
+        {/* Name field */}
+        <TextField
+          label="Name"
+          variant="outlined"
+          fullWidth
+          margin="normal"
+          {...register("name", { required: "Name is required" })}
+          error={!!errors.name}
+          helperText={errors.name?.message}
+        />
 
-          {/* Email field */}
-          <TextField
-            label="Email"
-            variant="outlined"
-            fullWidth
-            margin="normal"
-            {...register("email", {
-              required: "Email is required",
-              pattern: {
-                value: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
-                message: "Invalid email address"
-              }
-            })}
-            error={!!errors.email}
-            helperText={errors.email?.message}
-          />
+        {/* Email field */}
+        <TextField
+          label="Email"
+          variant="outlined"
+          fullWidth
+          margin="normal"
+          {...register("email", {
+            required: "Email is required",
+            pattern: {
+              value: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
+              message: "Invalid email address"
+            }
+          })}
+          error={!!errors.email}
+          helperText={errors.email?.message}
+        />
+        {/* old Password field */}
+        <TextField
+          label="old Password"
+          type="password"
+          variant="outlined"
+          fullWidth
+          margin="normal"
+          {...register("oldPassword", {
+            minLength: { value: 6, message: "Password must be at least 6 characters" }
+          })}
+          error={!!errors.password}
+          helperText={errors.password?.message}
+        />
+        {/* Password field */}
+        <TextField
+          label="new Password"
+          type="password"
+          variant="outlined"
+          fullWidth
+          margin="normal"
+          {...register("newPassword", {
+            minLength: { value: 6, message: "Password must be at least 6 characters" }
+          })}
+          error={!!errors.password}
+          helperText={errors.password?.message}
+        />
 
-          {/* Password field */}
-          <TextField
-            label="Password"
-            type="password"
-            variant="outlined"
-            fullWidth
-            margin="normal"
-            {...register("password", {
-              minLength: { value: 6, message: "Password must be at least 6 characters" }
-            })}
-            error={!!errors.password}
-            helperText={errors.password?.message}
-          />
-
-          {/* Image upload */}
-          <Box sx={{ marginTop: 2, marginBottom: 2 }}>
-            <Typography>Profile Picture</Typography>
-            <Button variant="contained" component="label">
-              Upload Image
-              <input type="file" hidden {...register("image")} onChange={handleImageChange} />
+        {/* Image upload */}
+        <Box sx={{ marginTop: 2, marginBottom: 2 }}>
+          <Typography>Profile Picture</Typography>
+          <Button variant="contained" component="label">
+            Upload Image
+            <input type="file" hidden {...register("image")} onChange={handleImageChange} />
             </Button>
           </Box>
 
@@ -151,6 +176,7 @@ const ProfileTab = () => {
       </Box>
     </>
   );
-};
+}
+  ;
 
 export default ProfileTab;
