@@ -10,7 +10,6 @@ import {
   TableRow,
   Paper,
   CircularProgress,
-  Typography,
 } from "@mui/material";
 import axios from "axios";
 import { useSelector } from "react-redux";
@@ -24,9 +23,6 @@ const ViewYourGrades = () => {
 
   useEffect(() => {
     const fetchQuizDetails = async () => {
-      setLoading(true);
-      setErr("");
-
       if (userQuizzes.length > 0) {
         try {
           const quizRequests = userQuizzes.map((quiz) =>
@@ -34,7 +30,7 @@ const ViewYourGrades = () => {
           );
 
           const responses = await Promise.all(quizRequests);
-          const quizzesData = responses.map((res) => res.data.data); 
+          const quizzesData = responses.map((res) => res.data.data);
           const detailedQuizzes = await Promise.all(
             quizzesData.map(async (quiz) => {
               const userQuiz = userQuizzes.find((q) => q.quizId === quiz._id);
@@ -48,6 +44,7 @@ const ViewYourGrades = () => {
                   quizTitle: quiz.title,
                   courseTitle: courseData.title,
                   totalScore: userQuiz.totalScore,
+                  questions: quiz.questions,
                 };
               } catch (error) {
                 console.error(error);
@@ -56,7 +53,7 @@ const ViewYourGrades = () => {
           );
 
           setQuizDetails(detailedQuizzes);
-        } catch (error) {
+        } catch {
           setErr("Failed to fetch quiz details. Please try again.");
         }
       } else {
@@ -107,19 +104,25 @@ const ViewYourGrades = () => {
               </TableRow>
             </TableHead>
             <TableBody>
-              {quizDetails.map((quiz, index) => (
-                <TableRow key={index}>
-                  <TableCell sx={{ color:"white" }}>
-                    {quiz.quizTitle}
-                  </TableCell>
-                  <TableCell sx={{ color:"white"  }}>
-                    {quiz.courseTitle}
-                  </TableCell>
-                  <TableCell sx={{ color:"white"  }}>
-                    {quiz.totalScore}
-                  </TableCell>
-                </TableRow>
-              ))}
+              {quizDetails.map((quiz, index) => {
+                const maxScore = quiz.questions.reduce(
+                  (acc, question) => acc + question.score,
+                  0
+                );
+                return (
+                  <TableRow key={index}>
+                    <TableCell sx={{ color: "white" }}>
+                      {quiz.quizTitle}
+                    </TableCell>
+                    <TableCell sx={{ color: "white" }}>
+                      {quiz.courseTitle}
+                    </TableCell>
+                    <TableCell sx={{ color: "white" }}>
+                      {quiz.totalScore}/{maxScore}
+                    </TableCell>
+                  </TableRow>
+                );
+              })}
             </TableBody>
           </Table>
         </TableContainer>
