@@ -23,7 +23,7 @@ const backgroundImageStyle = {
 const SignIn = () => {
   const { register, handleSubmit, formState: { errors } } = useForm();
   const [loginError, setLoginError] = useState('');
-  const [showPassword, setShowPassword] = useState(false); // State to toggle password visibility
+  const [showPassword, setShowPassword] = useState(false); 
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -31,7 +31,7 @@ const SignIn = () => {
     try {
       setLoginError('');
       const response = await handleLogin(data);
-      const { token, user } = response; // Assuming your handleLogin returns this structure
+      const { token, user } = response; 
       dispatch(login({ token, user }));
       navigate('/dashboard');
     } catch (error) {
@@ -98,7 +98,7 @@ const SignIn = () => {
                 fullWidth
                 name="password"
                 label="Password"
-                type={showPassword ? 'text' : 'password'} // Toggle between text and password
+                type={showPassword ? 'text' : 'password'} 
                 id="password"
                 autoComplete="current-password"
                 {...register('password', {
@@ -116,7 +116,7 @@ const SignIn = () => {
                       <IconButton
                         onClick={handleClickShowPassword}
                         edge="end"
-                        sx={{ color: 'white' }} // Set icon color to white
+                        sx={{ color: 'white' }} 
                       >
                         {showPassword ? <VisibilityOff /> : <Visibility />}
                       </IconButton>

@@ -36,7 +36,7 @@ const SignUp = () => {
     const [fileName, setFileName] = useState(null);
     const [message, setMessage] = useState("");  
     const [messageType, setMessageType] = useState(""); 
-    const [showPassword, setShowPassword] = useState(false); // State for password visibility
+    const [showPassword, setShowPassword] = useState(false); 
 
     const handleFileChange = (event) => {
         const file = event.target.files[0];
@@ -66,7 +66,6 @@ const SignUp = () => {
                 },
             });
 
-            // Set success message
             setMessage("Registration successful!");
             setMessageType("success");
             console.log("Response:", response.data); 
@@ -147,8 +146,7 @@ const SignUp = () => {
                             fullWidth
                             name="password"
                             label="Password"
-                            type={showPassword ? "text" : "password"} // Toggle between text and password
-                            id="password"
+                            type={showPassword ? "text" : "password"} 
                             autoComplete="current-password"
                             {...register("password", {
                                 required: "Password is required",
@@ -165,7 +163,7 @@ const SignUp = () => {
                                         <IconButton
                                             onClick={handleClickShowPassword}
                                             edge="end"
-                                            sx={{ color: 'white' }} // Set icon color to white
+                                            sx={{ color: 'white' }} 
                                         >
                                             {showPassword ? <VisibilityOff /> : <Visibility />}
                                         </IconButton>
