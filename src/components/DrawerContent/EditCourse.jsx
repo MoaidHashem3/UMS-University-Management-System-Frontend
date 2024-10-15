@@ -23,36 +23,47 @@ const EditCourse = ({ course, onUpdate, open, setOpen }) => {
   const handleClose = () => {
     setOpen(false);
   };
-  const handleSubmit = (event) => {
+
+  const handleSubmit = async (event) => {
     event.preventDefault();
-    axios
-      .patch(`http://localhost:3000/courses/${course._id}`, {
+
+    const oldProfessorId = course.professor?._id;
+
+    try {
+      await axios.patch(`http://localhost:3000/courses/${course._id}`, {
         title,
         major,
         professor,
         duration,
-      })
-    const id = course._id
-    // let res = axios.get(`http://localhost:3000/users/${course.professor._id}`)
-    // let createdCourses = res.data.createdCourses||[]
-    // createdCourses.push(id)
-    axios.patch(`http://localhost:3000/users/${course.professor._id}`, {
-      createdCourses:id
-    })
-      .then(() => {
-        onUpdate({ ...course, title, major, professor, duration });
-        setMessage("Course updated successfully");
-        handleClose();
-      })
-      .catch((error) => {
-        console.log(error.message);
       });
+
+      // If professor has changed, update the createdCourses field for both professors
+      if (oldProfessorId !== professor) {
+        // Remove course from old professor's createdCourses
+        await axios.patch(`http://localhost:3000/users/${oldProfessorId}`, {
+          $pull: { createdCourses: course._id },
+        });
+
+        // Add course to new professor's createdCourses
+        await axios.patch(`http://localhost:3000/users/${professor}`, {
+          $addToSet: { createdCourses: course._id }, 
+        });
+      }
+
+      onUpdate({ ...course, title, major, professor, duration });
+      setMessage("Course updated successfully");
+      handleClose();
+    } catch (error) {
+      console.error(error.message);
+    }
   };
 
   useEffect(() => {
     const fetchProfessors = async () => {
       try {
-        const response = await axios.get("http://localhost:3000/users/professor");
+        const response = await axios.get(
+          "http://localhost:3000/users/professor"
+        );
         setProfessors(response.data.data);
       } catch (error) {
         console.error("Error fetching professors:", error);

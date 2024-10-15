@@ -76,7 +76,7 @@ const ViewAllCoursesInAdmin = () => {
     if (token) {
       fetchCourses();
     }
-  }, [token]);
+  }, [token,dialogOpen]);
 
   useEffect(() => {
     if (message) {
