@@ -70,7 +70,6 @@ const ViewAllUsers = () => {
     if (user) {
         userRole = user.role;
         userName = user.name;
-        console.log(user, userRole, userName)
     } else {
         userRole = "";
         userName = "";
@@ -86,7 +85,6 @@ const ViewAllUsers = () => {
                             Authorization: token
                         }
                     })
-                    console.log(res.data.data)
                     setUsers(res.data.data);
                     setLoading(false);
                 }
@@ -102,7 +100,6 @@ const ViewAllUsers = () => {
         return <CircularProgress />;
     }
 
-    console.log(users)
     return <>
         {message && <Alert severity="success" sx={{ width: '100%', mt: 2,marginBottom:"10px" }}>{message}</Alert>}
         {err && <Alert severity="error" sx={{ width: '100%', mt: 2,marginBottom:"10px" }}>{err}</Alert>}

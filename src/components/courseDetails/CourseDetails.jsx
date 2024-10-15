@@ -115,7 +115,7 @@ const CourseDetails = ({ course }) => {
       <Box>
         <Typography variant="body1">Taught by:</Typography>
         <Typography variant="h6">
-          {course.selectedCourse.professor|| "Unknown"}
+          {course.selectedCourse.professor.name|| "Unknown"}
         </Typography>
       </Box>
     </Stack>
@@ -138,7 +138,7 @@ const CourseDetails = ({ course }) => {
       <Box>
         <Typography variant="body1">Duration</Typography>
         <Typography variant="h6">
-          {`${course.selectedCourse.duration} months` || "Not specified"}
+          {`${course.selectedCourse.duration} Hours` || "Not specified"}
         </Typography>
       </Box>
     </Stack>

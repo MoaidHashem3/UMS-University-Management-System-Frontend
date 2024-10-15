@@ -5,7 +5,7 @@ import LinkedInIcon from "@mui/icons-material/LinkedIn";
 
 const teamMembers = [
     { name: "Hossam Salah", image: "/src/assets/images/hos.jpg", github: "https://github.com/HossamSalah1", linkedin: "https://linkedin.com/in/hossam-salah-hassan" },
-    { name: "Moaid Hashem", image: "/src/assets/images/mou.jpg", github: "#", linkedin: "#" },
+    { name: "Moaid Hashem", image: "/src/assets/images/mou.jpg", github: "https://github.com/MoaidHashem3", linkedin: "https://www.linkedin.com/in/moaidhashem/" },
     { name: "Ezz Eldeen Amer", image:"/src/assets/images/ezz.jpg", github: "#", linkedin: "#" },
     { name: "Ahmed Ashraf", image: "/src/assets/images/ahm.jpg", github: "#", linkedin: "#" },
     { name: "Ahmed Mustafa", image: "", github: "#", linkedin: "#" },
