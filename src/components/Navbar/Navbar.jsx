@@ -17,7 +17,7 @@ import { logout } from '../../redux/authSlice';
 import { useNavigate } from 'react-router-dom'; 
 
 export default function ButtonAppBar() {
-    const navigate = useNavigate(); 
+  const navigate = useNavigate(); 
   const btnStyles = {
     fontSize: "30px",
     width: "200px",
@@ -50,20 +50,140 @@ export default function ButtonAppBar() {
 
   const list = () => (
     <Box
-      sx={{ width: 250 }}
+      sx={{
+        width: 250,
+        backgroundColor: theme.palette.background.paper,
+        height: '100%',
+        display: 'flex',
+        flexDirection: 'column',
+      }}
       role="presentation"
       onClick={toggleDrawer(false)}
       onKeyDown={toggleDrawer(false)}
     >
       <List>
-        {["Courses", "Dashboard"].map((text) => (
-          <ListItem button key={text} component={Link} to={text.toLowerCase()}>
-            <ListItemText primary={text} />
-          </ListItem>
-        ))}
-        {!isLoggedIn && (
-          <ListItem button component={Link} to="/login">
-            <ListItemText primary="Login" />
+        <ListItem
+          button
+          component={Link}
+          to="/aboutUs"
+          sx={{
+            "&:hover": {
+              backgroundColor: theme.palette.secondary.main,
+              color: "white",
+            },
+            padding: "10px 20px",
+          }}
+        >
+          <ListItemText
+            primary="About Us"
+            primaryTypographyProps={{
+              fontSize: '18px',
+              fontWeight: 500,
+            }}
+          />
+        </ListItem>
+        <ListItem
+          button
+          component={Link}
+          to="/courses"
+          sx={{
+            "&:hover": {
+              backgroundColor: theme.palette.secondary.main,
+              color: "white",
+            },
+            padding: "10px 20px",
+          }}
+        >
+          <ListItemText
+            primary="Courses"
+            primaryTypographyProps={{
+              fontSize: '18px',
+              fontWeight: 500,
+            }}
+          />
+        </ListItem>
+        <ListItem
+          button
+          component={Link}
+          to="/dashboard"
+          sx={{
+            "&:hover": {
+              backgroundColor: theme.palette.secondary.main,
+              color: "white",
+            },
+            padding: "10px 20px",
+          }}
+        >
+          <ListItemText
+            primary="Dashboard"
+            primaryTypographyProps={{
+              fontSize: '18px',
+              fontWeight: 500,
+            }}
+          />
+        </ListItem>
+        {!isLoggedIn ? (
+          <>
+            <ListItem
+              button
+              component={Link}
+              to="/signup"
+              sx={{
+                "&:hover": {
+                  backgroundColor: theme.palette.secondary.main,
+                  color: "white",
+                },
+                padding: "10px 20px",
+              }}
+            >
+              <ListItemText
+                primary="Signup"
+                primaryTypographyProps={{
+                  fontSize: '18px',
+                  fontWeight: 500,
+                }}
+              />
+            </ListItem>
+            <ListItem
+              button
+              component={Link}
+              to="/login"
+              sx={{
+                "&:hover": {
+                  backgroundColor: theme.palette.secondary.main,
+                  color: "white",
+                },
+                padding: "10px 20px",
+              }}
+            >
+              <ListItemText
+                primary="Login"
+                primaryTypographyProps={{
+                  fontSize: '18px',
+                  fontWeight: 500,
+                }}
+              />
+            </ListItem>
+          </>
+        ) : (
+          <ListItem
+            button
+            onClick={handleLogout}
+            sx={{
+              "&:hover": {
+                backgroundColor: theme.palette.warning.main,
+                color: "white",
+              },
+              padding: "10px 20px",
+            }}
+          >
+            <ListItemText
+              primary="Sign Out"
+              primaryTypographyProps={{
+                fontSize: '18px',
+                fontWeight: 500,
+              }}
+            />
           </ListItem>
         )}
       </List>
@@ -115,7 +235,7 @@ export default function ButtonAppBar() {
           </IconButton>
 
           <Box sx={{ display: { xs: "none", md: "flex" }, gap: 0 }}>
-          <Button
+            <Button
               component={Link}
               to="/aboutUs"
               color="secondary.main"
@@ -131,7 +251,6 @@ export default function ButtonAppBar() {
             >
               Courses
             </Button>
-
             <Button
               component={Link}
               to="/dashboard"
