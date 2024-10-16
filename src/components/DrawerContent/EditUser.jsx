@@ -1,7 +1,7 @@
 import React from "react";
 import { useState, useEffect } from "react";
 import axios from "axios";
-import { Box, Dialog, DialogActions, DialogContent, DialogTitle, TextField, Button,Snackbar } from "@mui/material";
+import { Box, Dialog,Typography, DialogActions, DialogContent, DialogTitle, TextField, Button,Snackbar } from "@mui/material";
 import axiosInstance from "../../axiosConfig";
 
 const EditUser = ({ open, onClose, user, onUpdate }) => {
@@ -113,6 +113,8 @@ const EditUser = ({ open, onClose, user, onUpdate }) => {
                     InputLabelProps={{
                         style: { color: '#fff' }, // Label color
                     }}
+                    FormHelperTextProps={{style:{color:"red"}}}
+                    helperText={ newPassword.length > 0 && newPassword.length < 6 ? "Password must be 6 characters" : ""}
                 />
             </DialogContent>
             <DialogActions>
@@ -124,7 +126,7 @@ const EditUser = ({ open, onClose, user, onUpdate }) => {
                 autoHideDuration={6000}
                 onClose={handleSnackbarClose}
                 message={snackbarMessage}
-                anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }} // Position of the Snackbar
+                anchorOrigin={{ vertical: 'top', horizontal: 'center' }} // Position of the Snackbar
             />
         </Dialog>
     );
