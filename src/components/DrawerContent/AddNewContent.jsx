@@ -5,6 +5,7 @@ import axios from "axios";
 import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 import { useSelector } from "react-redux";
 import { inputStyles as acinput } from "../../theme";
+import axiosInstance from "../../axiosConfig";
 
 
 const AddCourseContent = () => {
@@ -33,7 +34,7 @@ const AddCourseContent = () => {
             formData.append('title', data.name);
             formData.append('pdfFile', selectedFile);
             console.log(formData);
-            const res = await axios.post(`http://localhost:3000/courses/uploadCourseContent/${data.course}`, formData, {
+            const res = await axiosInstance.post(`/courses/uploadCourseContent/${data.course}`, formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data',
                 },

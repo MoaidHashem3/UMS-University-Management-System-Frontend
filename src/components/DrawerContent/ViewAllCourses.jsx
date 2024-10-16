@@ -16,6 +16,7 @@ import {
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditCourse from "./EditCourse";
+import axiosInstance from "../../axiosConfig";
 
 const ViewAllCoursesInAdmin = () => {
   const [courses, setCourses] = useState([]);
@@ -39,8 +40,8 @@ const ViewAllCoursesInAdmin = () => {
   };
 
   const handleDelete = (id) => {
-    axios
-      .delete(`http://localhost:3000/courses/${id}`, {
+    axiosInstance
+      .delete(`/courses/${id}`, {
         headers: {
           Authorization: token,
         },
@@ -56,8 +57,8 @@ const ViewAllCoursesInAdmin = () => {
 
   const fetchCourses = () => {
     setLoading(true);
-    axios
-      .get("http://localhost:3000/courses", {
+    axiosInstance
+      .get("/courses", {
         headers: {
           Authorization: token,
         },

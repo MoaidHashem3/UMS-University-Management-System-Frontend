@@ -11,6 +11,7 @@ import {
   Alert,
   MenuItem,
 } from "@mui/material";
+import axiosInstance from "../../axiosConfig";
 
 const EditCourse = ({ course, onUpdate, open, setOpen }) => {
   const [title, setTitle] = useState("");
@@ -30,7 +31,7 @@ const EditCourse = ({ course, onUpdate, open, setOpen }) => {
     const oldProfessorId = course.professor?._id;
 
     try {
-      await axios.patch(`http://localhost:3000/courses/${course._id}`, {
+      await axiosInstance.patch(`/courses/${course._id}`, {
         title,
         major,
         professor,
@@ -40,12 +41,12 @@ const EditCourse = ({ course, onUpdate, open, setOpen }) => {
       // If professor has changed, update the createdCourses field for both professors
       if (oldProfessorId !== professor) {
         // Remove course from old professor's createdCourses
-        await axios.patch(`http://localhost:3000/users/${oldProfessorId}`, {
+        await axiosInstance.patch(`/users/${oldProfessorId}`, {
           $pull: { createdCourses: course._id },
         });
 
         // Add course to new professor's createdCourses
-        await axios.patch(`http://localhost:3000/users/${professor}`, {
+        await axiosInstance.patch(`/users/${professor}`, {
           $addToSet: { createdCourses: course._id }, 
         });
       }
@@ -61,8 +62,8 @@ const EditCourse = ({ course, onUpdate, open, setOpen }) => {
   useEffect(() => {
     const fetchProfessors = async () => {
       try {
-        const response = await axios.get(
-          "http://localhost:3000/users/professor"
+        const response = await axiosInstance.get(
+          "/users/professor"
         );
         setProfessors(response.data.data);
       } catch (error) {

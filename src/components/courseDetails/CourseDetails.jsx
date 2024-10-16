@@ -9,6 +9,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom"; // Import useNavigate for redirection
 import { enrollCourse } from "../../redux/authSlice";
 import axios from "axios"; // Import axios
+import axiosInstance from "../../axiosConfig";
 
 const CourseDetails = ({ course }) => {
   const user = useSelector((state) => state.auth.user);
@@ -33,7 +34,7 @@ const CourseDetails = ({ course }) => {
 
     try {
       // API call to enroll user in the course
-      const response = await axios.post(`http://localhost:3000/courses/enroll/${course.selectedCourse._id}/${user.id}`);
+      const response = await axiosInstance.post(`/courses/enroll/${course.selectedCourse._id}/${user.id}`);
 
       if (response.status === 200) {
         // Successfully enrolled, update Redux state
@@ -76,7 +77,7 @@ const CourseDetails = ({ course }) => {
         <div className={style.courseImgContainer}>
           <img
             className={style.courseImg}
-            src={`http://localhost:3000/${normalizedImgPath}`} // Ensure image URL is correctly passed
+            src={`${import.meta.env.VITE_API_URL}/${normalizedImgPath}`} // Ensure image URL is correctly passed
             alt={course.selectedCourse.title}
             style={{
               borderRadius: "50%",

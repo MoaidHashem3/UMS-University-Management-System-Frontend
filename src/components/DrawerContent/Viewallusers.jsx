@@ -10,6 +10,7 @@ import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { green, red } from '@mui/material/colors';
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, TablePagination, IconButton, CircularProgress } from '@mui/material';
+import axiosInstance from "../../axiosConfig";
 const darkTheme = createTheme({
     palette: {
         mode: 'dark',
@@ -55,7 +56,7 @@ const ViewAllUsers = () => {
     };
     const handleDelete = async (id) => {
         try {
-            const res = await axios.delete(`http://localhost:3000/users/${id}`)
+            const res = await axiosInstance.delete(`/users/${id}`)
             setUsers(users.filter(user => user._id !== id))
             setmessage("Deleted Successfully")
         } catch (err) {
@@ -80,7 +81,7 @@ const ViewAllUsers = () => {
         const call = async () => {
             try {
                 if (token) {
-                    const res = await axios.get("http://localhost:3000/users", {
+                    const res = await axiosInstance.get("/users", {
                         headers: {
                             Authorization: token
                         }

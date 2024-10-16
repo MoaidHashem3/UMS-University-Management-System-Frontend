@@ -5,6 +5,7 @@ import axios from "axios";
 import { styled } from "@mui/material/styles";
 import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 import { inputStyles as acinput } from "../../theme";
+import axiosInstance from "../../axiosConfig";
 
 const VisuallyHiddenInput = styled("input")({
     clip: "rect(0 0 0 0)",
@@ -45,7 +46,7 @@ const AddNewUser = () => {
 
         try {
             console.log(data)
-            const res = await axios.post("http://localhost:3000/users/register", formData, {
+            const res = await axiosInstance.post("/users/register", formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data',
                 },

@@ -7,6 +7,7 @@ import bg from "../../assets/images/SignUp-BG.png";
 import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 import axios from 'axios'; 
 import { inputStyles as acinput } from "../../theme";
+import axiosInstance from "../../axiosConfig";
 
 const backgroundImageStyle = {
     position: "absolute",
@@ -60,7 +61,7 @@ const SignUp = () => {
                 formData.append('image', data.image[0]); 
             }
 
-            const response = await axios.post('http://localhost:3000/users/register', formData, {
+            const response = await axiosInstance.post('/users/register', formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data', 
                 },

@@ -5,6 +5,7 @@ import { styled } from "@mui/material/styles";
 import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 import axios from "axios";
 import { inputStyles as acinput } from "../../theme";
+import axiosInstance from "../../axiosConfig";
 
 const VisuallyHiddenInput = styled("input")({
     clip: "rect(0 0 0 0)",
@@ -30,7 +31,7 @@ const AddNewCourse = () => {
     useEffect(() => {
         const fetchProfessors = async () => {
             try {
-                const res = await axios.get("http://localhost:3000/users/professor");
+                const res = await axiosInstance.get("/users/professor");
                 setProfessors(res.data.data);
             } catch (error) {
                 console.error("Error fetching professors", error);
@@ -58,7 +59,7 @@ const AddNewCourse = () => {
             if (data.image[0]) {
                 formData.append('image', data.image[0]);
             }
-            const res = await axios.post("http://localhost:3000/courses", formData, {
+            const res = await axiosInstance.post("/courses", formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data',
                 },
