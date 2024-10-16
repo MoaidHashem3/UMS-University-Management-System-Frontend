@@ -3,6 +3,7 @@ import { Box, Button, Typography, LinearProgress, Container } from '@mui/materia
 import AccessTimeIcon from '@mui/icons-material/AccessTime';
 import axios from 'axios'; 
 import { useSelector, useDispatch } from 'react-redux'; 
+import axiosInstance from '../../axiosConfig';
 
 const Quiz = ({ quizId }) => {
     const [quizData, setQuizData] = useState(null); 
@@ -23,7 +24,7 @@ const Quiz = ({ quizId }) => {
         const fetchQuizData = async () => {
             setLoading(true); 
             try {
-                const quizRes = await axios.get(`http://localhost:3000/quiz/${quizId}`);
+                const quizRes = await axiosInstance.get(`/quiz/${quizId}`);
                 const localStorageQuizzes = JSON.parse(localStorage.getItem(localStorageKey)) || [];
                 const hasTakenQuiz = localStorageQuizzes.some(q => q.quizId === quizId) || user.quizzes.some(q => q.quizId === quizId);
 
@@ -89,7 +90,7 @@ const Quiz = ({ quizId }) => {
     const postScoreToBackend = async (finalScore) => {
         try {
             const payload = { answers: selectedAnswers };
-            const response = await axios.post(`http://localhost:3000/quiz/submitQuiz/${user.id}/${quizId}`, payload);
+            const response = await axiosInstance.post(`/quiz/submitQuiz/${user.id}/${quizId}`, payload);
             if (response.status === 200) {
                 updateLocalStorage(quizId, finalScore);
                 setAttemptMessage("Quiz submitted successfully. Here's your score:");

@@ -15,6 +15,7 @@ import {
 } from "@mui/material";
 import axios from "axios";
 import { useSelector } from "react-redux";
+import axiosInstance from "../../axiosConfig";
 
 const ViewStudent = () => {
     const [selectedCourse, setSelectedCourse] = useState(""); // State to store the selected course
@@ -33,7 +34,7 @@ const ViewStudent = () => {
             try {
                 if (courses.length > 0) {
                     const courseDetailsPromises = courses.map((course) =>
-                        axios.get(`http://localhost:3000/courses/${course._id}`, {
+                        axiosInstance.get(`/courses/${course._id}`, {
                             headers: { Authorization: token },
                         })
                     );
@@ -59,7 +60,7 @@ const ViewStudent = () => {
 
         try {
             // Fetch student details from the API using the course ID
-            const response = await axios.get(`http://localhost:3000/courses/${courseId}/students`, {
+            const response = await axiosInstance.get(`/courses/${courseId}/students`, {
                 headers: { Authorization: token },
             });
 

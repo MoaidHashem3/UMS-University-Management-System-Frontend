@@ -1,11 +1,9 @@
 import { jwtDecode } from "jwt-decode";
 import axios from 'axios';
-
-const API_URL = 'http://localhost:3000/users';
-
+import axiosInstance from "../axiosConfig";
 export const handleLogin = async (credentials) => {
     try {
-        const response = await axios.post(`${API_URL}/login`, credentials);
+        const response = await axiosInstance.post("/users/login", credentials);
         const { token } = response.data;
         localStorage.setItem('authToken', token);
         return response.data; 

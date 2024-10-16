@@ -6,12 +6,21 @@ import axios from "axios";
 import { useSelector } from "react-redux";
 import CourseContent from '../../components/CourseContent/CourseContent'; 
 import CourseDetails from "../../components/courseDetails/CourseDetails"; 
+import axiosInstance from "../../axiosConfig";
 
 const containerStyle = {
   backgroundColor: "secondary.main",
   color: "white",
-  height: "100%",
+  minHeight: "100vh",  // Ensure the background covers the full height
   width: "100%",
+  display: 'flex',
+  flexDirection: 'column',
+};
+
+const contentWrapperStyle = {
+  flex: 1,  // This ensures the content takes up the available space
+  display: 'flex',
+  flexDirection: 'column',
 };
 
 export default function Courses() {
@@ -23,15 +32,16 @@ export default function Courses() {
 
   const user = useSelector((state) => state.auth.user);
   const enrolledCourses = user?.enrolledCourses || []; 
+
   useEffect(() => {
     const fetchCourses = async () => {
       try {
-        const response = await axios.get("http://localhost:3000/courses/");
+        const response = await axiosInstance.get("/courses/");
         setCourses(response.data);
-        setLoading(false);
       } catch (error) {
         console.error("Error fetching courses:", error);
         setError(error);
+      } finally {
         setLoading(false);
       }
     };
@@ -56,7 +66,6 @@ export default function Courses() {
       <CircularProgress />
     </Box>
   );
-  if (error) return <Typography>Error: {error.message}</Typography>;
 
   const selectedCourse = courses.find(course => course._id === selectedCourseId);
 
@@ -79,7 +88,7 @@ export default function Courses() {
             )}
           </Box>
         ) : (
-          <>
+          <Box sx={contentWrapperStyle}>
             <Typography
               component={"h2"}
               variant="h3"
@@ -96,43 +105,52 @@ export default function Courses() {
               Find the right course for your future.
             </Typography>
 
-            <Box
-              sx={{
-                display: 'flex',
-                flexWrap: 'wrap',
-                justifyContent: 'left',
-                gap: '20px', 
-              }}
-            >
-              {courses.slice(0, displayedCourses).map((course) => {
-                const normalizedImgPath = course.image
-                  ? course.image.replace(/\\/g,'/')
-                  : 'default/path/to/image.jpg';
-                return (
-                  <Box 
-                    key={course._id} 
-                    onClick={() => handleCardClick(course._id)} 
-                    sx={{ 
-                      width: { xs: '100%', sm: '300px', md: '350px' }, // Card width
-                      cursor: 'pointer',
-                      borderRadius: '8px',
-                      transition: 'transform 0.3s', // Add a hover effect
-                      '&:hover': {
-                        transform: 'scale(1.05)', // Scale up on hover
-                      },
-                    }}
-                  >
-                    <CourseCard
-                      courseTitle={course.title}
-                      courseDescription={course.description}
-                      courseImg={`http://localhost:3000/${normalizedImgPath}`}
-                    />
-                  </Box>
-                );
-              })}
-            </Box>
+            {courses.length > 0 ? (
+              <Box
+                sx={{
+                  display: 'flex',
+                  flexWrap: 'wrap',
+                  justifyContent: 'left',
+                  gap: '20px', 
+                }}
+              >
+                {courses.slice(0, displayedCourses).map((course) => {
+                  const normalizedImgPath = course.image
+                    ? course.image.replace(/\\/g,'/')
+                    : 'default/path/to/image.jpg';
+                  return (
+                    <Box 
+                      key={course._id} 
+                      onClick={() => handleCardClick(course._id)} 
+                      sx={{ 
+                        width: { xs: '100%', sm: '300px', md: '350px' }, // Card width
+                        cursor: 'pointer',
+                        borderRadius: '8px',
+                        transition: 'transform 0.3s', // Add a hover effect
+                        '&:hover': {
+                          transform: 'scale(1.05)', // Scale up on hover
+                        },
+                      }}
+                    >
+                      <CourseCard
+                        courseTitle={course.title}
+                        courseDescription={course.description}
+                        courseImg={`${import.meta.env.VITE_API_URL}/${normalizedImgPath}`}
+                      />
+                    </Box>
+                  );
+                })}
+              </Box>
+            ) : (
+              <Typography
+                variant="h6"
+                sx={{ textAlign: 'center', mt: 5 }}
+              >
+                No courses available at the moment.
+              </Typography>
+            )}
 
-            {!selectedCourseId && ( // Show "Show more" button only if no course is selected
+            {!selectedCourseId && courses.length > 0 && ( // Show "Show more" button only if no course is selected and there are courses
               <Box
                 sx={{
                   display: "flex",
@@ -153,7 +171,7 @@ export default function Courses() {
                 </Button>
               </Box>
             )}
-          </>
+          </Box>
         )}
       </Container>
     </Box>

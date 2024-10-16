@@ -5,7 +5,7 @@ import { Box, Typography, Button } from '@mui/material';
 import axios from 'axios';
 import PdfViewer from '../Content/PdfViewer';
 import Quiz from '../Quiz/QuizBox';
-
+import axiosInstance from '../../axiosConfig';
 const CourseContent = ({ courseId: propCourseId }) => {
   const { courseId: paramCourseId } = useParams(); 
   const courseId = propCourseId || paramCourseId; 
@@ -21,7 +21,7 @@ const CourseContent = ({ courseId: propCourseId }) => {
   useEffect(() => {
     const fetchCourse = async () => {
       try {
-        const response = await axios.get(`http://localhost:3000/courses/${courseId}`);
+        const response = await axiosInstance.get(`/courses/${courseId}`);
         console.log(response.data.imageUrl)
         const normalizedImageUrl = response.data.imageUrl.replace(/\\/g, "/");
         setCourse({ ...response.data, imageUrl: normalizedImageUrl });

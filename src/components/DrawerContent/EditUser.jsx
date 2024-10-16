@@ -2,6 +2,7 @@ import React from "react";
 import { useState, useEffect } from "react";
 import axios from "axios";
 import { Box, Dialog, DialogActions, DialogContent, DialogTitle, TextField, Button,Snackbar } from "@mui/material";
+import axiosInstance from "../../axiosConfig";
 
 const EditUser = ({ open, onClose, user, onUpdate }) => {
     const [name, setName] = useState(user.name);
@@ -28,7 +29,7 @@ const EditUser = ({ open, onClose, user, onUpdate }) => {
 
     const handleSubmit = async () => {
         try {
-            await axios.patch(`http://localhost:3000/users/${user._id}`, { name,role,email,newPassword:newPassword });
+            await axiosInstance.patch(`/users/${user._id}`, { name,role,email,newPassword:newPassword });
             onUpdate({ ...user, name,role,email});
             setSnackbarMessage("Updated successfully!");
             setSnackbarOpen(true); // Open Snackbar

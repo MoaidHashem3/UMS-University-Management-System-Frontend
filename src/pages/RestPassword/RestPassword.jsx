@@ -6,6 +6,7 @@ import { TextField, Button, Box, Typography, Alert, Container, InputAdornment, I
 import { Visibility, VisibilityOff } from '@mui/icons-material'; 
 import bg from '../../assets/images/SignIn-BG.png'; 
 import { inputStyles as acinput } from '../../theme';
+import axiosInstance from '../../axiosConfig';
 
 const ResetPassword = () => {
     const { token } = useParams();
@@ -24,7 +25,7 @@ const ResetPassword = () => {
 
     const onSubmit = async (data) => {
         try {
-            const response = await axios.post(`http://localhost:3000/users/reset-password/${token}`, {
+            const response = await axiosInstance.post(`/users/reset-password/${token}`, {
                 password: data.newPassword, 
             });
             setSuccess(response.data.message);
