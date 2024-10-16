@@ -15,7 +15,7 @@ import axios from "axios";
 import { useSelector } from "react-redux";
 
 const ViewYourGrades = () => {
-  const userQuizzes = useSelector((state) => state.auth.user.quizzes);
+  const user = useSelector((state) => state.auth.user);
   const [quizDetails, setQuizDetails] = useState([]);
   const [loading, setLoading] = useState(true);
   const [message, setMessage] = useState("");
@@ -23,47 +23,28 @@ const ViewYourGrades = () => {
 
   useEffect(() => {
     const fetchQuizDetails = async () => {
-      if (userQuizzes.length > 0) {
-        try {
-          const quizRequests = userQuizzes.map((quiz) =>
-            axios.get(`http://localhost:3000/quiz/${quiz.quizId}`)
-          );
-
-          const responses = await Promise.all(quizRequests);
-          const quizzesData = responses.map((res) => res.data.data);
-          const detailedQuizzes = await Promise.all(
-            quizzesData.map(async (quiz) => {
-              const userQuiz = userQuizzes.find((q) => q.quizId === quiz._id);
-
-              try {
-                const response = await axios.get(
-                  `http://localhost:3000/courses/${quiz.course}`
-                );
-                const courseData = response.data;
-                return {
-                  quizTitle: quiz.title,
-                  courseTitle: courseData.title,
-                  totalScore: userQuiz.totalScore,
-                  questions: quiz.questions,
-                };
-              } catch (error) {
-                console.error(error);
-              }
-            })
-          );
-
-          setQuizDetails(detailedQuizzes);
-        } catch {
-          setErr("Failed to fetch quiz details. Please try again.");
-        }
-      } else {
-        setMessage("No quizzes found.");
+      try {
+        // Fetch quizzes directly from the backend, including course and quiz details
+        const response = await axios.get(`http://localhost:3000/users/quizzes/${user.id}`);
+        
+        const quizzesData = response.data.quizzes; 
+        const detailedQuizzes = quizzesData.map((quiz) => ({
+          quizTitle: quiz.quizTitle,        
+          courseTitle: quiz.courseTitle,
+          totalScore: quiz.score,         
+          questionCount: quiz.total 
+        }));
+        setQuizDetails(detailedQuizzes);
+      } catch (error) {
+        setErr("Failed to fetch quiz details. Please try again.");
+      } finally {
+        setLoading(false);
       }
-      setLoading(false);
     };
-
+  
     fetchQuizDetails();
-  }, [userQuizzes]);
+  }, [user.id]);
+  
 
   if (loading) {
     return <CircularProgress />;
@@ -105,10 +86,6 @@ const ViewYourGrades = () => {
             </TableHead>
             <TableBody>
               {quizDetails.map((quiz, index) => {
-                const maxScore = quiz.questions.reduce(
-                  (acc, question) => acc + question.score,
-                  0
-                );
                 return (
                   <TableRow key={index}>
                     <TableCell sx={{ color: "white" }}>
@@ -118,7 +95,7 @@ const ViewYourGrades = () => {
                       {quiz.courseTitle}
                     </TableCell>
                     <TableCell sx={{ color: "white" }}>
-                      {quiz.totalScore}/{maxScore}
+                      {quiz.totalScore}/{quiz.questionCount}
                     </TableCell>
                   </TableRow>
                 );
