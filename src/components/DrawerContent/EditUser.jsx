@@ -1,10 +1,12 @@
 import React from "react";
 import { useState, useEffect } from "react";
 import axios from "axios";
+import { useForm } from 'react-hook-form';
 import { Box, Dialog,Typography, DialogActions, DialogContent, DialogTitle, TextField, Button,Snackbar } from "@mui/material";
 import axiosInstance from "../../axiosConfig";
 
 const EditUser = ({ open, onClose, user, onUpdate }) => {
+    const { register, handleSubmit, formState: { errors }, setError, clearErrors, reset } = useForm({mode:"onChange"});
     const [name, setName] = useState(user.name);
     const [role, setRole] = useState(user.role);
     const [email, setEmail] = useState(user.email);
@@ -20,14 +22,23 @@ const EditUser = ({ open, onClose, user, onUpdate }) => {
         setEmail(user.email);
         setPassword(user.password)
 
-    }, [user]);
+    }, [user,reset]);
     const handlePasswordChange = (e) => {
         if (e.target.name === 'newPassword') {
             setNewPassword(e.target.value);
+            clearErrors("newPassword");
         }
     };
 
-    const handleSubmit = async () => {
+    const handlesubmit = async (data) => {
+        if (newPassword.length < 6 && newPassword.length > 0) {
+            // If password length is less than 6, trigger an error.
+            setError("newPassword", {
+                type: "manual",
+                message: "Password must be at least 6 characters",
+            });
+            return; // Prevent form submission
+        }
         try {
             await axiosInstance.patch(`/users/${user._id}`, { name,role,email,newPassword:newPassword });
             onUpdate({ ...user, name,role,email});
@@ -107,6 +118,7 @@ const EditUser = ({ open, onClose, user, onUpdate }) => {
                     value={newPassword}
                     fullWidth
                     onChange={handlePasswordChange}
+                    error={!!errors.newPassword}
                     InputProps={{
                         style: { color: '#fff' }, // Text color for input
                     }}
@@ -114,12 +126,11 @@ const EditUser = ({ open, onClose, user, onUpdate }) => {
                         style: { color: '#fff' }, // Label color
                     }}
                     FormHelperTextProps={{style:{color:"red"}}}
-                    helperText={ newPassword.length > 0 && newPassword.length < 6 ? "Password must be 6 characters" : ""}
-                />
+                    helperText={newPassword.length > 0 && newPassword.length < 6 ? "Password must be at least 6 characters" : ""}/>
             </DialogContent>
             <DialogActions>
                 <Button onClick={onClose}>Exit</Button>
-                <Button onClick={handleSubmit}>Update</Button>
+                <Button onClick={handleSubmit(handlesubmit)}>Update</Button>
             </DialogActions>
             <Snackbar
                 open={snackbarOpen}
