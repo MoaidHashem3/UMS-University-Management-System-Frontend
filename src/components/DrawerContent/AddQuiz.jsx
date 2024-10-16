@@ -14,6 +14,7 @@ import {
 } from "@mui/material";
 import { useSelector } from "react-redux";
 import axios from "axios";
+import axiosInstance from "../../axiosConfig";
 
 const AddQuiz = () => {
   const [quizDetails, setQuizDetails] = useState({
@@ -110,12 +111,12 @@ const AddQuiz = () => {
     }
 
     try {
-      const response = await axios.post(
-        "http://localhost:3000/quiz/",
+      const response = await axiosInstance.post(
+        "/quiz/",
         quizDetails
       );
       console.log("Quiz submitted successfully:", response.data);
-      await axios.patch(`http://localhost:3000/courses/${quizDetails.course}`, {
+      await axiosInstance.patch(`/courses/${quizDetails.course}`, {
         quizId: response.data.quiz._id
       });
       setSuccessMessage("Quiz submitted successfully!"); 

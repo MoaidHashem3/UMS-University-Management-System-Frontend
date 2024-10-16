@@ -14,6 +14,7 @@ import {
 } from "@mui/material";
 import axios from "axios";
 import { useSelector } from "react-redux";
+import axiosInstance from "../../axiosConfig";
 
 const ViewAllCourses = () => {
     const [courses, setCourses] = useState([]);
@@ -29,7 +30,7 @@ const ViewAllCourses = () => {
                 if (token && courseIds.length > 0) {
                     // Fetch course details for each course based on the courseIds array
                     const courseDetailsPromises = courseIds.map((course) =>
-                        axios.get(`http://localhost:3000/courses/${course._id}`, {
+                        axiosInstance.get(`/courses/${course._id}`, {
                             headers: {
                                 Authorization: token,
                             },

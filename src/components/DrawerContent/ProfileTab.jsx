@@ -6,6 +6,7 @@ import { useForm } from "react-hook-form";
 import axios from "axios";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 import { inputStyles as acinput } from "../../theme";
+import axiosInstance from "../../axiosConfig";
 
 const ProfileTab = () => {
   const user = useSelector((state) => state.auth.user);
@@ -48,7 +49,7 @@ const ProfileTab = () => {
     // Check if the user is trying to change the password
     if (data.newPassword) {
       try {
-        const response = await axios.post(`http://localhost:3000/users/verify/${user.id}`, {
+        const response = await axiosInstance.post(`/users/verify/${user.id}`, {
           password: data.oldPassword
         });
         if (response.data) {
@@ -71,7 +72,7 @@ const ProfileTab = () => {
     }
 
     try {
-      const response = await axios.patch(`http://localhost:3000/users/${user.id}`, formDataToSend, {
+      const response = await axiosInstance.patch(`/users/${user.id}`, formDataToSend, {
         headers: { "Content-Type": "multipart/form-data" }
       });
 
@@ -79,8 +80,8 @@ const ProfileTab = () => {
       
       const imagePath = response.data.data.image || user.image;
       const fullImageUrl = imagePath.startsWith('/')
-        ? `http://localhost:3000${imagePath}`
-        : `http://localhost:3000/${imagePath}`;
+        ? `${import.meta.env.VITE_API_URL}${imagePath}`
+        : `${import.meta.env.VITE_API_URL}/${imagePath}`;
 
       // Update Redux store with new user data
       dispatch(updateUser({ ...response.data.data, image: fullImageUrl }));

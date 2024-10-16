@@ -15,6 +15,7 @@ import {
 import axios from "axios";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import axiosInstance from "../../axiosConfig";
 
 const ViewYourCoursesInStudent = () => {
   const userCourses = useSelector((state) => state.auth.user.enrolledCourses);
@@ -27,7 +28,7 @@ const ViewYourCoursesInStudent = () => {
   const fetchCourseDetails = () => {
     if (userCourses && userCourses.length > 0) {
       const courseRequests = userCourses.map((id) =>
-        axios.get(`http://localhost:3000/courses/${id}`)
+        axiosInstance.get(`/courses/${id}`)
       );
 
       Promise.all(courseRequests)

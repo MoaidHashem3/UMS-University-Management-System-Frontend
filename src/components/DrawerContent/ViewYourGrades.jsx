@@ -13,6 +13,7 @@ import {
 } from "@mui/material";
 import axios from "axios";
 import { useSelector } from "react-redux";
+import axiosInstance from "../../axiosConfig";
 
 const ViewYourGrades = () => {
   const user = useSelector((state) => state.auth.user);
@@ -24,8 +25,7 @@ const ViewYourGrades = () => {
   useEffect(() => {
     const fetchQuizDetails = async () => {
       try {
-        // Fetch quizzes directly from the backend, including course and quiz details
-        const response = await axios.get(`http://localhost:3000/users/quizzes/${user.id}`);
+        const response = await axiosInstance.get(`/users/quizzes/${user.id}`);
         
         const quizzesData = response.data.quizzes; 
         const detailedQuizzes = quizzesData.map((quiz) => ({
