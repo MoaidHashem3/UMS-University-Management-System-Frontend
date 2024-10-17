@@ -1,8 +1,8 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Box, Button, Typography, LinearProgress, Container, CircularProgress } from '@mui/material';
+import { Box, Button, Typography, LinearProgress, Container,CircularProgress  } from '@mui/material';
 import AccessTimeIcon from '@mui/icons-material/AccessTime';
 import axios from 'axios'; 
-import { useSelector } from 'react-redux'; 
+import { useSelector, useDispatch } from 'react-redux'; 
 import axiosInstance from '../../axiosConfig';
 
 const Quiz = ({ quizId }) => {
@@ -13,8 +13,8 @@ const Quiz = ({ quizId }) => {
     const [quizFinished, setQuizFinished] = useState(false);
     const [selectedAnswers, setSelectedAnswers] = useState([]);
     const [attemptMessage, setAttemptMessage] = useState(''); 
-    const [loading, setLoading] = useState(true); // Loading state
-
+    const [loading, setLoading] = useState(true); 
+    
     const user = useSelector(state => state.auth.user); 
     const timerRef = useRef(null);
     const localStorageKey = `quizzes_${user.id}`;
@@ -127,7 +127,6 @@ const Quiz = ({ quizId }) => {
         }
     };
 
-    // Loader while fetching quiz data
     if (loading) {
         return (
             <Container maxWidth="sm" sx={{ mt: 4, p: 3, bgcolor: '#2C3E50', borderRadius: 2, textAlign: 'center' }}>
@@ -221,6 +220,15 @@ const Quiz = ({ quizId }) => {
                 >
                     Next
                 </Button>
+                {currentQuestionIndex === quizData.questions.length - 1 && (
+                    <Button
+                        variant="contained"
+                        onClick={finishQuiz}
+                        sx={{ backgroundColor: 'warning.main', color: '#fff', '&:hover': { backgroundColor: '#C0392B' } }}
+                    >
+                        Submit
+                    </Button>
+                )}
             </Box>
         </Container>
     );
