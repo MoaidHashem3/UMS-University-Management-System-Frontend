@@ -4,10 +4,10 @@ import GitHubIcon from "@mui/icons-material/GitHub";
 import LinkedInIcon from "@mui/icons-material/LinkedIn";
 
 const teamMembers = [
-    { name: "Hossam Salah", image: "/src/assets/images/hos.jpg", github: "https://github.com/HossamSalah1", linkedin: "https://linkedin.com/in/hossam-salah-hassan" },
-    { name: "Moaid Hashem", image: "/src/assets/images/mou.jpg", github: "https://github.com/MoaidHashem3", linkedin: "https://www.linkedin.com/in/moaidhashem/" },
-    { name: "Ezz Eldeen Amer", image:"/src/assets/images/ezz.jpg", github: "#", linkedin: "#" },
-    { name: "Ahmed Ashraf", image: "/src/assets/images/ahm.jpg", github: "https://github.com/ahmedashrafdiv", linkedin: "https://www.linkedin.com/in/ahmed-ashraf-5078a22a4/" },
+    { name: "Hossam Salah", image: "https://res.cloudinary.com/dqxtef4rh/image/upload/v1729135605/buzsqfhmsl23s0r6qmtd.jpg", github: "https://github.com/HossamSalah1", linkedin: "https://linkedin.com/in/hossam-salah-hassan" },
+    { name: "Moaid Hashem", image: "https://res.cloudinary.com/dqxtef4rh/image/upload/v1729135618/ddjsngeiur6n3gb7ewxa.jpg", github: "https://github.com/MoaidHashem3", linkedin: "https://www.linkedin.com/in/moaidhashem/" },
+    { name: "Ezz Eldeen Amer", image:"https://res.cloudinary.com/dqxtef4rh/image/upload/v1729135581/if50kqokpflqeetcv5tx.jpg", github: "#", linkedin: "#" },
+    { name: "Ahmed Ashraf", image: "https://res.cloudinary.com/dqxtef4rh/image/upload/v1729135578/i0ncgi9gjugvbdcyqwme.jpg", github: "https://github.com/ahmedashrafdiv", linkedin: "https://www.linkedin.com/in/ahmed-ashraf-5078a22a4/" },
     { name: "Ahmed Mustafa", image: "", github: "#", linkedin: "#" },
 ];
 
