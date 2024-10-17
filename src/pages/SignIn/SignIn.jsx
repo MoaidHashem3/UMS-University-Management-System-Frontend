@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { TextField, Button, Box, Typography, Container, Alert, IconButton, InputAdornment } from '@mui/material';
+import { TextField, Button, Box, Typography, Container, Alert, IconButton, InputAdornment, CircularProgress } from '@mui/material';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
 import bg from '../../assets/images/SignIn-BG.png';
 import { handleLogin } from '../../utils/auth';
@@ -24,10 +24,12 @@ const SignIn = () => {
   const { register, handleSubmit, formState: { errors } } = useForm();
   const [loginError, setLoginError] = useState('');
   const [showPassword, setShowPassword] = useState(false); 
+  const [loading, setLoading] = useState(false); // Loading state
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const onSubmit = async (data) => {
+    setLoading(true); // Start loading
     try {
       setLoginError('');
       const response = await handleLogin(data);
@@ -42,6 +44,7 @@ const SignIn = () => {
       }
       console.error('Login failed:', error.response ? error.response.data : error.message);
     }
+    setLoading(false); // Stop loading
   };
 
   const handleClickShowPassword = () => {
@@ -129,8 +132,9 @@ const SignIn = () => {
                 fullWidth
                 variant="contained"
                 sx={{ mt: 3, mb: 2, backgroundColor: 'primary' }}
+                disabled={loading} // Disable the button while loading
               >
-                Login
+                {loading ? <CircularProgress size={24} color="inherit" /> : 'Login'}
               </Button>
               <Button
                 fullWidth

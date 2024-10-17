@@ -79,11 +79,7 @@ const ProfileTab = () => {
       console.log("Profile updated:", response.data);
       
       const imagePath = response.data.data.image || user.image;
-      const fullImageUrl = imagePath.startsWith('/')
-        ? `${import.meta.env.VITE_API_URL}${imagePath}`
-        : `${import.meta.env.VITE_API_URL}/${imagePath}`;
-
-      // Update Redux store with new user data
+      const fullImageUrl = imagePath
       dispatch(updateUser({ ...response.data.data, image: fullImageUrl }));
 
       // Reset selectedImage state after a successful upload
@@ -107,8 +103,6 @@ const ProfileTab = () => {
    <>
       {acinput}
     <Box sx={{ padding: "16px" }}>
-      <Typography variant="h4">Edit Profile</Typography>
-
       <form onSubmit={handleSubmit(onSubmit)}>
         {/* Name field */}
         <TextField

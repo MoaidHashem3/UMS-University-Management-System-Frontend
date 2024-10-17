@@ -62,8 +62,8 @@ export default function Courses() {
   };
 
   if (loading) return (
-    <Box sx={{ display: 'flex', margin: 'auto', marginTop: '100px' }}>
-      <CircularProgress />
+    <Box sx={containerStyle}>
+      <CircularProgress sx={{ml:85, mt:30}} />
     </Box>
   );
 
@@ -115,9 +115,6 @@ export default function Courses() {
                 }}
               >
                 {courses.slice(0, displayedCourses).map((course) => {
-                  const normalizedImgPath = course.image
-                    ? course.image.replace(/\\/g,'/')
-                    : 'default/path/to/image.jpg';
                   return (
                     <Box 
                       key={course._id} 
@@ -135,7 +132,7 @@ export default function Courses() {
                       <CourseCard
                         courseTitle={course.title}
                         courseDescription={course.description}
-                        courseImg={`${import.meta.env.VITE_API_URL}/${normalizedImgPath}`}
+                        courseImg={course.image}
                       />
                     </Box>
                   );
