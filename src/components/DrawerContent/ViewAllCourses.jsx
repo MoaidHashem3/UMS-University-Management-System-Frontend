@@ -1,4 +1,4 @@
-import { Box, Collapse, IconButton, Typography } from "@mui/material";
+import { Box, Collapse, IconButton, Typography,CircularProgress } from "@mui/material";
 import axios from "axios";
 import { useEffect, useState } from "react";
 
@@ -97,6 +97,9 @@ const ViewAllCoursesInAdmin = () => {
     setRowsPerPage(parseInt(event.target.value, 10));
     setPage(0); // Reset the page whenever rows per page changes
   };
+  if (loading) {
+    return <CircularProgress />;
+}
 
   return (
     <>
