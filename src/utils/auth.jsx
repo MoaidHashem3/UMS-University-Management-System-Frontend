@@ -14,7 +14,7 @@ export const handleLogin = async (credentials) => {
 
 export const handleForgotPassword = async (email) => {
     try {
-        const response = await axios.post(`${API_URL}/forgot-password`, { email });
+        const response = await axiosInstance.post(`/forgot-password`, { email });
         return response.data; 
     } catch (error) {
         throw error; 
