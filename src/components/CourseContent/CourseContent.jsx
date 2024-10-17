@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-
+import CircularProgress from '@mui/material/CircularProgress';
 import { Box, Typography, Button } from '@mui/material';
-import axios from 'axios';
 import PdfViewer from '../Content/PdfViewer';
 import Quiz from '../Quiz/QuizBox';
 import axiosInstance from '../../axiosConfig';
@@ -23,8 +22,7 @@ const CourseContent = ({ courseId: propCourseId }) => {
       try {
         const response = await axiosInstance.get(`/courses/${courseId}`);
         console.log(response.data.imageUrl)
-        const normalizedImageUrl = response.data.imageUrl.replace(/\\/g, "/");
-        setCourse({ ...response.data, imageUrl: normalizedImageUrl });
+        setCourse({ ...response.data, imageUrl: response.data.imageUrl });
       } catch (error) {
         console.error('Error fetching course:', error);
       } finally {
@@ -35,8 +33,10 @@ const CourseContent = ({ courseId: propCourseId }) => {
     fetchCourse();
   }, [courseId]);
 
+  console.log(course)
+
   if (loading) {
-    return <Typography variant="h6">Loading...</Typography>;
+    return <CircularProgress/>;
   }
 
   if (!course) {

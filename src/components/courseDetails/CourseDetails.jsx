@@ -15,7 +15,6 @@ const CourseDetails = ({ course }) => {
   const user = useSelector((state) => state.auth.user);
   const dispatch = useDispatch();
   const navigate = useNavigate(); 
-  const normalizedImgPath = course.selectedCourse.image.replace(/\\/g, '/');
   const [enrollmentStatus, setEnrollmentStatus] = useState(false); // Track enrollment state
   const [errorMessage, setErrorMessage] = useState(''); // Track error messages
 
@@ -77,13 +76,13 @@ const CourseDetails = ({ course }) => {
         <div className={style.courseImgContainer}>
           <img
             className={style.courseImg}
-            src={`${import.meta.env.VITE_API_URL}/${normalizedImgPath}`} // Ensure image URL is correctly passed
+            src={course.selectedCourse.image} 
             alt={course.selectedCourse.title}
             style={{
               borderRadius: "50%",
               width: "200px",
               height: "200px",
-              position: "relative", // Ensures proper positioning relative to the circles
+              position: "relative", 
             }}
           />
         </div>

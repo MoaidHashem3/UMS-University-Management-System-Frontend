@@ -3,7 +3,6 @@ import { Box, Card, CardContent, Typography, useTheme } from '@mui/material';
 
 const PdfViewer = ({ fileUrl, title }) => {
   const theme = useTheme();
-
   return (
     <Box 
       sx={{

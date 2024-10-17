@@ -32,7 +32,7 @@ const AddCourseContent = () => {
         try {
             const formData = new FormData();
             formData.append('title', data.name);
-            formData.append('pdfFile', selectedFile);
+            formData.append('file', selectedFile);
             console.log(formData);
             const res = await axiosInstance.post(`/courses/uploadCourseContent/${data.course}`, formData, {
                 headers: {

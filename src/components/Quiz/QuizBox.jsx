@@ -1,8 +1,8 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Box, Button, Typography, LinearProgress, Container } from '@mui/material';
+import { Box, Button, Typography, LinearProgress, Container, CircularProgress } from '@mui/material';
 import AccessTimeIcon from '@mui/icons-material/AccessTime';
 import axios from 'axios'; 
-import { useSelector, useDispatch } from 'react-redux'; 
+import { useSelector } from 'react-redux'; 
 import axiosInstance from '../../axiosConfig';
 
 const Quiz = ({ quizId }) => {
@@ -13,11 +13,10 @@ const Quiz = ({ quizId }) => {
     const [quizFinished, setQuizFinished] = useState(false);
     const [selectedAnswers, setSelectedAnswers] = useState([]);
     const [attemptMessage, setAttemptMessage] = useState(''); 
-    const [loading, setLoading] = useState(true); 
+    const [loading, setLoading] = useState(true); // Loading state
 
     const user = useSelector(state => state.auth.user); 
     const timerRef = useRef(null);
-
     const localStorageKey = `quizzes_${user.id}`;
 
     useEffect(() => {
@@ -128,8 +127,14 @@ const Quiz = ({ quizId }) => {
         }
     };
 
+    // Loader while fetching quiz data
     if (loading) {
-        return <Typography>Loading...</Typography>; 
+        return (
+            <Container maxWidth="sm" sx={{ mt: 4, p: 3, bgcolor: '#2C3E50', borderRadius: 2, textAlign: 'center' }}>
+                <CircularProgress />
+                <Typography variant="h6" color="#ECF0F1">Loading quiz data...</Typography>
+            </Container>
+        );
     }
 
     if (quizFinished) {
@@ -216,15 +221,6 @@ const Quiz = ({ quizId }) => {
                 >
                     Next
                 </Button>
-                {currentQuestionIndex === quizData.questions.length - 1 && (
-                    <Button
-                        variant="contained"
-                        onClick={finishQuiz}
-                        sx={{ backgroundColor: 'warning.main', color: '#fff', '&:hover': { backgroundColor: '#C0392B' } }}
-                    >
-                        Submit
-                    </Button>
-                )}
             </Box>
         </Container>
     );

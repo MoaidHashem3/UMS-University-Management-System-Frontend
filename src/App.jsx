@@ -1,6 +1,7 @@
 import { React, useEffect, useState } from 'react';
 import { ThemeProvider } from '@mui/material/styles';
 import { Provider, useSelector } from 'react-redux';
+import CircularProgress from '@mui/material/CircularProgress';
 import ProtectedRoute from './utils/ProtectedRoute';
 import CssBaseline from '@mui/material/CssBaseline';
 import theme from './theme';
@@ -12,7 +13,6 @@ import Home from './pages/Home/Home';
 import AppLayout from './AppLayout';
 import { RouterProvider } from 'react-router-dom';
 import Courses from './pages/Courses/Courses';
-import CourseDetails from './components/courseDetails/CourseDetails';
 import { useDispatch } from 'react-redux';
 import { login, logout } from './redux/authSlice';
 import { validateToken } from './utils/auth';
@@ -42,7 +42,7 @@ const App = () => {
     }, [dispatch]);
 
     if (loading) {
-        return <div>Loading...</div>;
+        return <CircularProgress/>
     }
 
     const routes = createBrowserRouter([
