@@ -100,7 +100,7 @@ const Dashboard = () => {
 
       <Box component="main" sx={{ flexGrow: 1, p: 3, pl: isMobile ? 2 : `${16}px`, marginTop: isMobile ? '56px' : '0px' }}>
         <Typography variant="h4" gutterBottom>
-          {/* {activeTab === "profile" ? "Your Profile" : ""} */}
+          {activeTab === "profile" ? "Edit Your Profile" : ""}
           {activeTab === "add new user" ? "Add New User" : ""}
           {activeTab === "view all users" ? "View All Users" : ""}
           {activeTab === "add new course" ? "Add New Course" : ""}
