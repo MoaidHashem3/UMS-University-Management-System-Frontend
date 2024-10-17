@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Box, Button, Typography, LinearProgress, Container } from '@mui/material';
+import { Box, Button, Typography, LinearProgress, Container,CircularProgress  } from '@mui/material';
 import AccessTimeIcon from '@mui/icons-material/AccessTime';
 import axios from 'axios'; 
 import { useSelector, useDispatch } from 'react-redux'; 
@@ -14,10 +14,9 @@ const Quiz = ({ quizId }) => {
     const [selectedAnswers, setSelectedAnswers] = useState([]);
     const [attemptMessage, setAttemptMessage] = useState(''); 
     const [loading, setLoading] = useState(true); 
-
+    
     const user = useSelector(state => state.auth.user); 
     const timerRef = useRef(null);
-
     const localStorageKey = `quizzes_${user.id}`;
 
     useEffect(() => {
@@ -129,7 +128,12 @@ const Quiz = ({ quizId }) => {
     };
 
     if (loading) {
-        return <Typography>Loading...</Typography>; 
+        return (
+            <Container maxWidth="sm" sx={{ mt: 4, p: 3, bgcolor: '#2C3E50', borderRadius: 2, textAlign: 'center' }}>
+                <CircularProgress />
+                <Typography variant="h6" color="#ECF0F1">Loading quiz data...</Typography>
+            </Container>
+        );
     }
 
     if (quizFinished) {
