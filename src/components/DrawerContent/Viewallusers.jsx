@@ -8,24 +8,8 @@ import { useSelector } from "react-redux";
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
-import { green, red } from '@mui/material/colors';
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, TablePagination, IconButton, CircularProgress } from '@mui/material';
 import axiosInstance from "../../axiosConfig";
-const darkTheme = createTheme({
-    palette: {
-        mode: 'dark',
-        background: {
-            paper: '#121212',
-        },
-        text: {
-            primary: '#ffffff',
-
-        },
-    },
-});
-
-
-
 const ViewAllUsers = () => {
     const [users, setUsers] = useState([]);
     const [selectedUser, setSelectedUser] = useState(null);
