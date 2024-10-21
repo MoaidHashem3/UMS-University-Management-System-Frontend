@@ -1,4 +1,4 @@
-import { Box, Collapse, IconButton, Typography,CircularProgress } from "@mui/material";
+import { Box, Collapse, IconButton, Typography, CircularProgress } from "@mui/material";
 import axios from "axios";
 import { useEffect, useState } from "react";
 
@@ -21,7 +21,7 @@ import axiosInstance from "../../axiosConfig";
 const ViewAllCoursesInAdmin = () => {
   const [courses, setCourses] = useState([]);
   const [selectedCourse, setSelectedCourse] = useState(null);
-  const [dialogOpen, setDialogOpen] = useState(false); 
+  const [dialogOpen, setDialogOpen] = useState(false);
 
   const [loading, setLoading] = useState(true);
   const [message, setMessage] = useState("");
@@ -32,7 +32,7 @@ const ViewAllCoursesInAdmin = () => {
 
   const handleEdit = (course) => {
     setSelectedCourse(course);
-    setDialogOpen(true); 
+    setDialogOpen(true);
   };
 
   const handleUpdate = (updatedCourse) => {
@@ -77,7 +77,7 @@ const ViewAllCoursesInAdmin = () => {
     if (token) {
       fetchCourses();
     }
-  }, [token,dialogOpen]);
+  }, [token, dialogOpen]);
 
   useEffect(() => {
     if (message) {
@@ -97,9 +97,9 @@ const ViewAllCoursesInAdmin = () => {
     setRowsPerPage(parseInt(event.target.value, 10));
     setPage(0); // Reset the page whenever rows per page changes
   };
-  if (loading) {
-    return <CircularProgress />;
-}
+  //   if (loading) {
+  //     return <CircularProgress />;
+  // }
 
   return (
     <>
@@ -121,7 +121,7 @@ const ViewAllCoursesInAdmin = () => {
       </Collapse>
       <Box sx={{ marginTop: "40px" }}>
         {courses.length > 0 ? (
-          <TableContainer component={Paper} sx={{backgroundColor: "secondary.light"}}>
+          <TableContainer component={Paper} sx={{ backgroundColor: "secondary.light" }}>
             <Table>
               <TableHead>
                 <TableRow sx={{ backgroundColor: "primary.main" }}>
@@ -158,25 +158,25 @@ const ViewAllCoursesInAdmin = () => {
                       {course.major}
                     </TableCell>
                     <TableCell sx={{ color: "white" }}>
-                      {(course.professor?.name)? course.professor.name : ""} 
+                      {(course.professor?.name) ? course.professor.name : ""}
                     </TableCell>
-                    <TableCell sx={{ color: "white"}}>
+                    <TableCell sx={{ color: "white" }}>
                       {course.duration}h
                     </TableCell>
-                    <TableCell sx={{ color: "white", paddingLeft:"70px" }}>
+                    <TableCell sx={{ color: "white", paddingLeft: "70px" }}>
                       {course.students.length}{" "}
                     </TableCell>
 
                     <TableCell >
-                      <IconButton sx={{  color:"success.main"}}
+                      <IconButton sx={{ color: "success.main" }}
                         aria-label="edit"
-                        onClick={() => handleEdit(course)} 
+                        onClick={() => handleEdit(course)}
                       >
                         <EditIcon />
                       </IconButton>
                     </TableCell>
                     <TableCell >
-                      <IconButton sx={{  color:"warning.main"}}
+                      <IconButton sx={{ color: "warning.main" }}
                         aria-label="delete"
                         onClick={() => handleDelete(course._id)}
                       >
@@ -188,7 +188,7 @@ const ViewAllCoursesInAdmin = () => {
               </TableBody>
             </Table>
             <TablePagination
-             sx={{ fontWeight: "bold" , color: 'white'}}
+              sx={{ fontWeight: "bold", color: 'white' }}
               rowsPerPageOptions={[5, 10, 25]}
               component="div"
               count={courses.length}
@@ -199,15 +199,15 @@ const ViewAllCoursesInAdmin = () => {
             />
           </TableContainer>
         ) : (
-          <Alert severity="info">No courses available</Alert>
+           <CircularProgress />
         )}
       </Box>
 
-      <EditCourse 
-        course={selectedCourse} 
-        onUpdate={handleUpdate} 
-        open={dialogOpen} 
-        setOpen={setDialogOpen} 
+      <EditCourse
+        course={selectedCourse}
+        onUpdate={handleUpdate}
+        open={dialogOpen}
+        setOpen={setDialogOpen}
       />
     </>
   );
