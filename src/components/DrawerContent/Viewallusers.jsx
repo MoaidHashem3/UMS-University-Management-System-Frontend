@@ -81,6 +81,15 @@ const ViewAllUsers = () => {
         call();
 
     }, [token])
+    useEffect(() => {
+        if (message) {
+          const timer = setTimeout(() => {
+            setmessage("");
+          }, 5000);
+    
+          return () => clearTimeout(timer);
+        }
+      }, [message]);
     if (loading) {
         return <CircularProgress />;
     }

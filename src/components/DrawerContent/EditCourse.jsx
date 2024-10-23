@@ -47,7 +47,7 @@ const EditCourse = ({ course, onUpdate, open, setOpen }) => {
 
         // Add course to new professor's createdCourses
         await axiosInstance.patch(`/users/${professor}`, {
-          $addToSet: { createdCourses: course._id }, 
+          $addToSet: { createdCourses: course._id },
         });
       }
 
